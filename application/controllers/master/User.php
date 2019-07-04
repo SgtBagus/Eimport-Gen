@@ -14,7 +14,7 @@ class User extends MY_Controller {
 	public function json()
 	{
 		header('Content-Type: application/json');
-        $this->datatables->select('user.id,user.nip,user.name,role.role,user.desc,file.dir');
+        $this->datatables->select('user.id,user.nib,user.name,role.role,user.desc,file.dir');
         $this->datatables->join('role','user.role_id=role.id','left');
         $this->datatables->join('file',"file.table_id=user.id AND `file`.`table` = 'user'",'left');
 
@@ -40,8 +40,8 @@ class User extends MY_Controller {
 		$this->form_validation->set_error_delimiters('<li>', '</li>');
 	
         $this->form_validation->set_rules(
-        'dt[nip]', '<strong>Username</strong>',
-        'required|is_unique[user.nip]',
+        'dt[nib]', '<strong>NIB</strong>',
+        'required|is_unique[user.nib]',
         array(
                 'required'      => 'You have not provided %s.',
                 'is_unique'     => 'This %s already exists.'
@@ -204,15 +204,15 @@ class User extends MY_Controller {
 	public function update()
 	{
 		$this->form_validation->set_error_delimiters('<li>', '</li>');
-    	$nip = $_POST['dt']['nip'];
+    	$nib = $_POST['dt']['nib'];
     	$email = $_POST['dt']['email'];
     	$password = $this->input->post('password');
 
-    	$nip1 = $this->input->post('nip');
-		if($nip!=$nip1){
+    	$nib1 = $this->input->post('nib');
+		if($nib!=$nib1){
 	        $this->form_validation->set_rules(
-	        'dt[nip]', '<strong>NIP</strong>',
-	        'required|is_unique[user.nip]',
+	        'dt[nib]', '<strong>NIb</strong>',
+	        'required|is_unique[user.nib]',
 	        array(
 	                'required'      => 'You have not provided %s.',
 	                'is_unique'     => 'This %s already exists.'

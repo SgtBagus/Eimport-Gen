@@ -1,11 +1,11 @@
 <div class="show_error"></div>
 <input type="hidden" name="ids" value="<?= $user['id'] ?>">
-<input type="hidden" name="nip" value="<?= $user['nip'] ?>">
+<input type="hidden" name="nib" value="<?= $user['nib'] ?>">
 <input type="hidden" name="email" value="<?= $user['email'] ?>">
 
 
-<small>Username</small>
-<input name="dt[nip]" type="text" class="form-control" value="<?= $user['nip'] ?>" />
+<small>Nib</small>
+<input name="dt[nib]" type="text" class="form-control" value="<?= $user['nib'] ?>" />
 <small>Email</small>
 <input name="dt[email]" type="text" class="form-control" value="<?= $user['email'] ?>" />
 

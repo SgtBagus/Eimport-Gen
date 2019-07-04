@@ -1,61 +1,29 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 class Admin extends MY_Controller {
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	public function index()
-	{ 
-        if(LOGIN==0){
-		  $this->load->view('login/login');
-        }else{
-          $this->load->view('login/login-1');
-        }
-	}
-
-	public function logout()
-	{
-		# code...
-        $this->session->sess_destroy();
-		redirect('login');
-	}
-
-
-	   public function act_login()
+    public function __construct()
     {
-            $username = $this->input->post('username');
-            $password = $this->input->post('password');
-            // $acak = "!@#$%^&*()_+SMARTSOFT+_()*&^%$#@!";
-             $pass = md5($password);
+        parent::__construct();
+    }
+    public function index()
+    {
+        $data['page_name'] = "home";
+        $this->template->load('template/template-app','template/index',$data);
+        
+    }
 
-            $cek     = $this->mlogin->login($username,$pass);
-            $session = $this->mlogin->data($username);
-            if ($cek > 0) {
-                $this->session->set_userdata('session_sop', true);
-                $this->session->set_userdata('id', $session->id);
-                $this->session->set_userdata('nip', $session->nip);
-                
-                $this->session->set_userdata('role_id', $session->role_id);
-                $this->session->set_userdata('name', $session->name);
+    function get_autocomplete(){
+        if (isset($_GET['term'])) {
+            $this->db->like('name',$_GET['term'],'both');
+            $result = $this->mymodel->selectWhere('user',null);
+            if (count($result) > 0) {
+            foreach ($result as $row)
+                $arr_result[] = [
+                                'id'=>$row['id'],
+                                'label'=>$row['name']
+                                ];
 
-
-                echo "oke";
-                return TRUE;
-            } else {
-                $this->alert->alertdanger('Check again your NIP and password');
-                return FALSE;
-
+                echo json_encode($arr_result);
             }
+        }
     }
-        function lockscreen()
-    {
-        $this->load->view('login/lockscreen');
-    }
-
 }
-
-/* End of file Login.php */
-/* Location: ./application/controllers/Login.php */

@@ -26,13 +26,13 @@ class Login extends MY_Controller {
 
 	   public function act_login()
     {
-            $username = $this->input->post('username');
+            $email = $this->input->post('email');
             $password = $this->input->post('password');
             // $acak = "!@#$%^&*()_+SMARTSOFT+_()*&^%$#@!";
              $pass = md5($password);
 
-            $cek     = $this->mlogin->login($username,$pass);
-            $session = $this->mlogin->data($username);
+            $cek     = $this->mlogin->login($email,$pass);
+            $session = $this->mlogin->data($email);
             if ($cek > 0) {
                 $this->session->set_userdata('session_sop', true);
                 $this->session->set_userdata('id', $session->id);
@@ -56,6 +56,3 @@ class Login extends MY_Controller {
     }
 
 }
-
-/* End of file Login.php */
-/* Location: ./application/controllers/Login.php */

@@ -11,13 +11,11 @@ class Home extends MY_Controller {
 		
 	}
 
-    function chart($value='')
+    function chart($value='') 
     {
         $data['page_name'] = "chart";
         $this->template->load('template/template','template/chart',$data);
     }
-
-
 
     function get_autocomplete(){
         if (isset($_GET['term'])) {

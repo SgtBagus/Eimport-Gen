@@ -55,8 +55,8 @@
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12">
                   <div class="form-group">
-                    <label>NIP</label>
-                    <input type="text" name="nip" disabled class="form-control" value="<?= $user_data['nip'] ?>">
+                    <label>NIB</label>
+                    <input type="text" name="nib" disabled class="form-control" value="<?= $user_data['nib'] ?>">
                   </div>
                   <div class="form-group">
                     <label>Nama</label>
