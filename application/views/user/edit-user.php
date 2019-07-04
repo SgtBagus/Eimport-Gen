@@ -26,7 +26,7 @@
             </div>
             <!-- /.panel-header -->
             <div class="panel-body">
-              <form action="<?= base_url('master/user/updateUser') ?>" enctype="multipart/form-data" method="POST" id="upload">
+              <form action="<?= base_url('user/updateUser') ?>" enctype="multipart/form-data" method="POST" id="upload">
                 <div class="show_error"></div>
                 <input type="hidden" name="ids" value="<?= $user_data['id'] ?>">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -158,7 +158,7 @@
       },
       processing: true,
       serverSide: true,
-      ajax: {"url": "<?= base_url('master/user/json_activity') ?>/<?= $user_data['id'] ?>", "type": "POST"},
+      ajax: {"url": "<?= base_url('user/json_activity') ?>/<?= $user_data['id'] ?>", "type": "POST"},
         columns: [
           {"data": "ip","orderable": false},
           {"data": "created_at"},
@@ -240,7 +240,7 @@
 
      function edit(id) {
       $("#editsite").modal('show');
-      $("#data-update").load('<?= base_url('master/user/edit') ?>/'+id);
+      $("#data-update").load('<?= base_url('user/edit') ?>/'+id);
      }
 
 
@@ -284,7 +284,7 @@
 
      function hapus(id) {
 
-      var url = "<?= base_url('master/user/delete') ?>/"+id;
+      var url = "<?= base_url('user/delete') ?>/"+id;
       if (confirm('Are you sure delete this data ?')) {
       window.location.href = url;
     } else {

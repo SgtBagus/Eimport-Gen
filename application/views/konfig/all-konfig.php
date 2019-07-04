@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="pull-right">
-                  <a href="<?= base_url('master/Konfig/create') ?>">
+                  <a href="<?= base_url('Konfig/create') ?>">
                     <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah Konfig</button> 
                   </a>
                   <a href="<?= base_url('fitur/ekspor/konfig') ?>" target="_blank">
@@ -65,7 +65,7 @@
   <div class="modal fade bd-example-modal-sm" tabindex="-1" konfig="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-delete">
       <div class="modal-dialog modal-sm">
           <div class="modal-content">
-              <form id="upload-delete" action="<?= base_url('master/Konfig/delete') ?>">
+              <form id="upload-delete" action="<?= base_url('Konfig/delete') ?>">
               <div class="modal-header">
                   <h5 class="modal-title">Confirm delete</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -142,7 +142,7 @@
                 },
                 processing: true,
                 serverSide: true,
-                ajax: {"url": "<?= base_url('master/Konfig/json?status=') ?>"+status, "type": "POST"},
+                ajax: {"url": "<?= base_url('Konfig/json?status=') ?>"+status, "type": "POST"},
                 columns: [
                     {"data": "id","orderable": false},{"data": "slug"},{"data": "value"},
                    {"data": "status"},
@@ -155,11 +155,11 @@
                     { targets : [3],
                         render : function (data, type, row, meta) {
                               if(row['status']=='ENABLE'){
-                                var htmls = '<a href="<?= base_url('master/Konfig/status/') ?>'+row['id']+'/DISABLE">'+
+                                var htmls = '<a href="<?= base_url('Konfig/status/') ?>'+row['id']+'/DISABLE">'+
                                             '    <button type="button" class="btn btn-sm btn-sm btn-success"><i class="fa fa-home"></i> ENABLE</button>'+
                                             '</a>';
                               }else{
-                                var htmls = '<a href="<?= base_url('master/Konfig/status/') ?>'+row['id']+'/ENABLE">'+
+                                var htmls = '<a href="<?= base_url('Konfig/status/') ?>'+row['id']+'/ENABLE">'+
                                             '    <button type="button" class="btn btn-sm btn-sm btn-danger"><i class="fa fa-home"></i> DISABLE</button>'+
                                             '</a>';
 
@@ -183,7 +183,7 @@
          loadtable($("#select-status").val());
 
          function edit(id) {
-            location.href = "<?= base_url('master/Konfig/edit/') ?>"+id;
+            location.href = "<?= base_url('Konfig/edit/') ?>"+id;
          }
 
          function hapus(id) {

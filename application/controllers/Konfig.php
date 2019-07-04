@@ -15,7 +15,7 @@
 			if($this->session->userdata('role_id') == '24'){
 	      		echo "<script>window.history.back()</script>";
 	        } else {
-				$this->template->load('template/template','master/konfig/all-konfig',$data);
+				$this->template->load('template/template','konfig/all-konfig',$data);
 	        }
 		}
 
@@ -26,7 +26,7 @@
 			if($this->session->userdata('role_id') == '24'){
 	      		echo "<script>window.history.back()</script>";
 	        } else {
-				$this->template->load('template/template','master/konfig/add-konfig',$data);
+				$this->template->load('template/template','konfig/add-konfig',$data);
 	        }
 		}
 
@@ -120,7 +120,7 @@ $this->form_validation->set_rules('dt[value]', '<strong>Value</strong>', 'requir
 			if($this->session->userdata('role_id') == '24'){
 	      		echo "<script>window.history.back()</script>";
 	        } else {
-				$this->template->load('template/template','master/konfig/edit-konfig',$data);
+				$this->template->load('template/template','konfig/edit-konfig',$data);
 	        }
 		}
 
@@ -190,7 +190,7 @@ $this->form_validation->set_rules('dt[value]', '<strong>Value</strong>', 'requir
 		public function status($id,$status)
 		{
 			$this->mymodel->updateData('konfig',array('status'=>$status),array('id'=>$id));
-			redirect('master/Konfig');
+			redirect('Konfig');
 		}
 
 

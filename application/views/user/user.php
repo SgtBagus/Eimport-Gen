@@ -43,7 +43,7 @@
        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
        <h4 class="modal-title" id="myModalLabel">Add New User </h4>
      </div>
-     <form action="<?= base_url('master/user/store') ?>" id="upload" enctype="multipart/form-data">
+     <form action="<?= base_url('user/store') ?>" id="upload" enctype="multipart/form-data">
        <div class="modal-body">
         <div class="show_error"></div>
         <small>Nib</small>
@@ -88,7 +88,7 @@
        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
        <h4 class="modal-title" id="myModalLabel">Edit User </h4>
      </div>
-     <form action="<?= base_url('master/user/update') ?>" id="uploads" enctype="multipart/form-data">
+     <form action="<?= base_url('user/update') ?>" id="uploads" enctype="multipart/form-data">
        <div class="modal-body" id="data-update">
         
        </div>
@@ -150,7 +150,7 @@
         },
         processing: true,
         serverSide: true,
-        ajax: {"url": "<?= base_url('master/user/json') ?>/", "type": "POST"},
+        ajax: {"url": "<?= base_url('user/json') ?>/", "type": "POST"},
         columns: [
         {"data": "id","orderable": false},
         {"data": ""},
@@ -241,7 +241,7 @@
 
       function edit(id) {
         $("#editsite").modal('show');
-        $("#data-update").load('<?= base_url('master/user/edit') ?>/'+id);
+        $("#data-update").load('<?= base_url('user/edit') ?>/'+id);
       }
 
 
@@ -285,7 +285,7 @@
 
       function hapus(id) {
 
-        var url = "<?= base_url('master/user/delete') ?>/"+id;
+        var url = "<?= base_url('user/delete') ?>/"+id;
         if (confirm('Are you sure delete this data ?')) {
          window.location.href = url;
        } else {

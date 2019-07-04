@@ -15,7 +15,7 @@
     </section>
     <!-- Main content -->
     <section class="content">
-    <form method="POST" action="<?= base_url('master/Konfig/update') ?>" id="upload-create" enctype="multipart/form-data">
+    <form method="POST" action="<?= base_url('Konfig/update') ?>" id="upload-create" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= $konfig['id'] ?>">
 
 
@@ -95,7 +95,7 @@
                     if (str.indexOf("success") != -1){
                         form.find(".show_error").hide().html(response).slideDown("fast");
                         setTimeout(function(){ 
-                           window.location.href = "<?= base_url('master/Konfig') ?>";
+                           window.location.href = "<?= base_url('Konfig') ?>";
                         }, 1000);
                         $(".btn-send").removeClass("disabled").html('<i class="fa fa-save"></i> Save').attr('disabled',false);
 
