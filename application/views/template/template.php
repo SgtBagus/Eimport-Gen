@@ -1,6 +1,10 @@
 <?php 
 if($this->session->userdata('session_sop')=="") {
-  redirect('login/');
+  if($this->session->userdata('role_id') != '17' || '23') { 
+      echo "<script>window.history.back()</script>";
+  }else{
+    redirect('login/');
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -195,17 +199,17 @@ if($this->session->userdata('session_sop')=="") {
               $this->db->where_in('id',$jsonmenu);
               $parent = $this->mymodel->selectWhere('menu_master',['parent'=>$m['id'],'status'=>'ENABLE']);
               if(count($parent)==0){
-              ?>
-              <li class="<?php if($page_name==$m['name']) echo "active"; ?>">
-                <a href="<?= base_url($m['link']) ?>">
-                  <i class="<?= $m['icon'] ?>"></i> <span><?= $m['name'] ?></span>
-                  <?php if($m['notif']!=""){ ?>
-                    <span class="pull-right-container">
-                      <small class="label pull-right label-danger" id="<?= $m['notif'] ?>">0</small>
-                    </span>
-                  <?php } ?>
-                </a>
-              </li>
+                ?>
+                <li class="<?php if($page_name==$m['name']) echo "active"; ?>">
+                  <a href="<?= base_url($m['link']) ?>">
+                    <i class="<?= $m['icon'] ?>"></i> <span><?= $m['name'] ?></span>
+                    <?php if($m['notif']!=""){ ?>
+                      <span class="pull-right-container">
+                        <small class="label pull-right label-danger" id="<?= $m['notif'] ?>">0</small>
+                      </span>
+                    <?php } ?>
+                  </a>
+                </li>
               <?php }else{ ?>
                <li class="treeview <?php if($page_name==$m['name']) echo "active"; ?>">
                 <a href="#">
@@ -228,142 +232,117 @@ if($this->session->userdata('session_sop')=="") {
                       </a>
                     </li>
                   <?php } ?>
-
                 </ul>
               </li>
-              <?php } 
-              } 
-              if($this->session->userdata('role_id') == '17') { ?>
-              <li class="header">NAVIGATION MENU</li>
-              <li class="">
-                <a href="<?= base_url('assets/') ?>" target="_blank">
-                  <i class="fa  fa-globe"></i> <span>Template Admin LTE</span>
-                </a>
-              </li>
-              <li class="">
-                <a href="<?= base_url('crud') ?>">
-                  <i class="mdi mdi-cellphone-settings-variant"></i> <span>CRUD Generator</span>
-                </a>
-              </li>
-              <li class="">
-                <a href="<?= base_url('master/report') ?>">
-                  <i class="mdi mdi-file"></i> <span>Report Generator</span>
-                </a>
-              </li>
-              <li class="treeview ">
-                <a href="#">
-                  <i class="fa fa-info"></i> <span>Role Permmision</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li class="">
-                    <a href="<?= base_url('access/') ?>">
-                      <i class="mdi mdi-account-network"></i> 
-                      <span>Access Control</span>
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('master/menu_master') ?>">
-                      <i class="mdi mdi-folder-network"></i> <span>Master Menu</span>
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('master/role') ?>">
-                      <i class="fa fa-info"></i> <span>Role</span>
-                    </a>
-                  </li>            
-                </ul>
-              </li>
-              <li class="">
-                <a href="<?= base_url('home/chart') ?>">
-                  <i class="fa fa-bar-chart"></i> <span>Chart</span>
-                </a>
-              </li>
-              <li class="treeview ">
-                <a href="#">
-                  <i class="mdi mdi-folder-account"></i> <span>Master</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li>
-                    <a href="<?= base_url('master/site') ?>"><i class="mdi mdi-checkbox-multiple-blank-circle"></i> Example 
-                      <span class="pull-right-container">
-                        <small class="label pull-right bg-green">Serverside</small>
-                      </span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="<?= base_url('master/site/site_custom') ?>"><i class="mdi mdi-checkbox-multiple-blank-circle"></i> Example 
-                      <span class="pull-right-container">
-                        <small class="label pull-right bg-green">Custom</small>
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="treeview ">
-                <a href="#">
-                  <i class="mdi mdi-printer"></i> <span>Export Document</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li class="">
-                    <a href="<?= base_url('page/landscape') ?>" target="_blank"><i class="mdi mdi-crop-landscape"></i> Landscape</a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('page/portrait') ?>" target="_blank"><i class="mdi mdi-crop-portrait"></i> Portrait</a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('fitur/toPdf') ?>" target="_blank"><i class="mdi mdi-crop-portrait"></i> PDF</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="treeview ">
-                <a href="#">
-                  <i class="fa fa-cogs"></i> <span>Library and Config</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li class="">
-                    <a href="<?= base_url('master/konfig')?>">
-                      <i class="mdi mdi-cogs"></i> <span>Application</span>
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('debug/validation-form')?>">
-                      <i class="fa fa-bell"></i> <span>Form Validation</span>
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('UploadImage')?>">
-                      <i class="mdi mdi-cloud-upload-outline"></i> <span>Image Upload</span>
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('apiDoc')?>" target="_blank">
-                      <i class="mdi mdi-phone"></i> <span>ApiDoc.js</span>
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="https://cdn.materialdesignicons.com/3.0.39/" target="_blank">
-                      <i class="mdi mdi-material-design"></i> <span>MDI Icon</span>
-                    </a>
-                  </li>
-                  <li class="">
-                    <a href="<?= base_url('tinymce') ?>" target="_blank">
-                      <i class="fa fa-book"></i> <span>Tinymce</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
+            <?php } 
+          } 
+          if($this->session->userdata('role_id') == '17') { ?>
+            <li class="header">NAVIGATION MENU</li>
+            <li class="">
+              <a href="<?= base_url('assets/') ?>" target="_blank">
+                <i class="fa  fa-globe"></i> <span>Template Admin LTE</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="<?= base_url('crud') ?>">
+                <i class="mdi mdi-cellphone-settings-variant"></i> <span>CRUD Generator</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="<?= base_url('master/report') ?>">
+                <i class="mdi mdi-file"></i> <span>Report Generator</span>
+              </a>
+            </li>
+            <li class="treeview ">
+              <a href="#">
+                <i class="fa fa-info"></i> <span>Role Permmision</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="">
+                  <a href="<?= base_url('access/') ?>">
+                    <i class="mdi mdi-account-network"></i> 
+                    <span>Access Control</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('master/menu_master') ?>">
+                    <i class="mdi mdi-folder-network"></i> <span>Master Menu</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('master/role') ?>">
+                    <i class="fa fa-info"></i> <span>Role</span>
+                  </a>
+                </li>            
+              </ul>
+            </li>
+            <li class="">
+              <a href="<?= base_url('home/chart') ?>">
+                <i class="fa fa-bar-chart"></i> <span>Chart</span>
+              </a>
+            </li>
+            <li class="treeview ">
+              <a href="#">
+                <i class="mdi mdi-printer"></i> <span>Export Document</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="">
+                  <a href="<?= base_url('page/landscape') ?>" target="_blank"><i class="mdi mdi-crop-landscape"></i> Landscape</a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('page/portrait') ?>" target="_blank"><i class="mdi mdi-crop-portrait"></i> Portrait</a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('fitur/toPdf') ?>" target="_blank"><i class="mdi mdi-crop-portrait"></i> PDF</a>
+                </li>
+              </ul>
+            </li>
+            <li class="treeview ">
+              <a href="#">
+                <i class="fa fa-cogs"></i> <span>Library and Config</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li class="">
+                  <a href="<?= base_url('master/konfig')?>">
+                    <i class="mdi mdi-cogs"></i> <span>Application</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('debug/validation-form')?>">
+                    <i class="fa fa-bell"></i> <span>Form Validation</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('UploadImage')?>">
+                    <i class="mdi mdi-cloud-upload-outline"></i> <span>Image Upload</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('apiDoc')?>" target="_blank">
+                    <i class="mdi mdi-phone"></i> <span>ApiDoc.js</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="https://cdn.materialdesignicons.com/3.0.39/" target="_blank">
+                    <i class="mdi mdi-material-design"></i> <span>MDI Icon</span>
+                  </a>
+                </li>
+                <li class="">
+                  <a href="<?= base_url('tinymce') ?>" target="_blank">
+                    <i class="fa fa-book"></i> <span>Tinymce</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
             <?php } ?>
           </ul>
         </section>
@@ -403,7 +382,7 @@ if($this->session->userdata('session_sop')=="") {
 
         $('#user-data-autocomplete').autocomplete({
           source: "<?php echo site_url('home/get_autocomplete');?>",
-          
+
           select: function (event, ui) {
             window.location.href = "<?= base_url('master/user/editUser_redirect/') ?>"+ui.item.id;
           }
@@ -470,6 +449,5 @@ if($this->session->userdata('session_sop')=="") {
       return i;
     }
   </script>
-
 </body>
 </html>

@@ -7,7 +7,11 @@ class Access extends MY_Controller {
 	public function index()
 	{
 		$data['page_name'] = "access";
-		$this->template->load('template/template','access/all-role',$data);
+        if($this->session->userdata('role_id') == '24'){
+	      	echo "<script>window.history.back()</script>";
+        } else {
+			$this->template->load('template/template','access/all-role',$data);
+        }
 	}
 	public function json()
 	{

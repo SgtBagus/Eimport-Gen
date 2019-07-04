@@ -11,13 +11,22 @@
 		public function index()
 		{
 			$data['page_name'] = "activity";
-			$this->template->load('template/template','master/activity/all-activity',$data);
+			if($this->session->userdata('role_id') == '24'){
+	      		echo "<script>window.history.back()</script>";
+	        } else {
+				$this->template->load('template/template','master/activity/all-activity',$data);
+	        }
+
 		}
 
 		public function create()
 		{
 			$data['page_name'] = "activity";
-			$this->template->load('template/template','master/activity/add-activity',$data);
+			if($this->session->userdata('role_id') == '24'){
+	      		echo "<script>window.history.back()</script>";
+	        } else {
+				$this->template->load('template/template','master/activity/add-activity',$data);
+	        }
 		}
 
 
@@ -109,7 +118,12 @@ $this->form_validation->set_rules('dt[user_id]', '<strong>User Id</strong>', 're
 		public function edit($id)
 		{
 			$data['activity'] = $this->mymodel->selectDataone('activity',array(''=>$id));$data['file'] = $this->mymodel->selectDataone('file',array('table_id'=>$id,'table'=>'activity'));$data['page_name'] = "activity";
-			$this->template->load('template/template','master/activity/edit-activity',$data);
+			
+			if($this->session->userdata('role_id') == '24'){
+	      		echo "<script>window.history.back()</script>";
+	        } else {
+				$this->template->load('template/template','master/activity/edit-activity',$data);
+	        }
 		}
 
 		public function update()

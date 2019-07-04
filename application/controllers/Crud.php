@@ -10,7 +10,11 @@ class Crud extends MY_Controller {
 	public function index()
 	{
 		$data['page_name'] = "crud";
-		$this->template->load('template/template','crud/index',$data);
+        if($this->session->userdata('role_id') == '24'){
+	      	echo "<script>window.history.back()</script>";
+        } else {
+			$this->template->load('template/template','crud/index',$data);
+        }
 	}
 
 	public function viewcode()

@@ -7,8 +7,11 @@ class Home extends MY_Controller {
 	public function index()
 	{
 		$data['page_name'] = "home";
-		$this->template->load('template/template','template/index',$data);
-		
+        if($this->session->userdata('role_id') != '24'){
+            $this->template->load('template/template','template/index',$data);
+        } else {
+            $this->template->load('template/template_user','template/index',$data);
+        }
 	}
 
     function chart($value='') 

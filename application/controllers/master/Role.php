@@ -11,7 +11,11 @@
 		public function index()
 		{
 			$data['page_name'] = "role";
-			$this->template->load('template/template','master/role/all-role',$data);
+			if($this->session->userdata('role_id') == '24'){
+	      		echo "<script>window.history.back()</script>";
+	        } else {
+				$this->template->load('template/template','master/role/all-role',$data);
+	        }
 		}
 
 		public function create()

@@ -6,9 +6,13 @@ class User extends MY_Controller {
 //============================================================================================================
 
 	public function index()
-	{
+	{ 
 		$this->data['page_name'] = 'master';
-		$this->template->load('template/template','master/user/user',$this->data);
+        if($this->session->userdata('role_id') != '24'){
+			$this->template->load('template/template','master/user/user',$this->data);
+        } else {
+			$this->template->load('template/template-user','master/user/user',$this->data);
+        }
 	}
 
 	public function json()
@@ -138,7 +142,11 @@ class User extends MY_Controller {
 		$data['page_name'] = 'master';
 		$data['id'] = $id;
 
-		$this->template->load('template/template','master/user/edit-user',$data);
+        if($this->session->userdata('role_id') != '24'){
+	      	echo "<script>window.history.back()</script>";
+        } else {
+			$this->template->load('template/template-user','master/user/edit-user',$data);
+        }
 	}
 
 	public function updateUser()

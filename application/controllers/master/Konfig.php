@@ -11,13 +11,23 @@
 		public function index()
 		{
 			$data['page_name'] = "konfig";
-			$this->template->load('template/template','master/konfig/all-konfig',$data);
+			
+			if($this->session->userdata('role_id') == '24'){
+	      		echo "<script>window.history.back()</script>";
+	        } else {
+				$this->template->load('template/template','master/konfig/all-konfig',$data);
+	        }
 		}
 
 		public function create()
 		{
 			$data['page_name'] = "konfig";
-			$this->template->load('template/template','master/konfig/add-konfig',$data);
+
+			if($this->session->userdata('role_id') == '24'){
+	      		echo "<script>window.history.back()</script>";
+	        } else {
+				$this->template->load('template/template','master/konfig/add-konfig',$data);
+	        }
 		}
 
 
@@ -106,7 +116,12 @@ $this->form_validation->set_rules('dt[value]', '<strong>Value</strong>', 'requir
 		public function edit($id)
 		{
 			$data['konfig'] = $this->mymodel->selectDataone('konfig',array('id'=>$id));$data['file'] = $this->mymodel->selectDataone('file',array('table_id'=>$id,'table'=>'konfig'));$data['page_name'] = "konfig";
-			$this->template->load('template/template','master/konfig/edit-konfig',$data);
+			
+			if($this->session->userdata('role_id') == '24'){
+	      		echo "<script>window.history.back()</script>";
+	        } else {
+				$this->template->load('template/template','master/konfig/edit-konfig',$data);
+	        }
 		}
 
 		public function update()
