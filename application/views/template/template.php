@@ -1,11 +1,12 @@
 <?php 
 if($this->session->userdata('session_sop')=="") {
-  if($this->session->userdata('role_id') != '17' || '23') { 
-      echo "<script>window.history.back()</script>";
-  }else{
-    redirect('login/');
-  }
+  redirect('login/');
 }
+
+if($this->session->userdata('role_id') != ('17' || '23') ) { 
+  echo "<script>window.history.back()</script>";
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -285,26 +286,7 @@ if($this->session->userdata('session_sop')=="") {
               </a>
             </li>
             <li class="treeview ">
-              <a href="#">
-                <i class="mdi mdi-printer"></i> <span>Export Document</span>
-                <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                <li class="">
-                  <a href="<?= base_url('page/landscape') ?>" target="_blank"><i class="mdi mdi-crop-landscape"></i> Landscape</a>
-                </li>
-                <li class="">
-                  <a href="<?= base_url('page/portrait') ?>" target="_blank"><i class="mdi mdi-crop-portrait"></i> Portrait</a>
-                </li>
-                <li class="">
-                  <a href="<?= base_url('fitur/toPdf') ?>" target="_blank"><i class="mdi mdi-crop-portrait"></i> PDF</a>
-                </li>
-              </ul>
-            </li>
-            <li class="treeview ">
-              <a href="#">
+            <a href="#">
                 <i class="fa fa-cogs"></i> <span>Library and Config</span>
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>

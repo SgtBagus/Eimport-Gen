@@ -1,10 +1,10 @@
 <?php 
 if($this->session->userdata('session_sop')=="") {
-	if($this->session->userdata('role_id') != '24') { 
-  		echo "<script>window.history.back()</script>";
-	}else{
-		redirect('login/');
-	}
+	redirect('login/');
+}
+
+if($this->session->userdata('role_id') != '24') { 
+	echo "<script>window.history.back()</script>";
 }
 ?>
 <!DOCTYPE html>

@@ -5,12 +5,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Pengajuan
+        Pengajuan Detail
+        <small>master</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">master</a></li>
-        <li class="active">Pengajuan</li>
+        <li class="active">Pengajuan Detail</li>
       </ol>
     </section>
     <!-- Main content -->
@@ -30,9 +31,13 @@
                 </div>
                 <div class="col-md-6">
                   <div class="pull-right">
-                  <a href="<?= base_url('Pengajuan/create') ?>">
-                    <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah Pengajuan</button> 
+                  <a href="<?= base_url('master/Pengajuan_detail/create') ?>">
+                    <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah Pengajuan Detail</button> 
                   </a>
+                  <a href="<?= base_url('fitur/ekspor/pengajuan_detail') ?>" target="_blank">
+                    <button type="button" class="btn btn-sm btn-warning"><i class="fa fa-file-excel-o"></i> Ekspor Pengajuan Detail</button> 
+                  </a>
+                  <button type="button" class="btn btn-sm btn-info" onclick="$('#modal-impor').modal()"><i class="fa fa-file-excel-o"></i> Import Pengajuan Detail</button>
                   </div>
                 </div>  
               </div>
@@ -45,16 +50,22 @@
                 <div id="load-table"></div>
               </div>
             </div>
+            <!-- /.box-body -->
           </div>
+          <!-- /.box -->
         </div>
+        <!-- /.col -->
       </div>
+      <!-- /.row -->
     </section>
+    <!-- /.content -->
   </div>
+  <!-- /.content-wrapper -->
 
-  <div class="modal fade bd-example-modal-sm" tabindex="-1" pengajuan="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-delete">
+  <div class="modal fade bd-example-modal-sm" tabindex="-1" pengajuan_detail="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-delete">
       <div class="modal-dialog modal-sm">
           <div class="modal-content">
-              <form id="upload-delete" action="<?= base_url('Pengajuan/delete') ?>">
+              <form id="upload-delete" action="<?= base_url('master/Pengajuan_detail/delete') ?>">
               <div class="modal-header">
                   <h5 class="modal-title">Confirm delete</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -79,9 +90,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Impor Pengajuan</h4>
+          <h4 class="modal-title">Impor Pengajuan Detail</h4>
         </div>
-        <form action="<?= base_url('fitur/impor/pengajuan') ?>" method="POST"  enctype="multipart/form-data">
+        <form action="<?= base_url('fitur/impor/pengajuan_detail') ?>" method="POST"  enctype="multipart/form-data">
 
         <div class="modal-body">
             <div class="form-group">
@@ -105,7 +116,7 @@
             var table = '<table class="table table-bordered" id="mytable">'+
                    '     <thead>'+
                    '     <tr>'+
-                   '       <th style="width:20px">No</th>'+'<th>User Id</th>'+'<th>Judul</th>'+'<th>Keterangan</th>'+'<th>Approve</th>'+'<th>Note</th>'+
+                   '       <th style="width:20px">No</th>'+'<th>Pengajuan Id</th>'+'<th>Note</th>'+'<th>Approve</th>'+'<th>Approve-2</th>'+'       <th style="width:150px">Status</th>'+
                    '       <th style="width:150px"></th>'+
                    '     </tr>'+
                    '     </thead>'+
@@ -131,15 +142,32 @@
                 },
                 processing: true,
                 serverSide: true,
-                ajax: {"url": "<?= base_url('Pengajuan/json?status=') ?>"+status, "type": "POST"},
+                ajax: {"url": "<?= base_url('master/Pengajuan_detail/json?status=') ?>"+status, "type": "POST"},
                 columns: [
-                    {"data": "id","orderable": false},{"data": "user_id"},{"data": "judul"},{"data": "keterangan"},{"data": "approve"},{"data": "note"},
-                    {   
-                        "data": "view",
+                    {"data": "id","orderable": false},{"data": "pengajuan_id"},{"data": "note"},{"data": "approve"},{"data": "approve-2"},
+                   {"data": "status"},
+                    {   "data": "view",
                         "orderable": false
                     }
                 ],
                 order: [[1, 'asc']],
+                columnDefs : [
+                    { targets : [5],
+                        render : function (data, type, row, meta) {
+                              if(row['status']=='ENABLE'){
+                                var htmls = '<a href="<?= base_url('master/Pengajuan_detail/status/') ?>'+row['id']+'/DISABLE">'+
+                                            '    <button type="button" class="btn btn-sm btn-sm btn-success"><i class="fa fa-home"></i> ENABLE</button>'+
+                                            '</a>';
+                              }else{
+                                var htmls = '<a href="<?= base_url('master/Pengajuan_detail/status/') ?>'+row['id']+'/ENABLE">'+
+                                            '    <button type="button" class="btn btn-sm btn-sm btn-danger"><i class="fa fa-home"></i> DISABLE</button>'+
+                                            '</a>';
+
+                              }
+                              return htmls;
+                          }
+                      }
+                ],
              
                 rowCallback: function(row, data, iDisplayIndex) {
                     var info = this.fnPagingInfo();
@@ -151,10 +179,11 @@
             });
          }
 
+
          loadtable($("#select-status").val());
 
          function edit(id) {
-            location.href = "<?= base_url('Pengajuan/edit/') ?>"+id;
+            location.href = "<?= base_url('master/Pengajuan_detail/edit/') ?>"+id;
          }
 
          function hapus(id) {
