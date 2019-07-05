@@ -72,7 +72,7 @@
        <small >File</small>
        <input type="file" class="form-control" id="form-file" placeholder="Masukan File" name="file">
      </div>
-     <div class="modal-footer">
+     <div class="modal-footer"> 
        <button type="submit" class="btn btn-primary" id="send-btn"><i class="fa fa-save"></i> Simpan</button>
      </div>
    </form>

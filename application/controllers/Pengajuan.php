@@ -21,36 +21,95 @@ class Pengajuan extends MY_Controller {
 
 	public function create()
 	{
+
 		$data['page_name'] = "pengajuan";
+
+		$konfig['konfig'] = $this->mymodel->selectDataone('konfig', array('SLUG'=>'FILE UPLOAD'));
+		$data['fileupload'] = $konfig['konfig']['value'];
+
 		if($this->session->userdata('role_id') != '24'){
 			$this->template->load('template/template','pengajuan/add-pengajuan',$data);
 		} else {
 			$this->template->load('template/template_user','pengajuan/add-pengajuan',$data);
 		}
+
 	}
 
 
 	public function validate()
 	{
+		$no = 1;
+		$konfig['konfig'] = $this->mymodel->selectDataone('konfig', array('SLUG'=>'FILE UPLOAD'));
+
 		$this->form_validation->set_error_delimiters('<li>', '</li>');
-		$this->form_validation->set_rules('dt[user_id]', '<strong>User Id</strong>', 'required');
 		$this->form_validation->set_rules('dt[judul]', '<strong>Judul</strong>', 'required');
 		$this->form_validation->set_rules('dt[keterangan]', '<strong>Keterangan</strong>', 'required');
-		$this->form_validation->set_rules('dt[approve]', '<strong>Approve</strong>', 'required');
+		for($no; $no<=$konfig['konfig']['value']; $no++){
+
+			$supported_file = array(
+			    'pdf'
+			);
+
+			$src_file_name = $_FILES['dt']['name']['file-'.$no];
+			$ext = strtolower(pathinfo($src_file_name, PATHINFO_EXTENSION)); 
+			if (!in_array($ext, $supported_file)) {
+				$this->form_validation->set_rules('dtd[file-'.$no.']', '<strong>File '.$no.'</strong>', 'required');
+			} 
+		}
 	}
 
 	public function store()
-	{
+	{	
 		$this->validate();
 		if ($this->form_validation->run() == FALSE){
 			$this->alert->alertdanger(validation_errors());     
 		}else{
+			die();
 			$dt = $_POST['dt'];
+			$dt['user_id'] = $this->session->userdata('role_id');
+			$dt['approve'] = 'PROCESS';
 			$dt['created_at'] = date('Y-m-d H:i:s');
 			$dt['status'] = "ENABLE";
 			$str = $this->db->insert('pengajuan', $dt);
-			$last_id = $this->db->insert_id();$this->alert->alertsuccess('Success Send Data');   
+			$pengajuan_last_id = $this->db->insert_id();
 
+			$no = 1;
+			$konfig['konfig'] = $this->mymodel->selectDataone('konfig', array('SLUG'=>'FILE UPLOAD'));
+
+			for($no; $no<=$konfig['konfig']['value']; $no++){
+				$dtd = $_FILES['dt[file-'.$no.']']['name'];
+				$dtd['pengajuan_id'] = $pengajuan_last_id;
+				$dtd['file'] = $_FILES['dt']['name']['file-1'];
+				$dtd['note'] = '';
+				$dtd['approve', 'approve2'] = 'PROCESS';
+				$dtd['status'] = "ENABLE";
+				$dtd['created_at'] = date('Y-m-d H:i:s');
+				$str = $this->db->insert('pengajuan_detail', $dtd);
+
+				$last_id = $this->db->insert_id();	    
+
+				$dir  = "webfile/";
+				$config['upload_path']          = $dir;
+				$config['allowed_types']        = '*';
+				$config['file_name']           = md5('smartsoftstudio').rand(1000,100000);
+
+				$this->load->library('upload', $config);
+
+				$file = $this->upload->data();
+				$data = array(
+					'id' => '',
+					'name'=> $file['file_name'],
+					'mime'=> $file['file_type'],
+					'dir'=> $dir.$file['file_name'],
+					'table'=> 'pengajuan_detail',
+					'table_id'=> $last_id,
+					'status'=>'ENABLE',
+					'created_at'=>date('Y-m-d H:i:s')
+				);
+				$str = $this->db->insert('file', $data);
+
+			}
+			$this->alert->alertsuccess('Success Send Data');   
 		}
 	}
 
@@ -83,7 +142,7 @@ class Pengajuan extends MY_Controller {
 		$data['pengajuan'] = $this->mymodel->selectDataone('pengajuan',array('id'=>$id));
 		$data['page_name'] = "pengajuan";
 
-		$data['detail'] = $this->mymodel->selectWithQuery('select * from pengajuan_detail where pengajuan_id = ' . $id);
+		$data['detail'] = $this->mymodel->selectWhere('pengajuan_detail', array('pengajuan_id'=>$id));
 
 		if($this->session->userdata('role_id') != '24'){
 			$this->template->load('template/template','pengajuan/view-pengajuan',$data);

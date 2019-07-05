@@ -122,8 +122,6 @@ class User extends MY_Controller {
 				$this->alert->alertsuccess('Success Send Data');
 
 			}
-
-
 		}
 	}
 

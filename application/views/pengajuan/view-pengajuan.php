@@ -192,7 +192,6 @@
         <a href="javascript:history.back()" type="button" class="btn btn-primary btn-info">
           <i class="fa fa-arrow-left"></i> Back
         </a>
-        <button type="reset" class="btn btn-danger"><i class="fa fa-refresh"></i> Reset</button>
       </div>
     </form>
   </section>
