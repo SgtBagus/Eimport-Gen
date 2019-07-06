@@ -64,7 +64,6 @@ class Pengajuan extends MY_Controller {
 		if ($this->form_validation->run() == FALSE){
 			$this->alert->alertdanger(validation_errors());     
 		}else{
-			die();
 			$dt = $_POST['dt'];
 			$dt['user_id'] = $this->session->userdata('role_id');
 			$dt['approve'] = 'PROCESS';
@@ -77,11 +76,11 @@ class Pengajuan extends MY_Controller {
 			$konfig['konfig'] = $this->mymodel->selectDataone('konfig', array('SLUG'=>'FILE UPLOAD'));
 
 			for($no; $no<=$konfig['konfig']['value']; $no++){
-				$dtd = $_FILES['dt[file-'.$no.']']['name'];
 				$dtd['pengajuan_id'] = $pengajuan_last_id;
 				$dtd['file'] = $_FILES['dt']['name']['file-1'];
 				$dtd['note'] = '';
-				$dtd['approve', 'approve2'] = 'PROCESS';
+				$dtd['approve'] = 'PROCESS';
+				$dtd['approve2'] = 'PROCESS';
 				$dtd['status'] = "ENABLE";
 				$dtd['created_at'] = date('Y-m-d H:i:s');
 				$str = $this->db->insert('pengajuan_detail', $dtd);
@@ -109,6 +108,17 @@ class Pengajuan extends MY_Controller {
 				$str = $this->db->insert('file', $data);
 
 			}
+			
+			$history['user_id'] = $this->session->userdata('role_id');
+			$history['pengajuan_id'] = $pengajuan_last_id;
+			$history['title'] = 'PENGAJUAN DIBUAT';
+			$history['history'] = 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi';
+			$history['history_status'] = 'INFO';
+			$history['read_on'] = 'ENABLE';
+			$history['status'] = "ENABLE";
+			$history['created_at'] = date('Y-m-d H:i:s');
+			$str = $this->db->insert('history', $history);
+
 			$this->alert->alertsuccess('Success Send Data');   
 		}
 	}
@@ -143,6 +153,9 @@ class Pengajuan extends MY_Controller {
 		$data['page_name'] = "pengajuan";
 
 		$data['detail'] = $this->mymodel->selectWhere('pengajuan_detail', array('pengajuan_id'=>$id));
+		$data['historys'] = $this->mymodel->selectWithQuery(
+			'select * from history where pengajuan_id = '.$id.' ORDER BY id DESC'
+		);
 
 		if($this->session->userdata('role_id') != '24'){
 			$this->template->load('template/template','pengajuan/view-pengajuan',$data);

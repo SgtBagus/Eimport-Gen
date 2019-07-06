@@ -39,7 +39,7 @@
                 <input type="file" class="form-control" id=<?= $file_id ?> placeholder="Masukan File" name=<?= $file_name ?>
                 accept="application/pdf">
                 File berformat .pdf
-              </div>
+              </div> 
               <?php } ?>
             </div>
             <div class="box-footer" align="center">

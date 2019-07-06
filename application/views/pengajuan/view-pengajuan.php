@@ -47,11 +47,11 @@
                     if($pengajuan['approve'] == "PROCESS"){
                       echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS</h3>';
                     } else if ($pengajuan['approve'] == "PROCESS2") {
-                      echo '<i class="fa fa-clock-o fa-5x" text-yellow></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS LAPANGAN</h3>';
+                      echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS LAPANGAN</h3>';
                     } else if ($pengajuan['approve'] == "ACCEPT") {
-                      echo '<i class="fa fa-check-circle-o fa-5x" text-blue></i> <br> <h3 class="text-blue">DITERIMA</h3>';
+                      echo '<i class="fa fa-check-circle-o fa-5x text-blue"></i> <br> <h3 class="text-blue">DITERIMA</h3>';
                     } else if ($pengajuan['approve'] == "REJECT") {
-                      echo '<i class="fa fa-ban fa-5x" text-red></i> <br> <h3 class="text-red">DITOLAK</h3>';
+                      echo '<i class="fa fa-ban fa-5x text-red"></i> <br> <h3 class="text-red">DITOLAK</h3>';
                     }
                     ?>
                   </div>
@@ -67,63 +67,43 @@
             </div>
             <div class="box-body">
               <div class="direct-chat-messages">
-                <div class="col-md-12">
-                </div>
-                <ul class="timeline">
-                  <li class="time-label">
-                    <span class="bg-blue">
-                      24 Jan. 2018
-                    </span>
-                  </li>
+                <ul class="timeline">  
+                  <?php 
+                  foreach($historys as $history){ 
+                    $date = date('d-m-Y H:i', strtotime($history['created_at']));
+                  ?>
                   <li>
-                    <i class="fa fa-check-circle-o bg-blue"></i>
+                    <?php
+                      if($history['history_status'] == 'INFO'){
+                    ?>
+                    <i class="fa fa-check-circle-o bg-aqua"></i> 
+                    <?php
+                      } else if($history['history_status'] == 'WARNING'){
+                    ?>
+                    <i class="fa fa-clock-o bg-yellow"></i> 
+                    <?php
+                      } else if($history['history_status'] == 'SUCCESS'){
+                    ?>
+                    <i class="fa fa-check-circle-o bg-green"></i> 
+                    <?php
+                      } else if($history['history_status'] == 'DANGER'){
+                    ?>
+                    <i class="fa fa-ban bg-red"></i> 
+                    <?php
+                    }
+                    ?>
                     <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 11:00</span>
-                      <h3 class="timeline-header"><b>Admin</b> Menerima pengajuan anda</h3>
-                    </div>
-                  </li>
-                  <li>
-                    <i class="fa fa-edit bg-blue"></i>
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 08:15</span>
+                      <i class="fa fa-calendar"></i> <?= $date?>
+                      
+                      <div class= "callout callout-<?= strtolower($history['history_status']) ?>" >
+                      <h4><?= $history['title'] ?></h4>
 
-                      <h3 class="timeline-header">Melakukan Perubahan pengajuan</h3>
+                      <p><?= $history['history'] ?></p>
                     </div>
                   </li>
-                  <li class="time-label">
-                    <span class="bg-blue">
-                      23 Jan. 2018
-                    </span>
-                  </li>
-                  <li>
-                    <i class="fa fa-comments bg-green"></i>
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 14:05</span>
-                      <h3 class="timeline-header"><b>Admin</b> mengirim pesan</h3>
-                      <div class="timeline-body">
-                        File nomor 3 tidak sesuai format default, mohon segera di perbaiki
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <i class="fa fa-clock-o bg-yellow"></i>
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 10:05</span>
-                      <h3 class="timeline-header"><b>Admin</b> sedang memperoses pengajuan anda</h3>
-                    </div>
-                  </li>
-                  <li class="time-label">
-                    <span class="bg-blue">
-                      3 Jan. 2018
-                    </span>
-                  </li>
-                  <li>
-                    <i class="fa fa-envelope bg-blue"></i>
-                    <div class="timeline-item">
-                      <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
-                      <h3 class="timeline-header"><b>Pengajuan Dibuat</b></h3>
-                    </div>
-                  </li>
+                  <?php 
+                    }      
+                  ?>
                   <li>
                     <i class="fa fa-clock-o bg-gray"></i>
                   </li>
