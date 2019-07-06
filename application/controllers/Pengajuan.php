@@ -50,10 +50,10 @@ class Pengajuan extends MY_Controller {
 			    'pdf'
 			);
 
-			$src_file_name = $_FILES['dt']['name']['file-'.$no];
+			$src_file_name = $_FILES['file-'.$no]['name'];
 			$ext = strtolower(pathinfo($src_file_name, PATHINFO_EXTENSION)); 
 			if (!in_array($ext, $supported_file)) {
-				$this->form_validation->set_rules('dtd[file-'.$no.']', '<strong>File '.$no.'</strong>', 'required');
+				$this->form_validation->set_rules('file-'.$no, '<strong>File '.$no.'</strong>', 'required');
 			} 
 		}
 	}
@@ -70,14 +70,14 @@ class Pengajuan extends MY_Controller {
 			$dt['created_at'] = date('Y-m-d H:i:s');
 			$dt['status'] = "ENABLE";
 			$str = $this->db->insert('pengajuan', $dt);
+
 			$pengajuan_last_id = $this->db->insert_id();
 
 			$no = 1;
 			$konfig['konfig'] = $this->mymodel->selectDataone('konfig', array('SLUG'=>'FILE UPLOAD'));
-
 			for($no; $no<=$konfig['konfig']['value']; $no++){
 				$dtd['pengajuan_id'] = $pengajuan_last_id;
-				$dtd['file'] = $_FILES['dt']['name']['file-1'];
+				$dtd['file'] = $_FILES['file-'.$no]['name'];
 				$dtd['note'] = '';
 				$dtd['approve'] = 'PROCESS';
 				$dtd['approve2'] = 'PROCESS';
@@ -85,28 +85,33 @@ class Pengajuan extends MY_Controller {
 				$dtd['created_at'] = date('Y-m-d H:i:s');
 				$str = $this->db->insert('pengajuan_detail', $dtd);
 
-				$last_id = $this->db->insert_id();	    
+				$last_id = $this->db->insert_id();
 
-				$dir  = "webfile/";
-				$config['upload_path']          = $dir;
-				$config['allowed_types']        = '*';
-				$config['file_name']           = md5('smartsoftstudio').rand(1000,100000);
-
-				$this->load->library('upload', $config);
-
-				$file = $this->upload->data();
-				$data = array(
-					'id' => '',
-					'name'=> $file['file_name'],
-					'mime'=> $file['file_type'],
-					'dir'=> $dir.$file['file_name'],
-					'table'=> 'pengajuan_detail',
-					'table_id'=> $last_id,
-					'status'=>'ENABLE',
-					'created_at'=>date('Y-m-d H:i:s')
-				);
-				$str = $this->db->insert('file', $data);
-
+				if (!empty($_FILES['file-'.$no]['name'])){
+					$dir  = "webfile/";
+					$config['upload_path']          = $dir;
+					$config['allowed_types']        = '*';
+					$config['file_name']           = md5('smartsoftstudio').rand(1000,100000);
+					
+					$this->load->library('upload', $config);
+					if (!$this->upload->do_upload('file-'.$no)){
+						$error = $this->upload->display_errors();
+						$this->alert->alertdanger($error);		
+					}else{
+						$file = $this->upload->data();
+						$data = array(
+							'id' => '',
+							'name'=> $file['file_name'],
+							'mime'=> $file['file_type'],
+							'dir'=> $dir.$file['file_name'],
+							'table'=> 'pengajuan_detail',
+							'table_id'=> $last_id,
+							'status'=>'ENABLE',
+							'created_at'=>date('Y-m-d H:i:s')
+						);
+						$str = $this->db->insert('file', $data); 
+					} 
+				}
 			}
 			
 			$history['user_id'] = $this->session->userdata('role_id');
@@ -212,6 +217,26 @@ class Pengajuan extends MY_Controller {
 			force_download($file_name['file'], file_get_contents('webfile/'.$file['name'],NULL));	
 		}
 
+		public function webfile($id){
+			// $file_name = $this->mymodel->selectDataone('pengajuan_detail', array('id'=>$id));
+
+			// $file = $this->mymodel->selectDataone('file',
+			// 	array('table'=>'pengajuan_detail', 'table_id'=>$id));
+
+				
+			// force_download($file_name['file'], file_get_contents('webfile/'.$file['name'],NULL));
+			
+			$path = base_url().'webfile/as.pdf';
+
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: inline; filename='.$path);
+			header('Content-Transfer-Encoding: binary');
+			header('Accept-Ranges: bytes');
+
+			readfile($path);
+
+			// echo "<iframe src=\"../../webfile/6950c16c9bcc6995f376b297f163175955335.pdf\" width=\"100%\" style=\"height:100%\"></iframe>";
+		}
 	}
 
 ?>

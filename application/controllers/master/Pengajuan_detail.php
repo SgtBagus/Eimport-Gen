@@ -57,7 +57,7 @@ class Pengajuan_detail extends MY_Controller {
 						'id' => '',
 						'name'=> $file['file_name'],
 						'mime'=> $file['file_type'],
-						'dir'=> $dir.$file['file_name'],
+						'dir'=> $dir.$file['file_name'], 
 						'table'=> 'pengajuan_detail',
 						'table_id'=> $last_id,
 						'status'=>'ENABLE',

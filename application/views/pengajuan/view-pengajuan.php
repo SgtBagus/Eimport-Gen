@@ -131,7 +131,9 @@
                   <th>Diterima</th>
                   <th>Diterima Di Lapangan</th>
                   <th>Download</th>
+                  <?php if($this->session->userdata('role_id') != '24'){ ?>
                   <th>Aksi</th>
+                  <?php } ?>
                 </tr>
                 <?php 
                 $no = 1;
@@ -149,10 +151,14 @@
                     <?php echo $d['approve2'] ?>
                   </td>
                   <td align="center">
-                    <a href="<?php echo base_url('pengajuan/').'download/'. $d['id']?>" class="btn btn-sm btn-warning">
+                    <a href="<?php echo base_url('pengajuan/').'webfile/'. $d['id']?>" target="_blank" class="btn btn-sm btn-primary">
+                      <i class="fa fa-eye"></i>
+                    </a>
+                    <a href="<?php echo base_url('pengajuan/').'download/'. $d['id']?>" class="btn btn-sm btn-primary">
                       <i class="fa fa-download"></i>
                     </a>
                   </td>
+                  <?php if($this->session->userdata('role_id') != '24'){ ?>
                   <td align="center">
                     <button class="btn btn-sm btn-primary" onclick="#">
                       <i class="fa fa-check-circle-o"></i>
@@ -161,6 +167,7 @@
                       <i class="fa fa-ban"></i>
                     </button>
                   </td>
+                  <?php } ?>
                 </tr>
                 <?php } ?>
               </table>

@@ -32,7 +32,7 @@
               $no = 1;
               for($no; $no<=$fileupload; $no++){
                 $file_id = "form-file-".$no;
-                $file_name = "dt[file-".$no."]";
+                $file_name = "file-".$no;
               ?>
               <div class="form-group">
                 <label for="form-approve">Masukan File <?= $no; ?></label>
