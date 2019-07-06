@@ -218,24 +218,7 @@ class Pengajuan extends MY_Controller {
 		}
 
 		public function webfile($id){
-			// $file_name = $this->mymodel->selectDataone('pengajuan_detail', array('id'=>$id));
-
-			// $file = $this->mymodel->selectDataone('file',
-			// 	array('table'=>'pengajuan_detail', 'table_id'=>$id));
-
-				
-			// force_download($file_name['file'], file_get_contents('webfile/'.$file['name'],NULL));
 			
-			$path = base_url().'webfile/as.pdf';
-
-			header('Content-Type: application/pdf');
-			header('Content-Disposition: inline; filename='.$path);
-			header('Content-Transfer-Encoding: binary');
-			header('Accept-Ranges: bytes');
-
-			readfile($path);
-
-			// echo "<iframe src=\"../../webfile/6950c16c9bcc6995f376b297f163175955335.pdf\" width=\"100%\" style=\"height:100%\"></iframe>";
 		}
 	}
 
