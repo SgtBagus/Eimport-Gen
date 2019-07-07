@@ -140,7 +140,7 @@
                     {"data": "keterangan"},
                     {"data": "approve"},
                     {"data": "note"},
-                    {   
+                    {    
                         "data": "view",
                         "orderable": false
                     }
@@ -156,13 +156,13 @@
 
 
                     if (data.approve == "PROCESS") {
-                      $("td:eq(3)", row).html('<small class="label pull-right bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>');
+                      $("td:eq(3)", row).html('<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>');
                     } else if (data.approve == "PROCESS2") {
-                      $("td:eq(3)", row).html('<small class="label pull-right bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES LAPANGAN</small>');
+                      $("td:eq(3)", row).html('<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES LAPANGAN</small>');
                     } else if (data.approve == "ACCEPT") {
-                      $("td:eq(3)", row).html('<small class="label pull-right bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>');
+                      $("td:eq(3)", row).html('<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>');
                     } else if (data.approve == "REJECT") {
-                      $("td:eq(3)", row).html('<small class="label pull-right bg-red"><i class="fa fa-ban"></i>DITOLAK</small>');
+                      $("td:eq(3)", row).html('<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>');
                     }
 
                 }
@@ -172,11 +172,11 @@
          loadtable($("#select-status").val());
 
          function view(id) {
-            location.href = "<?= base_url('Pengajuan/view/') ?>"+id;
+            location.href = "<?= base_url('pengajuan/view/') ?>"+id;
          }
 
          function edit(id) {
-            location.href = "<?= base_url('Pengajuan/edit/') ?>"+id;
+            location.href = "<?= base_url('pengajuan/edit/') ?>"+id;
          }
 
          function hapus(id) {
@@ -219,7 +219,7 @@
             
                 }
             });
-            return false;
+            return false; 
     
         });
   </script>

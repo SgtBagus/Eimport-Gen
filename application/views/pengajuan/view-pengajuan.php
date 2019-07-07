@@ -9,7 +9,7 @@
     </ol>
   </section>
   <section class="content">
-    <form method="" action="" id="upload-create" enctype="multipart/form-data">
+    <form method="POST" action="<?= base_url('pengajuan/approve/').$pengajuan['id'] ?>" id="upload-create" enctype="multipart/form-data">
       <input type="hidden" name="id" value="<?= $pengajuan['id'] ?>">
       <div class="row">
         <div class="col-xs-8">
@@ -25,6 +25,7 @@
                   <div class="show_error"></div><div class="form-group">
                   </div>
                   <div class="form-group">
+                    <input type="hidden" name="dt[user_id]" value="<?= $pengajuan['user_id'] ?>">
                     <label for="form-judul">Tanggal Dibuat : </label>
                     <br>
                     <label><?= date('d-m-Y', strtotime($pengajuan['created_at'])); ?></label>
@@ -35,7 +36,16 @@
                   </div>
                   <div class="form-group">
                     <label for="form-note">Catatan : </label>
+                    <?php if($this->session->userdata('role_id') != '24'){
+                    ?>
+                    <textarea class="form-control" rows="3" placeholder="Masukan Catatan ..." name="dt[note]"><?= $pengajuan['note'] ?></textarea>
+                    <?php
+                    } else {
+                    ?>
                     <p><?= $pengajuan['note'] ?></p>
+                    <?php
+                    }
+                    ?>
                   </div>
                 </div>
               </div>
@@ -127,49 +137,68 @@
                   <th>No</th>
                   <th>Tanggal</th>
                   <th>File</th>
-                  <th>Catatan</th>
                   <th>Diterima</th>
                   <th>Diterima Di Lapangan</th>
-                  <th>Download</th>
-                  <?php if($this->session->userdata('role_id') != '24'){ ?>
-                  <th>Aksi</th>
-                  <?php } ?>
+                  <th></th>
+                  <th>Catatan</th>
                 </tr>
                 <?php 
                 $no = 1;
                 foreach($detail as $d){ 
                 ?>
                 <tr>
-                  <td><?php echo $no++ ?></td>
-                  <td><?php echo $d['created_at'] ?></td>
-                  <td><?php echo $d['file'] ?></td>
-                  <td><?php echo $d['note'] ?></td>
+                  <td><?= $no ?><input type="hidden" name="dtd[pengajuan_<?= $no ?>]" value=<?= $d['id'] ?>></td>
+                  <td><?= date('d-m-Y', strtotime($d['created_at'])); ?></td>
+                  <td><?= $d['file'] ?></td>
                   <td align="center">
-                    <?php echo $d['approve'] ?>
+                    <?php
+                    if ($d['approve'] == "PROCESS") {
+                      echo '<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>';
+                    } else if ($d['approve'] == "ACCEPT") {
+                      echo '<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>';
+                    } else if ($d['approve'] == "REJECT") {
+                      echo '<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>';
+                    }
+                    ?>
                   </td>
                   <td align="center">
-                    <?php echo $d['approve2'] ?>
+                    <?php
+                    if ($d['approve2'] == "PROCESS") {
+                      echo '<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>';
+                    } else if ($d['approve2'] == "ACCEPT") {
+                      echo '<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>';
+                    } else if ($d['approve2'] == "REJECT") {
+                      echo '<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>';
+                    }
+                    ?>
                   </td>
-                  <td align="center">
-                    <a href="<?php echo base_url('pengajuan/').'webfile/'. $d['id']?>" target="_blank" class="btn btn-sm btn-primary">
+                  <td>
+                    <!-- <a href="<?php echo base_url('pengajuan/').'webfile/'. $d['id']?>" target="_blank" class="btn btn-sm btn-primary">
                       <i class="fa fa-eye"></i>
-                    </a>
+                    </a> -->
                     <a href="<?php echo base_url('pengajuan/').'download/'. $d['id']?>" class="btn btn-sm btn-primary">
                       <i class="fa fa-download"></i>
                     </a>
                   </td>
+                  <td>
                   <?php if($this->session->userdata('role_id') != '24'){ ?>
-                  <td align="center">
-                    <button class="btn btn-sm btn-primary" onclick="#">
-                      <i class="fa fa-check-circle-o"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="#">
-                      <i class="fa fa-ban"></i>
-                    </button>
-                  </td>
+                    <div class="row">
+                      <div class="col-xs-8">
+                        <textarea class="form-control" rows="2" placeholder="Masukan Catatan..." name="dtd[note_detail_<?= $no ?>]"><?= $d['note'] ?></textarea>
+                      </div>
+                      <div class="col-xs-4">
+                        <select class="form-control" name="dtd[approve_detail_<?= $no ?>]">
+                          <option value="ACCEPT">Terima File</option>
+                          <option value="REJECT">Tidak Terima File</option>
+                        </select>
+                      </div>
+                    </div>
+                  <?php }  else {?>
+                  <?= $d['note'] ?>
                   <?php } ?>
+                  </td>
                 </tr>
-                <?php } ?>
+                <?php $no++; } ?>
               </table>
             </div>
           </div>
@@ -179,6 +208,12 @@
         <a href="javascript:history.back()" type="button" class="btn btn-primary btn-info">
           <i class="fa fa-arrow-left"></i> Back
         </a>
+        <button type="submit" class="btn btn-primary" name="dt[approve]" value="ACCEPT">
+          <i class="fa fa-check-circle-o"></i> TERIMA
+        </button>
+        <button type="submit" class="btn btn-danger" name="dt[approve]" value="REJECT">
+          <i class="fa fa-ban"></i> TIDAK DITERIMA
+        </button>
       </div>
     </form>
   </section>

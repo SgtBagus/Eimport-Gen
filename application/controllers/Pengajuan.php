@@ -65,7 +65,7 @@ class Pengajuan extends MY_Controller {
 			$this->alert->alertdanger(validation_errors());     
 		}else{
 			$dt = $_POST['dt'];
-			$dt['user_id'] = $this->session->userdata('role_id');
+			$dt['user_id'] = $this->session->userdata('id');
 			$dt['approve'] = 'PROCESS';
 			$dt['created_at'] = date('Y-m-d H:i:s');
 			$dt['status'] = "ENABLE";
@@ -114,7 +114,7 @@ class Pengajuan extends MY_Controller {
 				}
 			}
 			
-			$history['user_id'] = $this->session->userdata('role_id');
+			$history['user_id'] = $this->session->userdata('id');
 			$history['pengajuan_id'] = $pengajuan_last_id;
 			$history['title'] = 'PENGAJUAN DIBUAT';
 			$history['history'] = 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi';
@@ -133,15 +133,15 @@ class Pengajuan extends MY_Controller {
 		header('Content-Type: application/json');
 		$this->datatables->select('id,user_id,judul,keterangan,approve,note,status');
 		$this->datatables->from('pengajuan');
+		if($this->session->userdata('role_id') == '24'){
+			$this->datatables->where(array('user_id'=>$this->session->userdata('id')));
+		}
 
 	        // $this->datatables->add_column('view', '<div class="btn-group"><button type="button" class="btn btn-sm btn-primary" onclick="edit($1)"><i class="fa fa-pencil"></i> Lihat</button></div>', 'id');
 		$this->datatables->add_column(
 			'view', 
 			'<button type="button" class="btn btn-sm btn-info" onclick="view($1)">
 			<i class="fa fa-eye"></i>
-			</button>
-			<button type="button" class="btn btn-sm btn-primary" onclick="edit($1)">
-			<i class="fa fa-pencil"></i>
 			</button>
 			<button type="button" onclick="hapus($1)" class="btn btn-sm btn-danger">
 			<i class="fa fa-trash-o"></i>
@@ -194,6 +194,39 @@ class Pengajuan extends MY_Controller {
 			$dt['updated_at'] = date("Y-m-d H:i:s");
 			$this->mymodel->updateData('pengajuan', $dt , array('id'=>$id));
 			$this->alert->alertsuccess('Success Update Data');  }
+		}
+
+		public function approve($id)
+		{
+			$data_master['approve'] = $_POST['dt']['approve'];
+			$data_master['note'] = $_POST['dt']['note'];
+			$this->mymodel->updateData('pengajuan', $data_master , array('id'=>$id));
+			
+			$data_detail_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') as ROW FROM pengajuan_detail WHERE pengajuan_id = '".$id."'");
+			
+			$no = 1;
+			for($no; $no<=$data_detail_row[0]['ROW']; $no++){
+				$data_detail['detail_id'] = $_POST['dtd']['pengajuan_'.$no];
+				$data_detail['note'] = $_POST['dtd']['note_detail_'.$no];
+				$data_detail['approve'] = $_POST['dtd']['approve_detail_'.$no];
+
+				var_dump($data_detail);
+				$this->mymodel->updateData('pengajuan_detail', $data_master , array('id'=>$data_detail['detail_id']));
+			}
+
+			$history['user_id'] = $_POST['dt']['user_id'];
+			$history['pengajuan_id'] = $id;
+			$history['title'] = 'PENGAJUAN DIKONFIRMASI';
+			$history['history'] = 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan';
+			$history['history_status'] = 'WARNING';
+			$history['read_on'] = 'ENABLE';
+			$history['status'] = "ENABLE";
+			$history['created_at'] = date('Y-m-d H:i:s');
+
+			$str = $this->db->insert('history', $history);
+			
+			// $this->alert->alertsuccess('Berhasil Berubah Data');   
+			redirect('pengajuan/view/'.$id);
 		}
 
 		public function delete()

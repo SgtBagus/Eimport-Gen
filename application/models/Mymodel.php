@@ -20,12 +20,17 @@ class Mymodel extends CI_Model {
     		return $query->result_array();
     	}
 
-
 		public function selectWhere($table,$where)
 		{
 				$query = $this->db->get_where($table,$where);
 				return $query->result_array();
-		 }
+		}
+
+		public function selectWherelimit($table,$where,$limit)
+		{
+				$query = $this->db->get_where($table,$where,$limit);
+				return $query->result_array();
+		}
 
 		public function selectDataone($table,$where)
 		{

@@ -104,44 +104,58 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
               <li>
                 <a><i id="date"></i>&nbsp;<i id="clock"></i></a>
               </li>
-              <li class="dropdown notifications-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
+              <?php
+
+                $notifications = $this->mymodel->selectWithQuery(
+                  "SELECT * FROM history WHERE history_status = 'INFO' ORDER BY id DESC LIMIT 5"
+                );
+
+                $notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM history where title = 'PENGAJUAN DIBUAT' AND read_on = 'ENABLE' ");
+
+              ?>
+              <li class="dropdown messages-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                  <i class="fa fa-bell"></i>
+                  <span class="label label-warning"><?= $notification_row['0']["COUNT('id')"] ?></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
+                  <li class="header"><b><?= $notification_row['0']["COUNT('id')"] ?></b> Pengajuan Perlu Dikonfirmasi</li>
                   <li>
                     <ul class="menu">
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                    <?php 
+    
+                    foreach($notifications as $notif){ 
+                      $user = $this->mymodel->selectDataone('user',array('id'=>$notif['user_id']));
+                      $user_image = $this->mymodel->selectDataone('file',array('table'=>'user', 'table_id'=>$notif['user_id']));
+
+                      if ($notif['read_on'] != 'ENABLE'){
+                        echo '<li class="bg bg-info">';
+                      } else {
+                        echo '<li>';
+                      }
+                      
+                      if ($notif['read_on'] == 'ENABLE'){
+                        echo '<a href="'.base_url('notif/readon/').$notif['pengajuan_id'].'">';
+                      } else {
+                        echo '<a href="'.base_url('pengajuan/view/').$notif['pengajuan_id'].'">';
+                      }
+                    ?>  
+                          <div class="pull-left">
+                            <img src="<?= base_url('webfile/').$user_image['name'] ?>" class="img-circle" alt="User Image">
+                          </div>
+                          <h4>
+                            <?= $user['name']?>
+                            <small><i class="fa fa-clock-o"></i><?= $notif['created_at']  ?></small>
+                          </h4>
+                          <p>Menunggu Dokumen untuk Dikonfirmasi</p>
                         </a>
                       </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                          page and may cause design problems
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-users text-red"></i> 5 new members joined
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-user text-red"></i> You changed your username
-                        </a>
-                      </li>
+                    <?php
+                    }
+                    ?>
                     </ul>
                   </li>
-                  <li class="footer"><a href="#">View all</a></li>
+                  <li class="footer"><a href="#">See All Messages</a></li>
                 </ul>
               </li>
               <li class="dropdown user user-menu">
@@ -166,8 +180,7 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
                     </p>
                   </li>
                   <li class="user-footer">
-                    <a href="<?= base_url('master/user/editUser/').$this->template->sonEncode($this->session->userdata('id')); ?>" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
-                    <a href="<?= base_url('login/lockscreen?user=').$this->session->userdata('nip'); ?>" class="btn btn-default btn-flat"><i class="fa fa-key"></i> Lockscreen</a>
+                    <a href="<?= base_url('user/editUser/').$this->template->sonEncode($this->session->userdata('id')); ?>" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
                     <a href="<?= base_url('login/logout') ?>" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Sign out</a>
                   </li>
                 </ul>
@@ -430,6 +443,7 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
       }
       return i;
     }
+
   </script>
 </body>
 </html>
