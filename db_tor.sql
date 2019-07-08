@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 05, 2019 at 06:16 AM
+-- Generation Time: Jul 08, 2019 at 05:49 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.6
 
@@ -475,9 +475,7 @@ CREATE TABLE `file` (
 INSERT INTO `file` (`id`, `name`, `mime`, `dir`, `table`, `table_id`, `status`, `created_at`, `updated_at`) VALUES
 (40, '6950c16c9bcc6995f376b297f16317593930.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f16317593930.png', 'user', 1, NULL, NULL, '2019-02-18 16:07:47'),
 (180, '6950c16c9bcc6995f376b297f163175979203.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175979203.png', 'user', 14, 'ENABLE', '2019-07-04 10:15:41', '2019-07-04 10:24:00'),
-(181, '6950c16c9bcc6995f376b297f163175913789.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175913789.png', 'user', 15, 'ENABLE', '2019-07-04 10:50:13', NULL),
-(182, '6950c16c9bcc6995f376b297f163175955335.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175955335.pdf', 'pengajuan_detail', 1, 'ENABLE', '2019-07-05 10:24:05', NULL),
-(183, '6950c16c9bcc6995f376b297f163175946731.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175946731.pdf', 'pengajuan_detail', 2, 'ENABLE', '2019-07-05 10:24:23', NULL);
+(181, '6950c16c9bcc6995f376b297f163175913789.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175913789.png', 'user', 15, 'ENABLE', '2019-07-04 10:50:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -487,12 +485,11 @@ INSERT INTO `file` (`id`, `name`, `mime`, `dir`, `table`, `table_id`, `status`, 
 
 CREATE TABLE `history` (
   `id` int(11) NOT NULL,
-  `user_Id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `pengajuan_id` int(11) NOT NULL,
   `title` varchar(225) NOT NULL,
   `history` text DEFAULT NULL,
   `history_status` enum('PRIMARY','SUCCESS','WARNING','DANGER') DEFAULT NULL,
-  `read_on` enum('ENABLE','DISABLE') NOT NULL,
   `status` enum('ENABLE','DISABLE') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `disabled_at` datetime DEFAULT NULL
@@ -797,6 +794,25 @@ INSERT INTO `menu_master` (`id`, `name`, `icon`, `link`, `urutan`, `parent`, `no
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `pengajuan_id` int(11) NOT NULL,
+  `title` varchar(225) DEFAULT NULL,
+  `notif_desc` text DEFAULT NULL,
+  `read_on` enum('ENABLE','DISABLE') DEFAULT NULL,
+  `status` enum('ENABLE','DISABLE') DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pengajuan`
 --
 
@@ -811,14 +827,6 @@ CREATE TABLE `pengajuan` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pengajuan`
---
-
-INSERT INTO `pengajuan` (`id`, `user_id`, `judul`, `keterangan`, `approve`, `note`, `status`, `created_at`, `updated_at`) VALUES
-(2, 24, 'Ini Judul Pengajuan nya', 'Perlu diingat kalo ini itu text area', 'PROCESS2', '', 'ENABLE', '2019-07-04 14:42:02', NULL),
-(3, 24, 'tes', 'ada', 'PROCESS', '', 'ENABLE', '2019-07-04 15:40:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -837,14 +845,6 @@ CREATE TABLE `pengajuan_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pengajuan_detail`
---
-
-INSERT INTO `pengajuan_detail` (`id`, `pengajuan_id`, `file`, `note`, `approve`, `approve2`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 'sample.pdf', 'a', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-05 10:24:04', NULL),
-(2, 2, 'sample.pdf', 'a', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-05 10:24:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -983,6 +983,12 @@ ALTER TABLE `menu_master`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications` 
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
@@ -1069,6 +1075,12 @@ ALTER TABLE `logs`
 --
 ALTER TABLE `menu_master`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengajuan`
