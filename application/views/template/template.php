@@ -129,13 +129,13 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
                       $user_image = $this->mymodel->selectDataone('file',array('table'=>'user', 'table_id'=>$notif['user_id']));
 
                       if ($notif['read_on'] != 'ENABLE'){
-                        echo '<li class="bg bg-info">';
+                        echo '<li style="background:#f5f5f5">';
                       } else {
                         echo '<li>';
                       }
                       
                       if ($notif['read_on'] == 'ENABLE'){
-                        echo '<a href="'.base_url('notif/readon/').$notif['pengajuan_id'].'">';
+                        echo '<a href="'.base_url('notif/readon/').$notif['id'].'">';
                       } else {
                         echo '<a href="'.base_url('pengajuan/view/').$notif['pengajuan_id'].'">';
                       }

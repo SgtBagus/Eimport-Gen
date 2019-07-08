@@ -42,8 +42,11 @@
                     <?php
                     } else {
                     ?>
-                    <p><?= $pengajuan['note'] ?></p>
-                    <?php
+                      <?php if(!$pengajuan['note']){?>
+                        <p class="help-block">*Catatan Di Berikan Oleh Admin</p>
+                      <?php } else { 
+                        echo "<p>".$pengajuan['note']."</p>";
+                      } 
                     }
                     ?>
                   </div>
@@ -188,13 +191,17 @@
                       </div>
                       <div class="col-xs-4">
                         <select class="form-control" name="dtd[approve_detail_<?= $no ?>]">
-                          <option value="ACCEPT">Terima File</option>
-                          <option value="REJECT">Tidak Terima File</option>
+                          <option value="ACCEPT" <?php if($d['approve'] == 'ACCEPT'){ echo "selected"; } ?> > Terima File</option>
+                          <option value="REJECT" <?php if($d['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
                         </select>
                       </div>
                     </div>
-                  <?php }  else {?>
-                  <?= $d['note'] ?>
+                  <?php }  else  { ?>
+                    <?php if(!$d['note']){?>
+                      <p class="help-block">*Catatan Di Berikan Oleh Admin</p>
+                    <?php } else { 
+                      echo $d['note'];
+                    } ?>
                   <?php } ?>
                   </td>
                 </tr>
@@ -208,12 +215,14 @@
         <a href="javascript:history.back()" type="button" class="btn btn-primary btn-info">
           <i class="fa fa-arrow-left"></i> Back
         </a>
-        <button type="submit" class="btn btn-primary" name="dt[approve]" value="ACCEPT">
-          <i class="fa fa-check-circle-o"></i> TERIMA
-        </button>
-        <button type="submit" class="btn btn-danger" name="dt[approve]" value="REJECT">
-          <i class="fa fa-ban"></i> TIDAK DITERIMA
-        </button>
+        <?php if($this->session->userdata('role_id') != '24'){ ?>
+          <button type="submit" class="btn btn-primary" name="dt[approve]" value="PROCESS2">
+            <i class="fa fa-check-circle-o"></i> TERIMA
+          </button>
+          <button type="submit" class="btn btn-danger" name="dt[approve]" value="REJECT">
+            <i class="fa fa-ban"></i> TIDAK DITERIMA
+          </button>
+        <?php } ?>
       </div>
     </form>
   </section>

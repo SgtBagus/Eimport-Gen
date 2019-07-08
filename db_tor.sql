@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 08, 2019 at 05:49 AM
+-- Generation Time: Jul 08, 2019 at 07:04 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.6
 
@@ -475,7 +475,18 @@ CREATE TABLE `file` (
 INSERT INTO `file` (`id`, `name`, `mime`, `dir`, `table`, `table_id`, `status`, `created_at`, `updated_at`) VALUES
 (40, '6950c16c9bcc6995f376b297f16317593930.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f16317593930.png', 'user', 1, NULL, NULL, '2019-02-18 16:07:47'),
 (180, '6950c16c9bcc6995f376b297f163175979203.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175979203.png', 'user', 14, 'ENABLE', '2019-07-04 10:15:41', '2019-07-04 10:24:00'),
-(181, '6950c16c9bcc6995f376b297f163175913789.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175913789.png', 'user', 15, 'ENABLE', '2019-07-04 10:50:13', NULL);
+(181, '6950c16c9bcc6995f376b297f163175913789.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175913789.png', 'user', 15, 'ENABLE', '2019-07-04 10:50:13', NULL),
+(184, '6950c16c9bcc6995f376b297f163175915577.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175915577.png', 'user', 16, 'ENABLE', '2019-07-08 11:10:54', NULL),
+(185, '6950c16c9bcc6995f376b297f163175941611.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175941611.pdf', 'pengajuan_detail', 3, 'ENABLE', '2019-07-08 11:15:30', NULL),
+(186, '6950c16c9bcc6995f376b297f1631759416111.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f1631759416111.pdf', 'pengajuan_detail', 4, 'ENABLE', '2019-07-08 11:15:30', NULL),
+(187, '6950c16c9bcc6995f376b297f163175989901.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175989901.pdf', 'pengajuan_detail', 5, 'ENABLE', '2019-07-08 11:15:54', NULL),
+(188, '6950c16c9bcc6995f376b297f1631759899011.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f1631759899011.pdf', 'pengajuan_detail', 6, 'ENABLE', '2019-07-08 11:15:54', NULL),
+(189, '6950c16c9bcc6995f376b297f163175980920.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175980920.pdf', 'pengajuan_detail', 7, 'ENABLE', '2019-07-08 11:16:04', NULL),
+(190, '6950c16c9bcc6995f376b297f1631759809201.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f1631759809201.pdf', 'pengajuan_detail', 8, 'ENABLE', '2019-07-08 11:16:04', NULL),
+(191, '6950c16c9bcc6995f376b297f163175946614.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175946614.pdf', 'pengajuan_detail', 9, 'ENABLE', '2019-07-08 11:25:46', NULL),
+(192, '6950c16c9bcc6995f376b297f1631759466141.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f1631759466141.pdf', 'pengajuan_detail', 10, 'ENABLE', '2019-07-08 11:25:46', NULL),
+(193, '6950c16c9bcc6995f376b297f163175940677.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175940677.pdf', 'pengajuan_detail', 11, 'ENABLE', '2019-07-08 11:59:04', NULL),
+(194, '6950c16c9bcc6995f376b297f1631759406771.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f1631759406771.pdf', 'pengajuan_detail', 12, 'ENABLE', '2019-07-08 11:59:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -489,11 +500,19 @@ CREATE TABLE `history` (
   `pengajuan_id` int(11) NOT NULL,
   `title` varchar(225) NOT NULL,
   `history` text DEFAULT NULL,
-  `history_status` enum('PRIMARY','SUCCESS','WARNING','DANGER') DEFAULT NULL,
+  `history_status` enum('INFO','SUCCESS','WARNING','DANGER') DEFAULT NULL,
   `status` enum('ENABLE','DISABLE') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `disabled_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`id`, `user_id`, `pengajuan_id`, `title`, `history`, `history_status`, `status`, `created_at`, `disabled_at`) VALUES
+(1, 15, 7, 'PENGAJUAN DIBUAT', 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi', 'INFO', 'ENABLE', '2019-07-08 11:25:46', NULL),
+(2, 16, 8, 'PENGAJUAN DIBUAT', 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi', 'INFO', 'ENABLE', '2019-07-08 11:59:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -600,7 +619,8 @@ INSERT INTO `konfig` (`id`, `slug`, `value`, `status`, `created_at`, `updated_at
 (16, 'TITLE_LOGIN_APPLICATION', 'Smartsoft | Login', 'ENABLE', '2019-02-18 15:47:41', NULL),
 (17, 'LOGIN_TITLE', 'LOGIN ADMIN', 'ENABLE', '2019-02-18 15:48:55', NULL),
 (24, 'LOGIN', '0', 'ENABLE', '2019-02-21 14:12:14', '2019-07-01 09:50:27'),
-(25, 'email-template', '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n\r\n<head>\r\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n    <meta name=\"viewport\" content=\"width=device-width\" />\r\n\r\n\r\n    <style type=\"text/css\">\r\n        /* Your custom styles go here */\r\n        * {\r\n            margin: 0;\r\n            padding: 0;\r\n            font-size: 100%;\r\n            font-family: \'Avenir Next\', \"Helvetica Neue\", \"Helvetica\", Helvetica, Arial, sans-serif;\r\n            line-height: 1.65;\r\n        }\r\n\r\n        img {\r\n            max-width: 100%;\r\n            margin: 0 auto;\r\n            display: block;\r\n        }\r\n\r\n        body,\r\n        .body-wrap {\r\n            width: 100% !important;\r\n            height: 100%;\r\n            background: #f8f8f8;\r\n        }\r\n\r\n        a {\r\n            color: #71bc37;\r\n            text-decoration: none;\r\n        }\r\n\r\n        a:hover {\r\n            text-decoration: underline;\r\n        }\r\n\r\n        .text-center {\r\n            text-align: center;\r\n        }\r\n\r\n        .text-right {\r\n            text-align: right;\r\n        }\r\n\r\n        .text-left {\r\n            text-align: left;\r\n        }\r\n\r\n        .button {\r\n            display: inline-block;\r\n            color: white;\r\n            background: #71bc37;\r\n            border: solid #71bc37;\r\n            border-width: 10px 20px 8px;\r\n            font-weight: bold;\r\n            border-radius: 4px;\r\n        }\r\n\r\n        .button:hover {\r\n            text-decoration: none;\r\n        }\r\n\r\n        h1,\r\n        h2,\r\n        h3,\r\n        h4,\r\n        h5,\r\n        h6 {\r\n            margin-bottom: 20px;\r\n            line-height: 1.25;\r\n        }\r\n\r\n        h1 {\r\n            font-size: 32px;\r\n        }\r\n\r\n        h2 {\r\n            font-size: 28px;\r\n        }\r\n\r\n        h3 {\r\n            font-size: 24px;\r\n        }\r\n\r\n        h4 {\r\n            font-size: 20px;\r\n        }\r\n\r\n        h5 {\r\n            font-size: 16px;\r\n        }\r\n\r\n        p,\r\n        ul,\r\n        ol {\r\n            font-size: 16px;\r\n            font-weight: normal;\r\n            margin-bottom: 20px;\r\n        }\r\n\r\n        .container {\r\n            display: block !important;\r\n            clear: both !important;\r\n            margin: 0 auto !important;\r\n            max-width: 580px !important;\r\n        }\r\n\r\n        .container table {\r\n            width: 100% !important;\r\n            border-collapse: collapse;\r\n        }\r\n\r\n        .container .masthead {\r\n            padding: 80px 0;\r\n            background: #71bc37;\r\n            color: white;\r\n        }\r\n\r\n        .container .masthead h1 {\r\n            margin: 0 auto !important;\r\n            max-width: 90%;\r\n            text-transform: uppercase;\r\n        }\r\n\r\n        .container .content {\r\n            background: white;\r\n            padding: 30px 35px;\r\n        }\r\n\r\n        .container .content.footer {\r\n            background: none;\r\n        }\r\n\r\n        .container .content.footer p {\r\n            margin-bottom: 0;\r\n            color: #888;\r\n            text-align: center;\r\n            font-size: 14px;\r\n        }\r\n\r\n        .container .content.footer a {\r\n            color: #888;\r\n            text-decoration: none;\r\n            font-weight: bold;\r\n        }\r\n\r\n        .container .content.footer a:hover {\r\n            text-decoration: underline;\r\n        }\r\n\r\n    </style>\r\n</head>\r\n\r\n<body>\r\n    <table class=\"body-wrap\">\r\n        <tr>\r\n            <td class=\"container\">\r\n\r\n                <!-- Message start -->\r\n                <table>\r\n                    <tr>\r\n                        <td align=\"center\" class=\"masthead\">\r\n\r\n                            <h1>Something Big...</h1>\r\n\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"content\">\r\n\r\n                            <h2>Hi Stranger,</h2>\r\n\r\n                            <p>Kielbasa venison ball tip shankle. Boudin prosciutto landjaeger, pancetta jowl turkey tri-tip porchetta beef pork loin drumstick. Frankfurter short ribs kevin pig ribeye drumstick bacon kielbasa. Pork loin brisket biltong, pork belly filet mignon ribeye pig ground round porchetta turducken turkey. Pork belly beef ribs sausage ham hock, ham doner frankfurter pork chop tail meatball beef pig meatloaf short ribs shoulder. Filet mignon ham hock kielbasa beef ribs shank. Venison swine beef ribs sausage pastrami shoulder.</p>\r\n\r\n                            <table>\r\n                                <tr>\r\n                                    <td align=\"center\">\r\n                                        <p>\r\n                                            <a href=\"#\" class=\"button\">Share the Awesomeness</a>\r\n                                        </p>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n\r\n                            <p>By the way, if you\'re wondering where you can find more of this fine meaty filler, visit <a href=\"http://baconipsum.com\">Bacon Ipsum</a>.</p>\r\n\r\n                            <p><em>– Mr. Pen</em></p>\r\n\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n\r\n            </td>\r\n        </tr>\r\n        <tr>\r\n            <td class=\"container\">\r\n\r\n                <!-- Message start -->\r\n                <table>\r\n                    <tr>\r\n                        <td class=\"content footer\" align=\"center\">\r\n                            <p>Sent by <a href=\"#\">Company Name</a>, 1234 Yellow Brick Road, OZ, 99999</p>\r\n                            <p><a href=\"mailto:\">hello@company.com</a> | <a href=\"#\">Unsubscribe</a></p>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>\r\n\r\n</html>\r\n', 'ENABLE', NULL, NULL);
+(25, 'email-template', '<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n\r\n<head>\r\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n    <meta name=\"viewport\" content=\"width=device-width\" />\r\n\r\n\r\n    <style type=\"text/css\">\r\n        /* Your custom styles go here */\r\n        * {\r\n            margin: 0;\r\n            padding: 0;\r\n            font-size: 100%;\r\n            font-family: \'Avenir Next\', \"Helvetica Neue\", \"Helvetica\", Helvetica, Arial, sans-serif;\r\n            line-height: 1.65;\r\n        }\r\n\r\n        img {\r\n            max-width: 100%;\r\n            margin: 0 auto;\r\n            display: block;\r\n        }\r\n\r\n        body,\r\n        .body-wrap {\r\n            width: 100% !important;\r\n            height: 100%;\r\n            background: #f8f8f8;\r\n        }\r\n\r\n        a {\r\n            color: #71bc37;\r\n            text-decoration: none;\r\n        }\r\n\r\n        a:hover {\r\n            text-decoration: underline;\r\n        }\r\n\r\n        .text-center {\r\n            text-align: center;\r\n        }\r\n\r\n        .text-right {\r\n            text-align: right;\r\n        }\r\n\r\n        .text-left {\r\n            text-align: left;\r\n        }\r\n\r\n        .button {\r\n            display: inline-block;\r\n            color: white;\r\n            background: #71bc37;\r\n            border: solid #71bc37;\r\n            border-width: 10px 20px 8px;\r\n            font-weight: bold;\r\n            border-radius: 4px;\r\n        }\r\n\r\n        .button:hover {\r\n            text-decoration: none;\r\n        }\r\n\r\n        h1,\r\n        h2,\r\n        h3,\r\n        h4,\r\n        h5,\r\n        h6 {\r\n            margin-bottom: 20px;\r\n            line-height: 1.25;\r\n        }\r\n\r\n        h1 {\r\n            font-size: 32px;\r\n        }\r\n\r\n        h2 {\r\n            font-size: 28px;\r\n        }\r\n\r\n        h3 {\r\n            font-size: 24px;\r\n        }\r\n\r\n        h4 {\r\n            font-size: 20px;\r\n        }\r\n\r\n        h5 {\r\n            font-size: 16px;\r\n        }\r\n\r\n        p,\r\n        ul,\r\n        ol {\r\n            font-size: 16px;\r\n            font-weight: normal;\r\n            margin-bottom: 20px;\r\n        }\r\n\r\n        .container {\r\n            display: block !important;\r\n            clear: both !important;\r\n            margin: 0 auto !important;\r\n            max-width: 580px !important;\r\n        }\r\n\r\n        .container table {\r\n            width: 100% !important;\r\n            border-collapse: collapse;\r\n        }\r\n\r\n        .container .masthead {\r\n            padding: 80px 0;\r\n            background: #71bc37;\r\n            color: white;\r\n        }\r\n\r\n        .container .masthead h1 {\r\n            margin: 0 auto !important;\r\n            max-width: 90%;\r\n            text-transform: uppercase;\r\n        }\r\n\r\n        .container .content {\r\n            background: white;\r\n            padding: 30px 35px;\r\n        }\r\n\r\n        .container .content.footer {\r\n            background: none;\r\n        }\r\n\r\n        .container .content.footer p {\r\n            margin-bottom: 0;\r\n            color: #888;\r\n            text-align: center;\r\n            font-size: 14px;\r\n        }\r\n\r\n        .container .content.footer a {\r\n            color: #888;\r\n            text-decoration: none;\r\n            font-weight: bold;\r\n        }\r\n\r\n        .container .content.footer a:hover {\r\n            text-decoration: underline;\r\n        }\r\n\r\n    </style>\r\n</head>\r\n\r\n<body>\r\n    <table class=\"body-wrap\">\r\n        <tr>\r\n            <td class=\"container\">\r\n\r\n                <!-- Message start -->\r\n                <table>\r\n                    <tr>\r\n                        <td align=\"center\" class=\"masthead\">\r\n\r\n                            <h1>Something Big...</h1>\r\n\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"content\">\r\n\r\n                            <h2>Hi Stranger,</h2>\r\n\r\n                            <p>Kielbasa venison ball tip shankle. Boudin prosciutto landjaeger, pancetta jowl turkey tri-tip porchetta beef pork loin drumstick. Frankfurter short ribs kevin pig ribeye drumstick bacon kielbasa. Pork loin brisket biltong, pork belly filet mignon ribeye pig ground round porchetta turducken turkey. Pork belly beef ribs sausage ham hock, ham doner frankfurter pork chop tail meatball beef pig meatloaf short ribs shoulder. Filet mignon ham hock kielbasa beef ribs shank. Venison swine beef ribs sausage pastrami shoulder.</p>\r\n\r\n                            <table>\r\n                                <tr>\r\n                                    <td align=\"center\">\r\n                                        <p>\r\n                                            <a href=\"#\" class=\"button\">Share the Awesomeness</a>\r\n                                        </p>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n\r\n                            <p>By the way, if you\'re wondering where you can find more of this fine meaty filler, visit <a href=\"http://baconipsum.com\">Bacon Ipsum</a>.</p>\r\n\r\n                            <p><em>– Mr. Pen</em></p>\r\n\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n\r\n            </td>\r\n        </tr>\r\n        <tr>\r\n            <td class=\"container\">\r\n\r\n                <!-- Message start -->\r\n                <table>\r\n                    <tr>\r\n                        <td class=\"content footer\" align=\"center\">\r\n                            <p>Sent by <a href=\"#\">Company Name</a>, 1234 Yellow Brick Road, OZ, 99999</p>\r\n                            <p><a href=\"mailto:\">hello@company.com</a> | <a href=\"#\">Unsubscribe</a></p>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>\r\n\r\n</html>\r\n', 'ENABLE', NULL, NULL),
+(26, 'FILE UPLOAD', '2', 'ENABLE', '2019-07-08 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -810,6 +830,14 @@ CREATE TABLE `notifications` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `user_id`, `role_id`, `pengajuan_id`, `title`, `notif_desc`, `read_on`, `status`, `created_at`, `updated_at`) VALUES
+(1, 15, 17, 7, 'PENGAJUAN DOKUMENT', 'Pengajuan Perlu Dikonfirmasi', 'ENABLE', 'ENABLE', '2019-07-08 11:25:47', NULL),
+(3, 16, 17, 8, 'PENGAJUAN DOKUMENT', 'Pengajuan Perlu Dikonfirmasi', 'ENABLE', 'ENABLE', '2019-07-08 11:59:05', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -828,6 +856,14 @@ CREATE TABLE `pengajuan` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `pengajuan`
+--
+
+INSERT INTO `pengajuan` (`id`, `user_id`, `judul`, `keterangan`, `approve`, `note`, `status`, `created_at`, `updated_at`) VALUES
+(7, 15, 'Pengajuan dari User 1', 'Ini Pengajuan dari User 1', 'PROCESS', NULL, 'ENABLE', '2019-07-08 11:25:46', NULL),
+(8, 16, 'Pengajuan dari User 2', 'ini Pengajuan dari user 2', 'PROCESS', NULL, 'ENABLE', '2019-07-08 11:59:04', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -845,6 +881,16 @@ CREATE TABLE `pengajuan_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pengajuan_detail`
+--
+
+INSERT INTO `pengajuan_detail` (`id`, `pengajuan_id`, `file`, `note`, `approve`, `approve2`, `status`, `created_at`, `updated_at`) VALUES
+(9, 7, 'sample.pdf', '', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-08 11:25:46', NULL),
+(10, 7, 'your_filename.pdf', '', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-08 11:25:46', NULL),
+(11, 8, 'your_filename.pdf', '', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-08 11:59:04', NULL),
+(12, 8, 'sample.pdf', '', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-08 11:59:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -922,7 +968,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `nib`, `name`, `email`, `password`, `role_id`, `desc`, `status`, `created_at`, `updated_at`, `telepon`) VALUES
 (1, '1234312', 'Admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 17, 'asda', '0', '2018-02-23 16:09:49', '2019-07-04 10:09:13', '0982'),
 (14, '23521', 'Admin APP', 'adminapp@gmail.com', 'b3c9323ca84c0f3e6ea210cd31c9ea7a', 23, 'asd', '0', '2019-07-04 10:15:41', '2019-07-04 10:24:00', ''),
-(15, '23123123', 'User', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 24, 'user', '0', '2019-07-04 10:50:11', NULL, '');
+(15, '23123123', 'User', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 24, 'user', '0', '2019-07-04 10:50:11', NULL, ''),
+(16, '123124', 'User 2', 'user2@gmail.com', '7e58d63b60197ceb55a1c487989a3720', 24, 'Ini User ke 2', '0', '2019-07-08 11:10:54', NULL, '');
 
 --
 -- Indexes for dumped tables
@@ -985,7 +1032,7 @@ ALTER TABLE `menu_master`
 --
 -- Indexes for table `notifications`
 --
-ALTER TABLE `notifications` 
+ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1038,13 +1085,13 @@ ALTER TABLE `access_control`
 -- AUTO_INCREMENT for table `file`
 --
 ALTER TABLE `file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `image`
@@ -1062,7 +1109,7 @@ ALTER TABLE `keys`
 -- AUTO_INCREMENT for table `konfig`
 --
 ALTER TABLE `konfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `logs`
@@ -1080,19 +1127,19 @@ ALTER TABLE `menu_master`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `pengajuan_detail`
 --
 ALTER TABLE `pengajuan_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `report`
@@ -1110,7 +1157,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
