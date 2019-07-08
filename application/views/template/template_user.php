@@ -149,23 +149,21 @@ if($this->session->userdata('role_id') != '24') {
 							</div>
 							<div class="navbar-custom-menu">
 								<ul class="nav navbar-nav">
-									<li class="dropdown tasks-menu">	
-						              <?php
+								<li class="dropdown notifications-menu">
+									<?php
 						                $notifications = $this->mymodel->selectWithQuery(
 						                  "SELECT * FROM notifications WHERE role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." ORDER BY id DESC, read_on ASC LIMIT 5 "
 						                );
-
 						                $notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM notifications where role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." AND read_on = 'ENABLE' ");
-
-						              ?>
-							            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-							              <i class="fa fa-bell"></i>
-							              <span class="label label-danger"><?= $notification_row['0']["COUNT('id')"] ?></span>
-							            </a>
-							            <ul class="dropdown-menu">
-							              <li class="header">Anda mempunyai <?= $notification_row['0']["COUNT('id')"] ?> pemberitahuan</li>
-							              <li>
-							                <ul class="menu">
+						            ?>
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<i class="fa fa-bell-o"></i>
+										<span class="label label-warning"><?= $notification_row['0']["COUNT('id')"] ?></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li class="header">Anda mempunyai <?= $notification_row['0']["COUNT('id')"] ?> Pemberitauan</li>
+										<li>
+											<ul class="menu">
 							                	<?php 
 							                    foreach($notifications as $notif){ 
 							                      if ($notif['read_on'] != 'ENABLE'){
@@ -180,25 +178,17 @@ if($this->session->userdata('role_id') != '24') {
 							                        echo '<a href="'.base_url('pengajuan/view/').$notif['pengajuan_id'].'">';
 							                      }
 							                    ?>  
-							                    	<div class="row">
-								                    	<div class="col-xs-2">
-							                				<i class="fa fa-square text-success fa-2x"></i>
-								                    	</div>
-								                    	<div class="col-xs-10">
-							                				<b><?= $notif['title'] ?></b>
-							                				<p><?= $notif['notif_desc'] ?></p>
-								                    	</div>
-							                		</div>
-							                		</a>
-							                	</li>
-							                <?php } ?>
-							                </ul>
-							              </li>
-							              <li class="footer">
-							                <a href=<?= base_url('pengajuan/') ?>>Lihat Semua Pengajuan</a>
-							              </li>
-							            </ul>
-							      	</li>
+														<i class="fa fa-bell"></i> <?= $notif['title'] ?>
+														<br>
+														<small><?= $notif['notif_desc'] ?></small>
+													</a>
+												</li>
+												<?php } ?>
+											</ul>
+										</li>
+										<li class="footer"><a href="#">View all</a></li>
+									</ul>
+									</li>
 									<li class="dropdown user user-menu">
 										<?php
 										$id = $this->session->userdata('id');

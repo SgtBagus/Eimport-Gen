@@ -127,7 +127,7 @@ class Pengajuan extends MY_Controller {
 			$notification['role_id'] = '17';
 			$notification['pengajuan_id'] = $pengajuan_last_id;
 			$notification['title'] = 'PENGAJUAN DOKUMENT';
-			$notification['notif_desc'] = 'Pengajuan Perlu Dikonfirmasi';
+			$notification['notif_desc'] = 'Perlu Dikonfirmasi';
 			$notification['read_on'] = 'ENABLE';
 			$notification['status'] = 'ENABLE';
 			$notification['created_at'] = date('Y-m-d H:i:s');
@@ -253,16 +253,34 @@ class Pengajuan extends MY_Controller {
 			$notification['pengajuan_id'] = $id;
 			if($_POST['dt']['approve'] == 'PROCESS2'){
 				$notification['title'] = 'PENGAJUAN DIKONFIRMASI';
-				$notification['notif_desc'] = 'Pengajuan Menunggu untuk Dikonfirmasi Lapangan';
+				$notification['notif_desc'] = 'Menunggu untuk Dikonfirmasi Lapangan';
 			}else {
 				$notification['title'] = 'PENGAJUAN DITOLAK';
-				$notification['notif_desc'] = 'Pengajuan Ditolak Mohon untuk mengupload Ulang';
+				$notification['notif_desc'] = 'Ditolak Mohon untuk mengupload Ulang';
 			}
 			$notification['read_on'] = 'ENABLE';
 			$notification['status'] = 'ENABLE';
 			$notification['created_at'] = date('Y-m-d H:i:s');
 
 			$str = $this->db->insert('notifications', $notification);
+			
+			if($this->session->userdata('role_id') == '17'){
+				$notif_lapangan['user_id'] = $user_notif[0]['user_id'];
+				$notif_lapangan['role_id'] = '23';
+				$notif_lapangan['pengajuan_id'] = $id;
+				if($_POST['dt']['approve'] == 'PROCESS2'){
+					$notif_lapangan['title'] = 'PENGAJUAN DIKONFIRMASI';
+					$notif_lapangan['notif_desc'] = 'Menunggu untuk Dikonfirmasi Lapangan';
+				}else {
+					$notif_lapangan['title'] = 'PENGAJUAN DITOLAK';
+					$notif_lapangan['notif_desc'] = 'Ditolak Mohon untuk mengupload Ulang';
+				}
+				$notif_lapangan['read_on'] = 'ENABLE';
+				$notif_lapangan['status'] = 'ENABLE';
+				$notif_lapangan['created_at'] = date('Y-m-d H:i:s');
+				
+				$str = $this->db->insert('notifications', $notif_lapangan);
+			}
 
 			redirect('pengajuan/view/'.$id);
 		}

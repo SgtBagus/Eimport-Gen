@@ -147,7 +147,8 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
                             <?= $user['name']?>
                             <small><i class="fa fa-clock-o"></i> <?= $notif['created_at']  ?></small>
                           </h4>
-                          <p><?= $notif['notif_desc']  ?></p>
+                          <b><?= $notif['title'] ?></b> <br>
+                          <small><?= $notif['notif_desc']  ?></small>
                         </a>
                       </li>
                     <?php
