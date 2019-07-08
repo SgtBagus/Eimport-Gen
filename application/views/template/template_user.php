@@ -1,6 +1,6 @@
 <?php 
 if($this->session->userdata('session_sop')=="") {
-	redirect('login/');
+  redirect(base_url().'login/');
 }
 
 if($this->session->userdata('role_id') != '24') { 

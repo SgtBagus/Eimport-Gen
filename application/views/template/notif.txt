@@ -1,0 +1,53 @@
+<?php
+                $notifications = $this->mymodel->selectWithQuery(
+                  "SELECT * FROM history WHERE history_status = 'INFO' ORDER BY id DESC LIMIT 5"
+                );
+
+                $notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM history where title = 'PENGAJUAN DIBUAT' AND read_on = 'ENABLE' ");
+
+              ?>
+              <li class="dropdown messages-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                  <i class="fa fa-bell"></i>
+                  <span class="label label-warning"><?= $notification_row['0']["COUNT('id')"] ?></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header"><b><?= $notification_row['0']["COUNT('id')"] ?></b> Pengajuan Perlu Dikonfirmasi</li>
+                  <li>
+                    <ul class="menu">
+                    <?php 
+    
+                    foreach($notifications as $notif){ 
+                      $user = $this->mymodel->selectDataone('user',array('id'=>$notif['user_id']));
+                      $user_image = $this->mymodel->selectDataone('file',array('table'=>'user', 'table_id'=>$notif['user_id']));
+
+                      if ($notif['read_on'] != 'ENABLE'){
+                        echo '<li class="bg bg-info">';
+                      } else {
+                        echo '<li>';
+                      }
+                      
+                      if ($notif['read_on'] == 'ENABLE'){
+                        echo '<a href="'.base_url('notif/readon/').$notif['pengajuan_id'].'">';
+                      } else {
+                        echo '<a href="'.base_url('pengajuan/view/').$notif['pengajuan_id'].'">';
+                      }
+                    ?>  
+                          <div class="pull-left">
+                            <img src="<?= base_url('webfile/').$user_image['name'] ?>" class="img-circle" alt="User Image">
+                          </div>
+                          <h4>
+                            <?= $user['name']?>
+                            <small><i class="fa fa-clock-o"></i><?= $notif['created_at']  ?></small>
+                          </h4>
+                          <p>Menunggu Dokumen untuk Dikonfirmasi</p>
+                        </a>
+                      </li>
+                    <?php
+                    }
+                    ?>
+                    </ul>
+                  </li>
+                  <li class="footer"><a href="#">See All Messages</a></li>
+                </ul>
+              </li> 

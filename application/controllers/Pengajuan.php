@@ -119,10 +119,20 @@ class Pengajuan extends MY_Controller {
 			$history['title'] = 'PENGAJUAN DIBUAT';
 			$history['history'] = 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi';
 			$history['history_status'] = 'INFO';
-			$history['read_on'] = 'ENABLE';
 			$history['status'] = "ENABLE";
 			$history['created_at'] = date('Y-m-d H:i:s');
 			$str = $this->db->insert('history', $history);
+
+			$notification['user_id'] = $this->session->userdata('id');
+			$notification['role_id'] = '17';
+			$notification['pengajuan_id'] = $pengajuan_last_id;
+			$notification['title'] = 'PENGAJUAN DOKUMENT';
+			$notification['notif_desc'] = 'Pengajuan Perlu Dikonfirmasi';
+			$notification['read_on'] = 'ENABLE';
+			$notification['status'] = 'ENABLE';
+			$notification['created_at'] = date('Y-m-d H:i:s');
+
+			$str = $this->db->insert('notifications', $notification);
 
 			$this->alert->alertsuccess('Success Send Data');   
 		}
@@ -214,18 +224,16 @@ class Pengajuan extends MY_Controller {
 				$this->mymodel->updateData('pengajuan_detail', $data_master , array('id'=>$data_detail['detail_id']));
 			}
 
-			$history['user_id'] = $_POST['dt']['user_id'];
+			$history['user_id'] = $this->session->userdata('id');
 			$history['pengajuan_id'] = $id;
 			$history['title'] = 'PENGAJUAN DIKONFIRMASI';
 			$history['history'] = 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan';
 			$history['history_status'] = 'WARNING';
-			$history['read_on'] = 'ENABLE';
 			$history['status'] = "ENABLE";
 			$history['created_at'] = date('Y-m-d H:i:s');
 
 			$str = $this->db->insert('history', $history);
 			
-			// $this->alert->alertsuccess('Berhasil Berubah Data');   
 			redirect('pengajuan/view/'.$id);
 		}
 

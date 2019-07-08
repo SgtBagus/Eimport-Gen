@@ -1,11 +1,12 @@
 <?php 
 if($this->session->userdata('session_sop')=="") {
-  redirect('login/');
+  redirect(base_url().'login/');
 }
 
 if($this->session->userdata('role_id') != ('17' || '23') ) { 
   echo "<script>window.history.back()</script>";
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -105,12 +106,11 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
                 <a><i id="date"></i>&nbsp;<i id="clock"></i></a>
               </li>
               <?php
-
                 $notifications = $this->mymodel->selectWithQuery(
-                  "SELECT * FROM history WHERE history_status = 'INFO' ORDER BY id DESC LIMIT 5"
+                  "SELECT * FROM notifications WHERE role_id = ".$this->session->userdata('role_id')." ORDER BY id DESC, read_on ASC LIMIT 5 "
                 );
 
-                $notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM history where title = 'PENGAJUAN DIBUAT' AND read_on = 'ENABLE' ");
+                $notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM notifications where role_id = ".$this->session->userdata('role_id')." AND read_on = 'ENABLE' ");
 
               ?>
               <li class="dropdown messages-menu">
@@ -145,9 +145,9 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
                           </div>
                           <h4>
                             <?= $user['name']?>
-                            <small><i class="fa fa-clock-o"></i><?= $notif['created_at']  ?></small>
+                            <small><i class="fa fa-clock-o"></i> <?= $notif['created_at']  ?></small>
                           </h4>
-                          <p>Menunggu Dokumen untuk Dikonfirmasi</p>
+                          <p><?= $notif['notif_desc']  ?></p>
                         </a>
                       </li>
                     <?php
@@ -157,7 +157,7 @@ if($this->session->userdata('role_id') != ('17' || '23') ) {
                   </li>
                   <li class="footer"><a href="#">See All Messages</a></li>
                 </ul>
-              </li>
+              </li> 
               <li class="dropdown user user-menu">
                 <?php
                 $id = $this->session->userdata('id');
