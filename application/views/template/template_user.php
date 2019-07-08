@@ -149,32 +149,56 @@ if($this->session->userdata('role_id') != '24') {
 							</div>
 							<div class="navbar-custom-menu">
 								<ul class="nav navbar-nav">
-									<li class="dropdown messages-menu">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-											<i class="fa fa-bell-o"></i>
-											<span class="label label-success">4</span>
-										</a>
-										<ul class="dropdown-menu">
-											<li class="header">You have 4 notification</li>
-											<li>
-												<ul class="menu">
-													<li>
-														<a href="#">
-															<div class="pull-left">
-																<img src="<?= base_url(); ?>assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-															</div>
-															<h4>
-																Support Team
-																<small><i class="fa fa-clock-o"></i> 5 mins</small>
-															</h4>
-															<p>Why not buy a new awesome theme?</p>
-														</a>
-													</li>
-												</ul>
-											</li>
-											<li class="footer"><a href="<?= base_url(); ?>notification/">See All Messages</a></li>
-										</ul>
-									</li>
+									<li class="dropdown tasks-menu">	
+						              <?php
+						                $notifications = $this->mymodel->selectWithQuery(
+						                  "SELECT * FROM notifications WHERE role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." ORDER BY id DESC, read_on ASC LIMIT 5 "
+						                );
+
+						                $notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM notifications where role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." AND read_on = 'ENABLE' ");
+
+						              ?>
+							            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+							              <i class="fa fa-bell"></i>
+							              <span class="label label-danger"><?= $notification_row['0']["COUNT('id')"] ?></span>
+							            </a>
+							            <ul class="dropdown-menu">
+							              <li class="header">Anda mempunyai <?= $notification_row['0']["COUNT('id')"] ?> pemberitahuan</li>
+							              <li>
+							                <ul class="menu">
+							                	<?php 
+							                    foreach($notifications as $notif){ 
+							                      if ($notif['read_on'] != 'ENABLE'){
+							                        echo '<li style="background:#f5f5f5">';
+							                      } else {
+							                        echo '<li>';
+							                      }
+							                      
+							                      if ($notif['read_on'] == 'ENABLE'){
+							                        echo '<a href="'.base_url('notif/readon/').$notif['id'].'">';
+							                      } else {
+							                        echo '<a href="'.base_url('pengajuan/view/').$notif['pengajuan_id'].'">';
+							                      }
+							                    ?>  
+							                    	<div class="row">
+								                    	<div class="col-xs-2">
+							                				<i class="fa fa-square text-success fa-2x"></i>
+								                    	</div>
+								                    	<div class="col-xs-10">
+							                				<b><?= $notif['title'] ?></b>
+							                				<p><?= $notif['notif_desc'] ?></p>
+								                    	</div>
+							                		</div>
+							                		</a>
+							                	</li>
+							                <?php } ?>
+							                </ul>
+							              </li>
+							              <li class="footer">
+							                <a href=<?= base_url('pengajuan/') ?>>Lihat Semua Pengajuan</a>
+							              </li>
+							            </ul>
+							      	</li>
 									<li class="dropdown user user-menu">
 										<?php
 										$id = $this->session->userdata('id');
@@ -197,7 +221,6 @@ if($this->session->userdata('role_id') != '24') {
 											</li>
 											<li class="user-footer">
 												<a href="<?= base_url('master/user/editUser/').$this->template->sonEncode($this->session->userdata('id')); ?>" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
-												<a href="<?= base_url('login/lockscreen?user=').$this->session->userdata('nip'); ?>" class="btn btn-default btn-flat"><i class="fa fa-key"></i> Lockscreen</a>
 												<a href="<?= base_url('login/logout') ?>" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Sign out</a>
 											</li>
 										</ul>
