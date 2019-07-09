@@ -147,14 +147,12 @@ class Pengajuan extends MY_Controller {
 			$this->datatables->where(array('user_id'=>$this->session->userdata('id')));
 		}
 
-	        // $this->datatables->add_column('view', '<div class="btn-group"><button type="button" class="btn btn-sm btn-primary" onclick="edit($1)"><i class="fa fa-pencil"></i> Lihat</button></div>', 'id');
+	        // $this->datatables->add_column('view', '<div class="btn-group"><button type="button" class="btn btn-sm btn-primary" onclick="edit($1)"><i class="fa fa-pencil"></i> Lihat</button> <button type="button" onclick="hapus($1)" class="btn btn-sm btn-danger"> <i class="fa fa-trash-o"></i></button> </div>', 'id');
+
 		$this->datatables->add_column(
 			'view', 
 			'<button type="button" class="btn btn-sm btn-info" onclick="view($1)">
 			<i class="fa fa-eye"></i>
-			</button>
-			<button type="button" onclick="hapus($1)" class="btn btn-sm btn-danger">
-			<i class="fa fa-trash-o"></i>
 			</button>', 
 			'id'
 		);
@@ -209,6 +207,7 @@ class Pengajuan extends MY_Controller {
 		{
 			$data_master['approve'] = $_POST['dt']['approve'];
 			$data_master['note'] = $_POST['dt']['note'];
+
 			$this->mymodel->updateData('pengajuan', $data_master , array('id'=>$id));
 
 			$data_detail_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') as ROW FROM pengajuan_detail WHERE pengajuan_id = '".$id."'");
@@ -217,15 +216,21 @@ class Pengajuan extends MY_Controller {
 			for($no; $no<=$data_detail_row[0]['ROW']; $no++){
 				$detail_id = $_POST['dtd']['pengajuan_'.$no];
 				$data_detail['note'] = $_POST['dtd']['note_detail_'.$no];
-				$data_detail['approve'] = $_POST['dtd']['approve_detail_'.$no];
+
+				if($this->session->userdata('role_id') == '17'){
+					$data_detail['approve'] = $_POST['dtd']['approve_detail_'.$no];
+				} else if($this->session->userdata('role_id') == '23'){
+					$data_detail['approve2'] = $_POST['dtd']['approve_detail_'.$no];
+				}
 
 				$this->mymodel->updateData('pengajuan_detail', $data_detail , array('id'=>$detail_id));
 				
-				if($_POST['dtd']['approve_detail_'.$no] == 'REJECT'){
-					$data_detail_reject['approve2'] = 'REJECT';
-					$this->mymodel->updateData('pengajuan_detail', $data_detail_reject , array('pengajuan_id'=>$id));
+				if($this->session->userdata('role_id') == '17'){
+					if($_POST['dtd']['approve_detail_'.$no] == 'REJECT'){
+						$data_detail_reject['approve2'] = 'REJECT';
+						$this->mymodel->updateData('pengajuan_detail', $data_detail_reject , array('pengajuan_id'=>$id));
+					}
 				}
-
 			}
 
 			$history['user_id'] = $this->session->userdata('id');
@@ -235,7 +240,12 @@ class Pengajuan extends MY_Controller {
 				$history['title'] = 'PENGAJUAN DIKONFIRMASI';
 				$history['history'] = 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan';
 				$history['history_status'] = 'WARNING';
-			}else {
+			} else if($_POST['dt']['approve'] == 'ACCEPT'){
+				$history['title'] = 'PENGAJUAN DITERIMA';
+				$history['history'] = 'Pengajuan DTerima';
+				$history['history_status'] = 'SUCCESS';
+			}
+			else {
 				$history['title'] = 'PENGAJUAN DITOLAK';
 				$history['history'] = 'Pengajuan Ditolak Mohon untuk mengupload Ulang';
 				$history['history_status'] = 'DANGER';
@@ -246,6 +256,10 @@ class Pengajuan extends MY_Controller {
 
 			$str = $this->db->insert('history', $history);
 
+				echo "History : ";
+				var_dump($history);
+				echo "<br>";
+
 			$user_notif = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
 
 			$notification['user_id'] = $user_notif[0]['user_id'];
@@ -254,7 +268,10 @@ class Pengajuan extends MY_Controller {
 			if($_POST['dt']['approve'] == 'PROCESS2'){
 				$notification['title'] = 'PENGAJUAN DIKONFIRMASI';
 				$notification['notif_desc'] = 'Menunggu untuk Dikonfirmasi Lapangan';
-			}else {
+			} else if($_POST['dt']['approve'] == 'ACCEPT'){
+				$notification['title'] = 'PENGAJUAN DITERIMA';
+				$notification['notif_desc'] = 'Diterima Dilapangan';
+			} else {
 				$notification['title'] = 'PENGAJUAN DITOLAK';
 				$notification['notif_desc'] = 'Ditolak Mohon untuk mengupload Ulang';
 			}
@@ -264,6 +281,10 @@ class Pengajuan extends MY_Controller {
 
 			$str = $this->db->insert('notifications', $notification);
 			
+				echo "Notification : ";
+				var_dump($notification);
+				echo "<br>";
+
 			if($this->session->userdata('role_id') == '17'){
 				$notif_lapangan['user_id'] = $user_notif[0]['user_id'];
 				$notif_lapangan['role_id'] = '23';
@@ -280,9 +301,14 @@ class Pengajuan extends MY_Controller {
 				$notif_lapangan['created_at'] = date('Y-m-d H:i:s');
 				
 				$str = $this->db->insert('notifications', $notif_lapangan);
+
+				echo "History : ";
+				var_dump($notif_lapangan);
+				echo "<br>";
+				
 			}
 
-			redirect('pengajuan/view/'.$id);
+			// redirect('pengajuan/view/'.$id);
 		}
 
 		// public function delete()

@@ -213,14 +213,27 @@
       </div>
       <div class="row" align="center">
         <a href="javascript:history.back()" type="button" class="btn btn-primary btn-info">
-          <i class="fa fa-arrow-left"></i> Back
+          <i class="fa fa-arrow-left"></i> BACK
         </a>
-        <?php if($this->session->userdata('role_id') != '24'){ ?>
-          <button type="submit" class="btn btn-primary" name="dt[approve]" value="PROCESS2">
-            <i class="fa fa-check-circle-o"></i> TERIMA
-          </button>
-          <button type="submit" class="btn btn-danger" name="dt[approve]" value="REJECT">
-            <i class="fa fa-ban"></i> TIDAK DITERIMA
+        <?php 
+        if(($pengajuan['approve'] != 'ACCEPT') && ($pengajuan['approve'] != 'REJECT')) {
+          if($this->session->userdata('role_id') != '24') { 
+            if($this->session->userdata('role_id') == '17') { ?>
+              <button type="submit" class="btn btn-primary" name="dt[approve]" value="PROCESS2">
+                <i class="fa fa-check-circle-o"></i> KIRIM LAPANGAN
+              </button>
+            <?php } else if($this->session->userdata('role_id') == '23') { ?>
+              <button type="submit" class="btn btn-primary" name="dt[approve]" value="ACCEPT">
+                <i class="fa fa-check-circle-o"></i> TERIMA
+              </button>
+            <?php } ?>
+            <button type="submit" class="btn btn-danger" name="dt[approve]" value="REJECT">
+              <i class="fa fa-ban"></i> TIDAK DITERIMA
+            </button>
+          <?php } 
+        } else { ?>
+          <button type="button" class="btn btn-danger" name="#">
+            <i class="fa fa-trash"></i> HAPUS
           </button>
         <?php } ?>
       </div>

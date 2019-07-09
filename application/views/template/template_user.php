@@ -186,7 +186,7 @@ if($this->session->userdata('role_id') != '24') {
 												<?php } ?>
 											</ul>
 										</li>
-										<li class="footer"><a href="#">View all</a></li>
+										<li class="footer"><a href=<?= base_url('pengajuan/') ?> >Lihat Semua Pengajuan</a></li>
 									</ul>
 									</li>
 									<li class="dropdown user user-menu">

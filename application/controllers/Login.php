@@ -50,9 +50,9 @@ class Login extends MY_Controller {
 
             }
     }
-    //     function lockscreen()
-    // {
-    //     $this->load->view('login/lockscreen');
-    // }
+    
+    function lockscreen(){
+        $this->load->view('login/lockscreen');
+    }
 
 }
