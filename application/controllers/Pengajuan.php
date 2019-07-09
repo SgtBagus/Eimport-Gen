@@ -256,10 +256,6 @@ class Pengajuan extends MY_Controller {
 
 			$str = $this->db->insert('history', $history);
 
-				echo "History : ";
-				var_dump($history);
-				echo "<br>";
-
 			$user_notif = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
 
 			$notification['user_id'] = $user_notif[0]['user_id'];
@@ -280,11 +276,7 @@ class Pengajuan extends MY_Controller {
 			$notification['created_at'] = date('Y-m-d H:i:s');
 
 			$str = $this->db->insert('notifications', $notification);
-			
-				echo "Notification : ";
-				var_dump($notification);
-				echo "<br>";
-
+		
 			if($this->session->userdata('role_id') == '17'){
 				$notif_lapangan['user_id'] = $user_notif[0]['user_id'];
 				$notif_lapangan['role_id'] = '23';
@@ -301,14 +293,9 @@ class Pengajuan extends MY_Controller {
 				$notif_lapangan['created_at'] = date('Y-m-d H:i:s');
 				
 				$str = $this->db->insert('notifications', $notif_lapangan);
-
-				echo "History : ";
-				var_dump($notif_lapangan);
-				echo "<br>";
-				
 			}
 
-			// redirect('pengajuan/view/'.$id);
+			redirect('pengajuan/view/'.$id);
 		}
 
 		// public function delete()
