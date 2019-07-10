@@ -5,18 +5,19 @@
 
 
 <small>NIB</small>
-<input name="dt[nib]" type="text" class="form-control" value="<?= $user['nib'] ?>" />
+<input name="dt[nib]" type="text" class="form-control" value="<?= $user['nib'] ?>" disabled />
 <small>Email</small>
-<input name="dt[email]" type="text" class="form-control" value="<?= $user['email'] ?>" />
+<input name="dt[email]" type="text" class="form-control" value="<?= $user['email'] ?>" disabled />
 
-<!-- <small>Password</small>
-<input name="password" type="password" class="form-control" placeholder="****************" />
-<small>Confirm Password</small>
-<input name="password_confirmation_field" type="password" class="form-control" placeholder="****************" /> -->
-
-
+<?php
+  if($user['verification'] != 'TRUE'){
+    echo "<p class='text-red'>Email Belum Diverifikasi</p>";
+  }else {
+    echo "<p class='text-green'>Email Sudah Diverifikasi</p>";
+  }
+?>
 <small>Name</small>
-<input name="dt[name]" type="text" class="form-control" value="<?= $user['name'] ?>" />
+<input name="dt[name]" type="text" class="form-control" value="<?= $user['name'] ?>" disabled />
 <small>Role</small>
 <select class="form-control" name="dt[role_id]">
 	<?php 
@@ -28,7 +29,7 @@
 </select>	
 <small>Description</small>
 <textarea class="form-control" name="dt[desc]"><?= $user['desc'] ?></textarea>
-    <br>
+    <!-- <br>
 
  <?php
   if($file['dir']!=""){
@@ -47,4 +48,4 @@
 <?php } ?>
 <?php } ?>
  <label for="form-file">File</label>
-<input type="file" class="form-control" id="form-file" placeholder="Masukan File" name="file">
+<input type="file" class="form-control" id="form-file" placeholder="Masukan File" name="file"> -->

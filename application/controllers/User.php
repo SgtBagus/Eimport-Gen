@@ -26,8 +26,8 @@ class User extends MY_Controller {
 		$this->datatables->where(array('user.status'=>0));
 
 		$this->datatables->from('user');
-		$this->datatables->add_column('view', '<div class="btn-group"><a onclick="hapus($1)"  class="btn btn-danger btn-flat btn-sm"><span class="txt-white fa fa-trash-o"></span> Delete</a>  </div>', 'id');
-		// $this->datatables->add_column('view', '<div class="btn-group"> <a onclick="edit($1)" class="btn btn-info btn-flat btn-sm"Edit><span class="txt-white fa fa-edit"></span> Edit</a> <a onclick="hapus($1)"  class="btn btn-danger btn-flat btn-sm"><span class="txt-white fa fa-trash-o"></span> Delete</a>  </div>', 'id');
+		// $this->datatables->add_column('view', '<div class="btn-group"><a onclick="hapus($1)"  class="btn btn-danger btn-flat btn-sm"><span class="txt-white fa fa-trash-o"></span> Delete</a>  </div>', 'id');
+		$this->datatables->add_column('view', '<div class="btn-group"> <a onclick="edit($1)" class="btn btn-info btn-flat btn-sm"Edit><span class="txt-white fa fa-edit"></span> Edit</a> <a onclick="hapus($1)"  class="btn btn-danger btn-flat btn-sm"><span class="txt-white fa fa-trash-o"></span> Delete</a>  </div>', 'id');
 		echo $this->datatables->generate();
 	}
 
@@ -78,6 +78,7 @@ class User extends MY_Controller {
 			
 			
 			$dt = $_POST['dt'];
+			$dt['verification'] = 'FALSE';
 			$dt['password'] = md5($dt['password']);
 			$dt['created_at'] = date('Y-m-d H:i:s');
 			$this->db->insert('user',$dt);

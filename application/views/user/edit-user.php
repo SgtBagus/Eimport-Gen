@@ -31,30 +31,6 @@
                 <input type="hidden" name="ids" value="<?= $user_data['id'] ?>">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                   <div class="form-group">
-                    <center>
-                  <?php
-                    if($file['dir']!=""){
-                    $types = explode("/", $file['mime']);
-                    if($types[0]=="image"){
-                  ?>
-                      <img src="<?= base_url($file['dir']) ?>" style="width: 200px" class="img img-thumbnail">
-                      <br>
-                    <?php }else{ ?>
-                      
-                      <i class="fa fa-file fa-5x text-danger"></i>
-                      <br>
-                      <a href="<?= base_url($file['dir']) ?>" target="_blank"><i class="fa fa-download"></i> <?= $file['name'] ?></a>
-                      <br>
-                    <br>
-                  <?php } ?>
-                  <?php } ?>
-                  </center>
-                  <label for="form-file">File</label>
-                  <input type="file" class="form-control" id="form-file" placeholder="Masukan File" name="file">          
-                  </div>   
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                  <div class="form-group">
                     <label>NIB</label>
                     <input type="text" name="nib" disabled class="form-control" value="<?= $user_data['nib'] ?>">
                   </div>
