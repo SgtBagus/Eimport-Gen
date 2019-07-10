@@ -1,7 +1,7 @@
 <div class="show_error"></div>
 <input type="hidden" name="ids" value="<?= $user['id'] ?>">
 <input type="hidden" name="nib" value="<?= $user['nib'] ?>">
-<input type="hidden" name="email" value="<?= $user['email'] ?>">
+<input type="hidden" name="email" value="<?= $user['email'] ?>"> 
 
 
 <small>NIB</small>
