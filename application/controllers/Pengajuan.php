@@ -88,7 +88,7 @@ class Pengajuan extends MY_Controller {
 				$last_id = $this->db->insert_id();
 
 				if (!empty($_FILES['file-'.$no]['name'])){
-					$dir  = "webfile/";
+					$dir  = "webfile/pdf/";
 					$config['upload_path']          = $dir;
 					$config['allowed_types']        = '*';
 					$config['file_name']           = md5('smartsoftstudio').rand(1000,100000);
@@ -316,10 +316,10 @@ class Pengajuan extends MY_Controller {
 			$file = $this->mymodel->selectDataone('file',
 				array('table'=>'pengajuan_detail', 'table_id'=>$id));
 
-			force_download($file_name['file'], file_get_contents('webfile/'.$file['name'],NULL));	
+			force_download($file_name['file'], file_get_contents('webfile/pdf/'.$file['name'],NULL));	
 		}
 
-		// public function webfile($id){
+		// public function webfile(pdf/$id){
 			
 		// }
 	}

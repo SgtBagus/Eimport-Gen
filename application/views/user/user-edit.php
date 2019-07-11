@@ -7,7 +7,7 @@
 <small>NIB</small>
 <input name="dt[nib]" type="text" class="form-control" value="<?= $user['nib'] ?>" disabled />
 <small>Email</small>
-<input name="dt[email]" type="text" class="form-control" value="<?= $user['email'] ?>" disabled />
+<!-- <input name="dt[email]" type="text" class="form-control" value="<?= $user['email'] ?>" disabled /> -->
 
 <?php
   if($user['verification'] != 'TRUE'){
