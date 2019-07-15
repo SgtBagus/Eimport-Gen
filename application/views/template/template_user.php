@@ -51,28 +51,6 @@ if($this->session->userdata('role_id') != '24') {
 					"iTotalPages": Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
 				};
 			};
-
-			function idleLogout(){
-				var t;
-
-				window.onload = resetTimer;
-				window.onmousemove = resetTimer;
-		        window.onmousedown = resetTimer; // catches touchscreen presses
-		        window.onclick = resetTimer;     // catches touchpad clicks
-		        window.onscroll = resetTimer;    // catches scrolling with arrow keys
-		        window.onkeypress = resetTimer;
-
-		        function logout() {
-		        	window.location.href = '<?= base_url('login/lockscreen?user='.$this->session->userdata('nip')) ?>';
-		        }
-
-		        function resetTimer() {
-		        	clearTimeout(t);
-		        	t = setTimeout(logout,900000);  
-		        }
-
-		    }
-		    idleLogout();
 		</script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
