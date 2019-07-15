@@ -3,7 +3,7 @@ if($this->session->userdata('session_sop')=="") {
   redirect(base_url().'login/');
 }
 
-if($this->session->userdata('role_id') != ('17' || '23') ) { 
+if($this->session->userdata('role_id') != '17' ) { 
   echo "<script>window.history.back()</script>";
 }
 

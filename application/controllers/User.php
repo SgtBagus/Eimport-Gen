@@ -9,10 +9,10 @@ class User extends MY_Controller {
 	{ 
 		$this->data['page_name'] = 'User';
 		
-		if($this->session->userdata('role_id') == '24'){
-			echo "<script>window.history.back()</script>";
-		} else {
+		if($this->session->userdata('role_id') == '17'){
 			$this->template->load('template/template','user/user',$this->data);
+		} else {
+			echo "<script>window.history.back()</script>";
 		}
 	}
 
@@ -143,10 +143,10 @@ class User extends MY_Controller {
 		$data['page_name'] = 'master';
 		$data['id'] = $id;
 
-		if($this->session->userdata('role_id') != '24'){
-			echo "<script>window.history.back()</script>";
-		} else {
+		if($this->session->userdata('role_id') == '17'){
 			$this->template->load('template/template-user','user/edit-user',$data);
+		} else {
+			echo "<script>window.history.back()</script>";
 		}
 	}
 

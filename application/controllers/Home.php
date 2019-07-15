@@ -11,18 +11,12 @@ class Home extends MY_Controller {
 
         $data['user'] = $this->mymodel->selectDataone('user', array('id' => $this->session->userdata('id')));
 
-        if($this->session->userdata('role_id') != '24'){
+        if($this->session->userdata('role_id') == '17'){
             $this->template->load('template/template','template/index',$data);
         } else {
             $this->template->load('template/template_user','template/index_user',$data);
         }
-	}
-
-    public function sendemail($asd){
-        $var = 'Saya adalah '.$asd;
-        return $var;
     }
-
 }
 /* End of file Home.php */
 /* Location: ./application/controllers/Home.php */

@@ -11,20 +11,20 @@
 		public function index()
 		{
 			$data['page_name'] = "menu_master";
-			if($this->session->userdata('role_id') == '24'){
-	      		echo "<script>window.history.back()</script>";
-	        } else {
+			if($this->session->userdata('role_id') == '17'){
 				$this->template->load('template/template','menu_master/all-menu_master',$data);
+	        } else {
+				echo "<script>window.history.back()</script>";
 	        }
 		}
 
 		public function create()
 		{
 			$data['page_name'] = "menu_master";
-			if($this->session->userdata('role_id') == '24'){
-	      		echo "<script>window.history.back()</script>";
-	        } else {
+			if($this->session->userdata('role_id') == '17'){
 				$this->template->load('template/template','menu_master/add-menu_master',$data);
+	        } else {
+				echo "<script>window.history.back()</script>";
 	        }
 		}
 
@@ -78,10 +78,10 @@
 		{
 			$data['menu_master'] = $this->mymodel->selectDataone('menu_master',array('id'=>$id));$data['page_name'] = "menu_master";
 			
-			if($this->session->userdata('role_id') == '24'){
-	      		echo "<script>window.history.back()</script>";
-	        } else {
+			if($this->session->userdata('role_id') == '17'){
 				$this->template->load('template/template','menu_master/edit-menu_master',$data);
+	        } else {
+				echo "<script>window.history.back()</script>";
 	        }
 		}
 

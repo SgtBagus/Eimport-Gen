@@ -30,7 +30,7 @@ class Profil extends MY_Controller {
 
         $data['image'] = $file['name'];
 
-        if($this->session->userdata('role_id') != '24'){ 
+        if($this->session->userdata('role_id') == '17'){ 
             $this->template->load('template/template','user/profil',$data);
         } else {
             $this->template->load('template/template_user','user/profil',$data);

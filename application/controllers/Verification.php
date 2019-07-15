@@ -26,7 +26,7 @@ class Verification extends MY_Controller {
 
     redirect(base_url("?verification=1"));
   }
-
+  
   public function update($id, $name){
     $user = $this->mymodel->selectDataone('user', array('id'=>$id));
     if($user){

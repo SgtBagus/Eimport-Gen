@@ -11,10 +11,10 @@
 		public function index()
 		{
 			$data['page_name'] = "role";
-			if($this->session->userdata('role_id') == '24'){
-	      		echo "<script>window.history.back()</script>";
-	        } else {
+			if($this->session->userdata('role_id') == '17'){
 				$this->template->load('template/template','role/all-role',$data);
+	        } else {
+				echo "<script>window.history.back()</script>";
 	        }
 		}
 

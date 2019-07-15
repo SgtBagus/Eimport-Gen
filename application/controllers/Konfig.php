@@ -12,10 +12,10 @@
 		{
 			$data['page_name'] = "konfig";
 			
-			if($this->session->userdata('role_id') == '24'){
-	      		echo "<script>window.history.back()</script>";
-	        } else {
+			if($this->session->userdata('role_id') == '17'){
 				$this->template->load('template/template','konfig/all-konfig',$data);
+	        } else {
+				echo "<script>window.history.back()</script>";
 	        }
 		}
 
@@ -23,10 +23,10 @@
 		{
 			$data['page_name'] = "konfig";
 
-			if($this->session->userdata('role_id') == '24'){
-	      		echo "<script>window.history.back()</script>";
-	        } else {
+			if($this->session->userdata('role_id') == '17'){
 				$this->template->load('template/template','konfig/add-konfig',$data);
+	        } else {
+				echo "<script>window.history.back()</script>";
 	        }
 		}
 
@@ -117,10 +117,10 @@ $this->form_validation->set_rules('dt[value]', '<strong>Value</strong>', 'requir
 		{
 			$data['konfig'] = $this->mymodel->selectDataone('konfig',array('id'=>$id));$data['file'] = $this->mymodel->selectDataone('file',array('table_id'=>$id,'table'=>'konfig'));$data['page_name'] = "konfig";
 			
-			if($this->session->userdata('role_id') == '24'){
-	      		echo "<script>window.history.back()</script>";
-	        } else {
+			if($this->session->userdata('role_id') == '17'){
 				$this->template->load('template/template','konfig/edit-konfig',$data);
+	        } else {
+				echo "<script>window.history.back()</script>";
 	        }
 		}
 

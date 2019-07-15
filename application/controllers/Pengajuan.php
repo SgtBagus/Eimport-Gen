@@ -12,7 +12,7 @@ class Pengajuan extends MY_Controller {
 	public function index()
 	{
 		$data['page_name'] = "pengajuan";
-		if($this->session->userdata('role_id') != '24'){
+		if($this->session->userdata('role_id') == '17'){
 			$this->template->load('template/template','pengajuan/pengajuan',$data);
 		} else {
 			$this->template->load('template/template_user','pengajuan/pengajuan',$data);
@@ -27,7 +27,7 @@ class Pengajuan extends MY_Controller {
 		$konfig['konfig'] = $this->mymodel->selectDataone('konfig', array('SLUG'=>'FILE UPLOAD'));
 		$data['fileupload'] = $konfig['konfig']['value'];
 
-		if($this->session->userdata('role_id') != '24'){
+		if($this->session->userdata('role_id') == '17'){
 			$this->template->load('template/template','pengajuan/add-pengajuan',$data);
 		} else {
 			$this->template->load('template/template_user','pengajuan/add-pengajuan',$data);
@@ -170,39 +170,13 @@ class Pengajuan extends MY_Controller {
 			'select * from history where pengajuan_id = '.$id.' ORDER BY id DESC'
 		);
 
-		if($this->session->userdata('role_id') != '24'){
+		if($this->session->userdata('role_id') == '17'){
 			$this->template->load('template/template','pengajuan/view-pengajuan',$data);
 		} else {
 			$this->template->load('template/template_user','pengajuan/view-pengajuan',$data);
 		}
 	}
-
-	// public function edit($id)
-	// {
-	// 	$data['pengajuan'] = $this->mymodel->selectDataone('pengajuan',array('id'=>$id));$data['page_name'] = "pengajuan";
-
-	// 	if($this->session->userdata('role_id') != '24'){
-	// 		$this->template->load('template/template','pengajuan/edit-pengajuan',$data);
-	// 	} else {
-	// 		$this->template->load('template/template_user','pengajuan/edit-pengajuan',$data);
-	// 	}
-	// }
-
-	// public function update(){
-	// 	$this->form_validation->set_error_delimiters('<li>', '</li>');
-
-	// 	$this->validate();
-
-
-	// 	if ($this->form_validation->run() == FALSE){
-	// 		$this->alert->alertdanger(validation_errors());     
-	// 	}else{
-	// 		$id = $this->input->post('id', TRUE);		$dt = $_POST['dt'];
-	// 		$dt['updated_at'] = date("Y-m-d H:i:s");
-	// 		$this->mymodel->updateData('pengajuan', $dt , array('id'=>$id));
-	// 		$this->alert->alertsuccess('Success Update Data');  }
-	// }
-
+	
 		public function approve($id)
 		{
 			$data_master['approve'] = $_POST['dt']['approve'];
