@@ -11,6 +11,8 @@ class Login extends MY_Controller {
 	{ 
         if(LOGIN==0){
 		  $this->load->view('login/login');
+        }else{
+          $this->load->view('login/login-1'); 
         }
 	}
 
@@ -48,4 +50,9 @@ class Login extends MY_Controller {
 
             }
     }
+    
+    function lockscreen(){
+        $this->load->view('login/lockscreen');
+    }
+
 }
