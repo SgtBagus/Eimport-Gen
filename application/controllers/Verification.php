@@ -171,10 +171,17 @@ class Verification extends MY_Controller {
   }
 
   public function update($id, $name){
-
-    var_dump($id);
-    var_dump($name);
-
+    $user = $this->mymodel->selectDataone('user', array('id'=>$id));
+    if($user){
+      if($name == md5($user['name'])){
+        $data['verification'] = 'TRUE';
+        $this->mymodel->updateData('user', $data , array('id'=>$id));
+        redirect(base_url());
+      }else{
+        redirect(base_url("?verification=0"));
+      }
+    }else{
+      redirect(base_url("?verification=0"));
+    }
   }
-
 }
