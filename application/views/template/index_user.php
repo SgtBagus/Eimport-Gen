@@ -11,6 +11,12 @@
     <section class="content">
       <div class="row">
         <div class="col-md-12">
+          <?php if (isset($_GET['verification'])) { ?>
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong><b>Email Terkirim !<b></strong><br> Mohon melihat Email anda untuk melakukan proses berikutnya !
+          </div>
+        <?php } ?>
           <?php if ($user['verification'] != 'TRUE') { ?>
           <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

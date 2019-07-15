@@ -11,8 +11,50 @@ class Verification extends MY_Controller {
   {
     $user = $this->mymodel->selectDataone('user', array('id'=>$id));
     $konfig = $this->mymodel->selectDataone('konfig', array('SLUG'=>'COPYRIGHT'));
+    $link = base_url('verification/update/').$id.'/'.md5($user['name']);
 
     $body = '
+    <style>
+    .myButton {
+      background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #277d9c), color-stop(1, #408c99));
+      background:-moz-linear-gradient(top, #277d9c 5%, #408c99 100%);
+      background:-webkit-linear-gradient(top, #277d9c 5%, #408c99 100%);
+      background:-o-linear-gradient(top, #277d9c 5%, #408c99 100%);
+      background:-ms-linear-gradient(top, #277d9c 5%, #408c99 100%);
+      background:linear-gradient(to bottom, #277d9c 5%, #408c99 100%);
+      filter:progid:DXImageTransform.Microsoft.gradient(
+      startColorstr="#277d9c", 
+      endColorstr="#408c99",GradientType=0);
+      background-color:#277d9c;
+      -moz-border-radius:42px;
+      -webkit-border-radius:42px;
+      border-radius:42px;
+      display:inline-block;
+      cursor:pointer;
+      color:#ffffff;
+      font-family:Arial;
+      font-size:20px;
+      font-weight:bold;
+      padding:19px 35px;
+      text-decoration:none;
+    }
+    .myButton:hover {
+      background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #277d9c));
+      background:-moz-linear-gradient(top, #408c99 5%, #277d9c 100%);
+      background:-webkit-linear-gradient(top, #408c99 5%, #277d9c 100%);
+      background:-o-linear-gradient(top, #408c99 5%, #277d9c 100%);
+      background:-ms-linear-gradient(top, #408c99 5%, #277d9c 100%);
+      background:linear-gradient(to bottom, #408c99 5%, #277d9c 100%);
+      filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#408c99", endColorstr="#277d9c",GradientType=0);
+      background-color:#408c99;
+    }
+    .myButton:active {
+      position:relative;
+      top:1px;
+    }
+
+
+    </style>
     <table class="two-left-inner" width="500" cellspacing="0" cellpadding="0" border="0" align="center">
     <tbody>
     <tr>
@@ -56,10 +98,11 @@ class Verification extends MY_Controller {
     <td valign="top" height="30" align="center">&nbsp;</td>
     </tr>
     <tr>
-    <td style="background:#f04386; -moz-border-radius: 40px; border-radius: 40px; font-family:Verdana, Arial; font-size:14px; font-weight:bold; text-transform:uppercase; color:#FFF;" data-bgcolor="theme-bg" mc:edit="tm4-06" valign="middle" height="60" align="center">
-    <multiline>
-    <a href="#" style="text-decoration:none; color:#FFF;">Konfirmasi Email</a>
-    </multiline>
+    <td>
+    <a href="'.$link.'" style="text-decoration:none; color:#FFF;" target="_blank">
+    <button style="color:#FFF; background-color: #007aff; border:0px; border-radius: 100px; height:60px; width:200px; font-family:Verdana, Arial; font-size:20px; font-weight:bold;" align="center">Verifikasikan Email
+    </button>
+    </a>
     </td>
     </tr>
     </tbody>
@@ -107,25 +150,31 @@ class Verification extends MY_Controller {
 
     $config = Array(
       'protocol' => 'smtp',
-           'smtp_host' => 'ssl://mail.karyastudio.com',
-           'smtp_port' => 465,
-           'smtp_user' => 'muhammadsafreza@karyastudio.com', // change it to yours
-           'smtp_pass' => 'loginloginlogin', // change it to yours
+      'smtp_host' => 'ssl://mail.karyastudio.com',
+      'smtp_port' => 465,
+           'smtp_user' => 'bagus@karyastudio.com', // change it to yours
+           'smtp_pass' => 'bagus123bagus', // change it to yours
            'mailtype' => 'html',
            'charset' => 'iso-8859-1',
            'wordwrap' => TRUE
-    );
+         );
     
     $this->load->library('email', $config);
     $this->email->set_newline("\r\n");
-    $this->email->from('muhammadsafreza@karyastudio.com','TOR EROKOMENDASI'); // change it to yours
+    $this->email->from('bagus@karyastudio.com','TOR E-REKOMENDASI'); // change it to yours
     $this->email->to($user['email']);// change it to yours
-    $this->email->subject('Varifikasi Email Anda !');
-    $this->email->message('Ini Isinya COba');
-    if($this->email->send()){
-           echo "<script>alert('sukses dikirim');</script>";
-    }else{
-      show_error($this->email->print_debugger());
-    }
+    $this->email->subject('Varifikasikan Email Anda !');
+    $this->email->message($body);
+    $this->email->send();
+    
+    redirect(base_url("?verification=1"));
   }
+
+  public function update($id, $name){
+
+    var_dump($id);
+    var_dump($name);
+
+  }
+
 }
