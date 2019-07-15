@@ -319,9 +319,7 @@ class Pengajuan extends MY_Controller {
 			force_download($file_name['file'], file_get_contents('webfile/pdf/'.$file['name'],NULL));	
 		}
 
-		// public function webfile(pdf/$id){
-			
-		// }
+		
 	}
 
 	?>
