@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 10, 2019 at 08:55 AM
+-- Generation Time: Jul 16, 2019 at 06:06 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.6
 
@@ -426,15 +426,12 @@ CREATE TABLE `file` (
 --
 
 INSERT INTO `file` (`id`, `name`, `mime`, `dir`, `table`, `table_id`, `status`, `created_at`, `updated_at`) VALUES
-(40, '6950c16c9bcc6995f376b297f16317593930.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f16317593930.png', 'user', 1, NULL, NULL, '2019-02-18 16:07:47'),
+(40, '6950c16c9bcc6995f376b297f163175929089.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175929089.png', 'user', 1, NULL, NULL, '2019-07-11 12:00:50'),
 (180, '6950c16c9bcc6995f376b297f163175965119.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175965119.png', 'user', 14, 'ENABLE', '2019-07-04 10:15:41', '2019-07-09 09:57:03'),
 (181, '6950c16c9bcc6995f376b297f163175913789.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175913789.png', 'user', 15, 'ENABLE', '2019-07-04 10:50:13', NULL),
 (184, '6950c16c9bcc6995f376b297f163175915577.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175915577.png', 'user', 16, 'ENABLE', '2019-07-08 11:10:54', NULL),
-(195, '6950c16c9bcc6995f376b297f163175993352.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175993352.pdf', 'pengajuan_detail', 13, 'ENABLE', '2019-07-09 08:34:58', NULL),
-(196, '6950c16c9bcc6995f376b297f1631759933521.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f1631759933521.pdf', 'pengajuan_detail', 14, 'ENABLE', '2019-07-09 08:34:58', NULL),
-(197, '6950c16c9bcc6995f376b297f163175960531.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f163175960531.pdf', 'pengajuan_detail', 15, 'ENABLE', '2019-07-09 09:06:24', NULL),
-(198, '6950c16c9bcc6995f376b297f1631759605311.pdf', 'application/pdf', 'webfile/6950c16c9bcc6995f376b297f1631759605311.pdf', 'pengajuan_detail', 16, 'ENABLE', '2019-07-09 09:06:25', NULL),
-(199, '6950c16c9bcc6995f376b297f16317591331.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f16317591331.png', 'user', 18, 'ENABLE', '2019-07-10 08:48:28', NULL);
+(199, '6950c16c9bcc6995f376b297f16317591331.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f16317591331.png', 'user', 18, 'ENABLE', '2019-07-10 08:48:28', NULL),
+(200, '6950c16c9bcc6995f376b297f163175956227.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175956227.png', 'user', 19, 'ENABLE', '2019-07-15 16:27:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -453,16 +450,6 @@ CREATE TABLE `history` (
   `created_at` datetime DEFAULT NULL,
   `disabled_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `history`
---
-
-INSERT INTO `history` (`id`, `user_id`, `pengajuan_id`, `title`, `history`, `history_status`, `status`, `created_at`, `disabled_at`) VALUES
-(7, 15, 9, 'PENGAJUAN DIBUAT', 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi', 'INFO', 'ENABLE', '2019-07-09 08:34:58', NULL),
-(8, 16, 10, 'PENGAJUAN DIBUAT', 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi', 'INFO', 'ENABLE', '2019-07-09 09:06:25', NULL),
-(9, 1, 9, 'PENGAJUAN DIKONFIRMASI', 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan', 'WARNING', 'ENABLE', '2019-07-09 09:11:06', NULL),
-(11, 14, 9, 'PENGAJUAN DITERIMA', 'Pengajuan DTerima', 'SUCCESS', 'ENABLE', '2019-07-09 13:18:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -497,7 +484,6 @@ INSERT INTO `konfig` (`id`, `slug`, `value`, `status`, `created_at`, `updated_at
 (16, 'TITLE_LOGIN_APPLICATION', 'Smartsoft | Login', 'ENABLE', '2019-02-18 15:47:41', NULL),
 (17, 'LOGIN_TITLE', 'LOGIN ADMIN', 'ENABLE', '2019-02-18 15:48:55', NULL),
 (24, 'LOGIN', '0', 'ENABLE', '2019-02-21 14:12:14', '2019-07-01 09:50:27'),
-(25, 'email-template', '<!DOCTYPE html PUBLIC \'-//W3C//DTD XHTML 1.0 Strict//EN\' \'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\'>\r\n<html xmlns=\'http://www.w3.org/1999/xhtml\'>\r\n\r\n<head>\r\n    <meta http-equiv=\'Content-Type\' content=\'text/html; charset=utf-8\' />\r\n    <meta name=\'viewport\' content=\'width=device-width\' />\r\n\r\n\r\n    <style type=\'text/css\'>\r\n        /* Your custom styles go here */\r\n        * {\r\n            margin: 0;\r\n            padding: 0;\r\n            font-size: 100%;\r\n            font-family: \'Avenir Next\', \'Helvetica Neue\', \'Helvetica\', Helvetica, Arial, sans-serif;\r\n            line-height: 1.65;\r\n        }\r\n\r\n        img {\r\n            max-width: 100%;\r\n            margin: 0 auto;\r\n            display: block;\r\n        }\r\n\r\n        body,\r\n        .body-wrap {\r\n            width: 100% !important;\r\n            height: 100%;\r\n            background: #f8f8f8;\r\n        }\r\n\r\n        a {\r\n            color: #71bc37;\r\n            text-decoration: none;\r\n        }\r\n\r\n        a:hover {\r\n            text-decoration: underline;\r\n        }\r\n\r\n        .text-center {\r\n            text-align: center;\r\n        }\r\n\r\n        .text-right {\r\n            text-align: right;\r\n        }\r\n\r\n        .text-left {\r\n            text-align: left;\r\n        }\r\n\r\n        .button {\r\n            display: inline-block;\r\n            color: white;\r\n            background: #71bc37;\r\n            border: solid #71bc37;\r\n            border-width: 10px 20px 8px;\r\n            font-weight: bold;\r\n            border-radius: 4px;\r\n        }\r\n\r\n        .button:hover {\r\n            text-decoration: none;\r\n        }\r\n\r\n        h1,\r\n        h2,\r\n        h3,\r\n        h4,\r\n        h5,\r\n        h6 {\r\n            margin-bottom: 20px;\r\n            line-height: 1.25;\r\n        }\r\n\r\n        h1 {\r\n            font-size: 32px;\r\n        }\r\n\r\n        h2 {\r\n            font-size: 28px;\r\n        }\r\n\r\n        h3 {\r\n            font-size: 24px;\r\n        }\r\n\r\n        h4 {\r\n            font-size: 20px;\r\n        }\r\n\r\n        h5 {\r\n            font-size: 16px;\r\n        }\r\n\r\n        p,\r\n        ul,\r\n        ol {\r\n            font-size: 16px;\r\n            font-weight: normal;\r\n            margin-bottom: 20px;\r\n        }\r\n\r\n        .container {\r\n            display: block !important;\r\n            clear: both !important;\r\n            margin: 0 auto !important;\r\n            max-width: 580px !important;\r\n        }\r\n\r\n        .container table {\r\n            width: 100% !important;\r\n            border-collapse: collapse;\r\n        }\r\n\r\n        .container .masthead {\r\n            padding: 80px 0;\r\n            background: #71bc37;\r\n            color: white;\r\n        }\r\n\r\n        .container .masthead h1 {\r\n            margin: 0 auto !important;\r\n            max-width: 90%;\r\n            text-transform: uppercase;\r\n        }\r\n\r\n        .container .content {\r\n            background: white;\r\n            padding: 30px 35px;\r\n        }\r\n\r\n        .container .content.footer {\r\n            background: none;\r\n        }\r\n\r\n        .container .content.footer p {\r\n            margin-bottom: 0;\r\n            color: #888;\r\n            text-align: center;\r\n            font-size: 14px;\r\n        }\r\n\r\n        .container .content.footer a {\r\n            color: #888;\r\n            text-decoration: none;\r\n            font-weight: bold;\r\n        }\r\n\r\n        .container .content.footer a:hover {\r\n            text-decoration: underline;\r\n        }\r\n\r\n    </style>\r\n</head>\r\n\r\n<body>\r\n    <table class=\'body-wrap\'>\r\n        <tr>\r\n            <td class=\'container\'>\r\n                <table>\r\n                    <tr>\r\n                        <td align=\'center\' class=\'masthead\'>\r\n                            <h1>Title</h1>\r\n                        </td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\'content\'>\r\n                            <h2>\r\n{$title}</h2>\r\n                            <p>Kielbasa venison ball tip shankle. Boudin prosciutto landjaeger, pancetta jowl turkey tri-tip porchetta beef pork loin drumstick. Frankfurter short ribs kevin pig ribeye drumstick bacon kielbasa. Pork loin brisket biltong, pork belly filet mignon ribeye pig ground round porchetta turducken turkey. Pork belly beef ribs sausage ham hock, ham doner frankfurter pork chop tail meatball beef pig meatloaf short ribs shoulder. Filet mignon ham hock kielbasa beef ribs shank. Venison swine beef ribs sausage pastrami shoulder.</p>\r\n\r\n                            <table>\r\n                                <tr>\r\n                                    <td align=\'center\'>\r\n                                        <p>\r\n                                            <a href=\'#\' class=\'button\'>Share the Awesomeness</a>\r\n                                        </p>\r\n                                    </td>\r\n                                </tr>\r\n                            </table>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n\r\n            </td>\r\n        </tr>\r\n        <tr>\r\n            <td class=\'container\'>\r\n                <table>\r\n                    <tr>\r\n                        <td class=\'content footer\' align=\'center\'>\r\n                            <p>Sent by <a href=\'#\'>Company Name</a>, 1234 Yellow Brick Road, OZ, 99999</p>\r\n                            <p><a href=\'mailto:\'\'>hello@company.com</a> | <a href=\'#\'\'>Unsubscribe</a></p>\r\n                        </td>\r\n                    </tr>\r\n                </table>\r\n            </td>\r\n        </tr>\r\n    </table>\r\n</body>\r\n\r\n</html>\r\n', 'ENABLE', NULL, NULL),
 (26, 'FILE UPLOAD', '2', 'ENABLE', '2019-07-08 00:00:00', NULL);
 
 -- --------------------------------------------------------
@@ -551,17 +537,6 @@ CREATE TABLE `notifications` (
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `notifications`
---
-
-INSERT INTO `notifications` (`id`, `user_id`, `role_id`, `pengajuan_id`, `title`, `notif_desc`, `read_on`, `status`, `created_at`, `updated_at`) VALUES
-(8, 15, 17, 9, 'PENGAJUAN DOKUMENT', 'Perlu Dikonfirmasi', 'ENABLE', 'ENABLE', '2019-07-09 08:34:59', NULL),
-(9, 16, 17, 10, 'PENGAJUAN DOKUMENT', 'Perlu Dikonfirmasi', 'ENABLE', 'ENABLE', '2019-07-09 09:06:25', NULL),
-(12, 15, 24, 9, 'PENGAJUAN DIKONFIRMASI', 'Menunggu untuk Dikonfirmasi Lapangan', 'DISABLE', 'ENABLE', '2019-07-09 13:16:59', NULL),
-(13, 15, 23, 9, 'PENGAJUAN DIKONFIRMASI', 'Menunggu untuk Dikonfirmasi Lapangan', 'DISABLE', 'ENABLE', '2019-07-09 13:16:59', NULL),
-(14, 15, 24, 9, 'PENGAJUAN DITERIMA', 'Diterima Dilapangan', 'DISABLE', 'ENABLE', '2019-07-09 13:18:57', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -571,6 +546,7 @@ INSERT INTO `notifications` (`id`, `user_id`, `role_id`, `pengajuan_id`, `title`
 CREATE TABLE `pengajuan` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `code` varchar(225) NOT NULL,
   `judul` varchar(225) DEFAULT NULL,
   `keterangan` text DEFAULT NULL,
   `approve` enum('PROCESS','PROCESS2','ACCEPT','REJECT') DEFAULT NULL,
@@ -579,14 +555,6 @@ CREATE TABLE `pengajuan` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pengajuan`
---
-
-INSERT INTO `pengajuan` (`id`, `user_id`, `judul`, `keterangan`, `approve`, `note`, `status`, `created_at`, `updated_at`) VALUES
-(9, 15, 'Ini Pengajuan dari User 1', 'Ini isi pengajuan dari user 1', 'ACCEPT', 'Catatan Master', 'ENABLE', '2019-07-09 08:34:57', NULL),
-(10, 16, 'Pengajuan dari User 2', 'Ini isi pengajuan dari user 2', 'PROCESS', NULL, 'ENABLE', '2019-07-09 09:06:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -605,16 +573,6 @@ CREATE TABLE `pengajuan_detail` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pengajuan_detail`
---
-
-INSERT INTO `pengajuan_detail` (`id`, `pengajuan_id`, `file`, `note`, `approve`, `approve2`, `status`, `created_at`, `updated_at`) VALUES
-(13, 9, 'sample.pdf', 'catatan file 1', 'ACCEPT', 'ACCEPT', 'ENABLE', '2019-07-09 08:34:57', NULL),
-(14, 9, 'your_filename.pdf', 'catatan file 2', 'ACCEPT', 'ACCEPT', 'ENABLE', '2019-07-09 08:34:58', NULL),
-(15, 10, 'sample.pdf', '', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-09 09:06:24', NULL),
-(16, 10, 'your_filename.pdf', '', 'PROCESS', 'PROCESS', 'ENABLE', '2019-07-09 09:06:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -665,11 +623,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `nib`, `name`, `email`, `password`, `role_id`, `desc`, `verification`, `status`, `created_at`, `updated_at`) VALUES
-(1, '1234312', 'Admin', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 17, 'asda', 'TRUE', '0', '2018-02-23 16:09:49', '2019-07-04 10:09:13'),
+(1, '1234312', 'Admin 2', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 17, 'asda', 'TRUE', '0', '2018-02-23 16:09:49', '2019-07-11 12:00:50'),
 (14, '23521', 'Admin APP', 'adminapp@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 23, 'asd', 'TRUE', '0', '2019-07-04 10:15:41', '2019-07-09 09:57:05'),
 (15, '23123123', 'User', 'user@gmail.com', 'ee11cbb19052e40b07aac0ca060c23ee', 24, 'user', 'TRUE', '0', '2019-07-04 10:50:11', NULL),
 (16, '123124', 'User 2', 'user2@gmail.com', '7e58d63b60197ceb55a1c487989a3720', 24, 'Ini User ke 2', 'TRUE', '0', '2019-07-08 11:10:54', NULL),
-(18, '123123', 'Bagus Andika', 'procw57@gmail.com', 'b3c9323ca84c0f3e6ea210cd31c9ea7a', 24, 'eqwe', 'FALSE', '0', '2019-07-10 08:48:27', NULL);
+(18, '123123', 'Bagus Andika', 'procw57@gmail.com', 'b3c9323ca84c0f3e6ea210cd31c9ea7a', 24, 'eqwe', 'FALSE', '0', '2019-07-10 08:48:27', NULL),
+(19, '5871623', 'Aang', 'amuammarzein@gmail.com', 'e64b78fc3bc91bcbc7dc232ba8ec59e0', 24, 'Ini User Baru', 'FALSE', '0', '2019-07-15 16:27:00', NULL);
 
 --
 -- Indexes for dumped tables
@@ -761,19 +720,19 @@ ALTER TABLE `access_control`
 -- AUTO_INCREMENT for table `file`
 --
 ALTER TABLE `file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
 
 --
 -- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `konfig`
 --
 ALTER TABLE `konfig`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `menu_master`
@@ -785,19 +744,19 @@ ALTER TABLE `menu_master`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pengajuan_detail`
 --
 ALTER TABLE `pengajuan_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -809,7 +768,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

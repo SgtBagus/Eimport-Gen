@@ -299,7 +299,7 @@ abstract class MY_Controller extends CI_Controller{
 		exit;
 
     } */
-	public function send_email($email, $nama, $title, $content, $link_html)
+	public function send_email($email, $name, $title, $content, $link_html)
 	{
         $body = '
         <style>

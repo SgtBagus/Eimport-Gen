@@ -5,6 +5,7 @@ class Verification extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+    $this->load->model('Memail');
 	}
 
   function user($id) 
@@ -12,7 +13,7 @@ class Verification extends MY_Controller {
     $user = $this->mymodel->selectDataone('user', array('id'=>$id));
     $link = base_url('verification/update/').$id.'/'.md5($user['name']);
 
-    $this->send_email(
+    $this->Memail->send_email(
       $user['email'], 
       $user['name'], 
       'Selamat Datang !', 
@@ -24,7 +25,7 @@ class Verification extends MY_Controller {
       </a>'
     );
 
-    redirect(base_url("?verification=1"));
+    redirect(base_url("?verification=1")); 
   }
   
   public function update($id, $name){

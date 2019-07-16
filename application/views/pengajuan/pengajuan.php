@@ -103,6 +103,7 @@
                    '     <tr>'+
                    '        <th style="width:20px">No</th>'+
                    // '        <th>User Id</th>'+
+                   '        <th>Kode</th>'+
                    '        <th>Judul</th>'+
                    '        <th>Keterangan</th>'+
                    '        <th>Status</th>'+
@@ -136,6 +137,7 @@
                 columns: [
                     {"data": "id","orderable": false},
                     // {"data": "user_id"},
+                    {"data": "code"},
                     {"data": "judul"},
                     {"data": "keterangan"},
                     {"data": "approve"},

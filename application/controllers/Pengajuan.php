@@ -141,7 +141,7 @@ class Pengajuan extends MY_Controller {
 	public function json()
 	{
 		header('Content-Type: application/json');
-		$this->datatables->select('id,user_id,judul,keterangan,approve,note,status');
+		$this->datatables->select('id,code,user_id,judul,keterangan,approve,note,status');
 		$this->datatables->from('pengajuan');
 		if($this->session->userdata('role_id') == '24'){
 			$this->datatables->where(array('user_id'=>$this->session->userdata('id')));
