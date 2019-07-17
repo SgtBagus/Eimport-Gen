@@ -119,10 +119,18 @@ if($this->session->userdata('role_id') != '17' ) {
                         </div>
                         <h4>
                           <?= $user['name']?>
-                          <small><i class="fa fa-clock-o"></i> <?= $notif['created_at']  ?></small>
+                          <small><i class="fa fa-clock-o"></i> 
+                            <?php
+                              if( (date('Y-m-d', strtotime($notif['created_at']))) == (date('Y-m-d')) ){
+                                echo date('H:i', strtotime($notif['created_at']));
+                              } else {
+                                echo date('Y-m-d', strtotime($notif['created_at']));
+                              }
+                            ?>
+                          </small>
                         </h4>
-                        <b><?= $notif['title'] ?></b> <br>
-                        <small><?= $notif['notif_desc']  ?></small>
+                        <b style="color:#393345;"><?= $notif['title'] ?></b><br>
+                        <small style="color:#393345;"><?= $notif['notif_desc']  ?></small>
                       </a>
                     </li>
                     <?php
@@ -146,7 +154,7 @@ if($this->session->userdata('role_id') != '17' ) {
             </a>
             <ul class="dropdown-menu">
               <li class="user-header">
-                <object data="<?= base_url($file['dir'])?>" type="image/png" style="width: 100px;">
+                <object data="<?= base_url($file['dir'])?>" type="image/png" style="width: 100px; border-radius: 50%;" >
                   <img src="https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png?itok=1HlTtL2d" alt="example">
                 </object>
 

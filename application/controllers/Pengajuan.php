@@ -7,6 +7,7 @@ class Pengajuan extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->helper(array('url','download'));	
+		$this->load->model('Memail');
 	}
 
 	public function index()
@@ -73,6 +74,9 @@ class Pengajuan extends MY_Controller {
 
 			$pengajuan_last_id = $this->db->insert_id();
 
+			$dt_code['code'] = 'PL_'.$this->session->userdata('id').'-'.date("Ymd").'.'.$pengajuan_last_id;
+			$this->mymodel->updateData('pengajuan', $dt_code , array('id'=>$pengajuan_last_id));
+
 			$no = 1;
 			$konfig['konfig'] = $this->mymodel->selectDataone('konfig', array('SLUG'=>'FILE UPLOAD'));
 			for($no; $no<=$konfig['konfig']['value']; $no++){
@@ -91,7 +95,7 @@ class Pengajuan extends MY_Controller {
 					$dir  = "webfile/pdf/";
 					$config['upload_path']          = $dir;
 					$config['allowed_types']        = '*';
-					$config['file_name']           = md5('smartsoftstudio').rand(1000,100000);
+					$config['file_name']           = md5('pdffile').rand(1000,100000);
 					
 					$this->load->library('upload', $config);
 					if (!$this->upload->do_upload('file-'.$no)){
@@ -126,13 +130,30 @@ class Pengajuan extends MY_Controller {
 			$notification['user_id'] = $this->session->userdata('id');
 			$notification['role_id'] = '17';
 			$notification['pengajuan_id'] = $pengajuan_last_id;
-			$notification['title'] = 'PENGAJUAN DOKUMENT';
+			$notification['title'] = 'PENGAJUAN PL_'.$this->session->userdata('id').'-'.date("Ymd").'.'.$pengajuan_last_id;
 			$notification['notif_desc'] = 'Perlu Dikonfirmasi';
 			$notification['read_on'] = 'ENABLE';
 			$notification['status'] = 'ENABLE';
 			$notification['created_at'] = date('Y-m-d H:i:s');
-
 			$str = $this->db->insert('notifications', $notification);
+
+			$approvers = $this->mymodel->selectWithQuery("SELECT email, name, verification from user where role_id LIKE '17'");
+			$link = base_url('pengajuan/view/').$pengajuan_last_id;
+			foreach ($approvers as $approver) {
+				if($approver['verification']){
+					$this->Memail->send_email(
+						$approver['email'], 
+						$approver['name'], 
+						'Pengajuan Baru Telah Dibuat !', 
+						'Pengajuan Baru Telah Dibuat mohon untuk di konfirmasi pengajuan tersebut dengan menekan tombol dibawah ini', 
+						'<a href="'.$link.'" style="text-decoration:none; color:#FFF;" target="_blank">
+						<button style="color:#FFF; background-color: #007aff; border:0px; border-radius: 100px; height:60px; width:200px; font-family:Verdana, Arial; font-size:20px; font-weight:bold;" align="center">
+						Lihat Pengajuan !
+						</button>
+						</a>'
+					);
+				}
+			}
 
 			$this->alert->alertsuccess('Success Send Data');   
 		}
@@ -177,100 +198,127 @@ class Pengajuan extends MY_Controller {
 		}
 	}
 	
-		public function approve($id)
-		{
-			$data_master['approve'] = $_POST['dt']['approve'];
-			$data_master['note'] = $_POST['dt']['note'];
+	public function approve($id)
+	{
+		$data_master['approve'] = $_POST['dt']['approve'];
+		$data_master['note'] = $_POST['dt']['note'];
+		$this->mymodel->updateData('pengajuan', $data_master , array('id'=>$id));
 
-			$this->mymodel->updateData('pengajuan', $data_master , array('id'=>$id));
+		$data_detail_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') as ROW FROM pengajuan_detail WHERE pengajuan_id = '".$id."'");
+		$no = 1;
+		for($no; $no<=$data_detail_row[0]['ROW']; $no++){
+			$detail_id = $_POST['dtd']['pengajuan_'.$no];
+			$data_detail['note'] = $_POST['dtd']['note_detail_'.$no];
 
-			$data_detail_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') as ROW FROM pengajuan_detail WHERE pengajuan_id = '".$id."'");
-			
-			$no = 1;
-			for($no; $no<=$data_detail_row[0]['ROW']; $no++){
-				$detail_id = $_POST['dtd']['pengajuan_'.$no];
-				$data_detail['note'] = $_POST['dtd']['note_detail_'.$no];
-
-				if($this->session->userdata('role_id') == '17'){
-					$data_detail['approve'] = $_POST['dtd']['approve_detail_'.$no];
-				} else if($this->session->userdata('role_id') == '23'){
-					$data_detail['approve2'] = $_POST['dtd']['approve_detail_'.$no];
-				}
-
-				$this->mymodel->updateData('pengajuan_detail', $data_detail , array('id'=>$detail_id));
-				
-				if($this->session->userdata('role_id') == '17'){
-					if($_POST['dtd']['approve_detail_'.$no] == 'REJECT'){
-						$data_detail_reject['approve2'] = 'REJECT';
-						$this->mymodel->updateData('pengajuan_detail', $data_detail_reject , array('pengajuan_id'=>$id));
-					}
-				}
-			}
-
-			$history['user_id'] = $this->session->userdata('id');
-			$history['pengajuan_id'] = $id;
-
-			if($_POST['dt']['approve'] == 'PROCESS2'){
-				$history['title'] = 'PENGAJUAN DIKONFIRMASI';
-				$history['history'] = 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan';
-				$history['history_status'] = 'WARNING';
-			} else if($_POST['dt']['approve'] == 'ACCEPT'){
-				$history['title'] = 'PENGAJUAN DITERIMA';
-				$history['history'] = 'Pengajuan DTerima';
-				$history['history_status'] = 'SUCCESS';
-			}
-			else {
-				$history['title'] = 'PENGAJUAN DITOLAK';
-				$history['history'] = 'Pengajuan Ditolak Mohon untuk mengupload Ulang';
-				$history['history_status'] = 'DANGER';
-			}
-
-			$history['status'] = "ENABLE";
-			$history['created_at'] = date('Y-m-d H:i:s');
-
-			$str = $this->db->insert('history', $history);
-
-			$user_notif = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
-
-			$notification['user_id'] = $user_notif[0]['user_id'];
-			$notification['role_id'] = '24';
-			$notification['pengajuan_id'] = $id;
-			if($_POST['dt']['approve'] == 'PROCESS2'){
-				$notification['title'] = 'PENGAJUAN DIKONFIRMASI';
-				$notification['notif_desc'] = 'Menunggu untuk Dikonfirmasi Lapangan';
-			} else if($_POST['dt']['approve'] == 'ACCEPT'){
-				$notification['title'] = 'PENGAJUAN DITERIMA';
-				$notification['notif_desc'] = 'Diterima Dilapangan';
-			} else {
-				$notification['title'] = 'PENGAJUAN DITOLAK';
-				$notification['notif_desc'] = 'Ditolak Mohon untuk mengupload Ulang';
-			}
-			$notification['read_on'] = 'ENABLE';
-			$notification['status'] = 'ENABLE';
-			$notification['created_at'] = date('Y-m-d H:i:s');
-
-			$str = $this->db->insert('notifications', $notification);
-		
 			if($this->session->userdata('role_id') == '17'){
-				$notif_lapangan['user_id'] = $user_notif[0]['user_id'];
-				$notif_lapangan['role_id'] = '23';
-				$notif_lapangan['pengajuan_id'] = $id;
-				if($_POST['dt']['approve'] == 'PROCESS2'){
-					$notif_lapangan['title'] = 'PENGAJUAN DIKONFIRMASI';
-					$notif_lapangan['notif_desc'] = 'Menunggu untuk Dikonfirmasi Lapangan';
-				}else {
-					$notif_lapangan['title'] = 'PENGAJUAN DITOLAK';
-					$notif_lapangan['notif_desc'] = 'Ditolak Mohon untuk mengupload Ulang';
-				}
-				$notif_lapangan['read_on'] = 'ENABLE';
-				$notif_lapangan['status'] = 'ENABLE';
-				$notif_lapangan['created_at'] = date('Y-m-d H:i:s');
-				
-				$str = $this->db->insert('notifications', $notif_lapangan);
+				$data_detail['approve'] = $_POST['dtd']['approve_detail_'.$no];
+			} else if($this->session->userdata('role_id') == '23'){
+				$data_detail['approve2'] = $_POST['dtd']['approve_detail_'.$no];
 			}
-
-			redirect('pengajuan/view/'.$id);
+			$this->mymodel->updateData('pengajuan_detail', $data_detail , array('id'=>$detail_id));
+			if($this->session->userdata('role_id') == '17'){
+				if($_POST['dtd']['approve_detail_'.$no] == 'REJECT'){
+					$data_detail_reject['approve2'] = 'REJECT';
+					$this->mymodel->updateData('pengajuan_detail', $data_detail_reject , array('pengajuan_id'=>$id));
+				}
+			}
 		}
+
+		$history['user_id'] = $this->session->userdata('id');
+		$history['pengajuan_id'] = $id;
+		if($_POST['dt']['approve'] == 'PROCESS2'){
+			$history['title'] = 'PENGAJUAN DIKONFIRMASI';
+			$history['history'] = 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan';
+			$history['history_status'] = 'WARNING';
+		} else if($_POST['dt']['approve'] == 'ACCEPT'){
+			$history['title'] = 'PENGAJUAN DITERIMA';
+			$history['history'] = 'Pengajuan DTerima';
+			$history['history_status'] = 'SUCCESS';
+		}
+		else {
+			$history['title'] = 'PENGAJUAN DITOLAK';
+			$history['history'] = 'Pengajuan Ditolak Mohon untuk mengupload Ulang';
+			$history['history_status'] = 'DANGER';
+		}
+		$history['status'] = "ENABLE";
+		$history['created_at'] = date('Y-m-d H:i:s');
+
+		$str = $this->db->insert('history', $history);
+		$user_notif = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
+
+		$notification['user_id'] = $user_notif[0]['user_id'];
+		$notification['role_id'] = '24';
+		$notification['pengajuan_id'] = $id;
+		$notification['title'] = 'PENGAJUAN '.$user_notif[0]['code'];
+
+		if($_POST['dt']['approve'] == 'PROCESS2'){
+			$notification['notif_desc'] = 'Pengajuan Anda Dikirim Lapangan';
+		} else if($_POST['dt']['approve'] == 'ACCEPT'){
+			$notification['notif_desc'] = 'Pengajuan Anda Diterima Lapangan';
+		} else {
+			$notification['notif_desc'] = 'Pengajuan Anda Ditolak';
+		}
+
+		$notification['read_on'] = 'ENABLE';
+		$notification['status'] = 'ENABLE';
+		$notification['created_at'] = date('Y-m-d H:i:s');
+
+		$str = $this->db->insert('notifications', $notification);
+
+		if($this->session->userdata('role_id') == '17'){
+			$notif_lapangan['user_id'] = $user_notif[0]['user_id'];
+			$notif_lapangan['role_id'] = '23';
+			$notif_lapangan['title'] = 'PENGAJUAN '.$user_notif[0]['code'];
+
+			$notif_lapangan['pengajuan_id'] = $id;
+			if($_POST['dt']['approve'] == 'PROCESS2'){
+				$notif_lapangan['notif_desc'] = 'Menunggu untuk Dikonfirmasi Lapangan';
+			}else {
+				$notif_lapangan['notif_desc'] = 'Ditolak Mohon untuk mengupload Ulang';
+			}
+			
+			$notif_lapangan['read_on'] = 'ENABLE';
+			$notif_lapangan['status'] = 'ENABLE';
+			$notif_lapangan['created_at'] = date('Y-m-d H:i:s');
+
+			$str = $this->db->insert('notifications', $notif_lapangan);
+		}
+
+		$pg = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
+		$user_email = $this->mymodel->selectWhere('user', array('id' => $user_notif[0]['user_id']));
+
+		$link = base_url('pengajuan/view/').$id;
+		$email_title = '';
+		$email_content = '';
+		if($_POST['dt']['approve'] == 'PROCESS2'){
+			$email_title = 'Pengajuan Anda Telah Dikonfirmasi';
+			$email_content = 'Pengajuan <b>'.$pg[0]['code'].'</b> anda telah di konfirmasi dan telah di kirim ke lapangan';
+		}else if ($_POST['dt']['approve'] == 'ACCEPT'){
+			$email_title = 'Pengajuan Anda Di Terima';
+			$email_content = 'Pengajuan <b>'.$pg[0]['code'].'</b> anda telah di terima di lapangan';
+		}else {
+			$email_title = 'Pengajuan Anda Di Tolak';
+			$email_content = 'Pengajuan <b>'.$pg[0]['code'].'</b> anda telah ditolak';
+		}
+		$this->Memail->send_email(
+			$user_email[0]['email'], 
+			$user_email[0]['name'], 
+			$email_title,
+			$email_content,
+			'<a href="'.$link.'" style="text-decoration:none; color:#FFF;" target="_blank">
+			<button style="color:#FFF; background-color: #007aff; border:0px; border-radius: 100px; height:60px; width:200px; font-family:Verdana, Arial; font-size:20px; font-weight:bold;" align="center">
+			Lihat Pengajuan !
+			</button>
+			</a>'
+		);
+		if($_POST['dt']['approve'] == 'PROCESS2'){
+			$this->alert->alertwarning('Data Di Kirim Ke Lapangan !');
+		} else if($_POST['dt']['approve'] == 'ACCEPT'){
+			$this->alert->alertsuccess('Data Diterima !');
+		} else {
+			$this->alert->alertdanger('Data Ditolak !');
+		}
+	}
 
 		// public function delete()
 		// {
@@ -284,16 +332,14 @@ class Pengajuan extends MY_Controller {
 		// }
 
 
-		public function download($id){
-			$file_name = $this->mymodel->selectDataone('pengajuan_detail', array('id'=>$id));
+	public function download($id){
+		$file_name = $this->mymodel->selectDataone('pengajuan_detail', array('id'=>$id));
 
-			$file = $this->mymodel->selectDataone('file',
-				array('table'=>'pengajuan_detail', 'table_id'=>$id));
+		$file = $this->mymodel->selectDataone('file',
+			array('table'=>'pengajuan_detail', 'table_id'=>$id));
 
-			force_download($file_name['file'], file_get_contents('webfile/pdf/'.$file['name'],NULL));	
-		}
-
-		
+		force_download($file_name['file'], file_get_contents('webfile/pdf/'.$file['name'],NULL));	
 	}
+}
 
-	?>
+?>

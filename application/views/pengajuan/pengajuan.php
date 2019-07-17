@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="pull-right">
-                  <a href="<?= base_url('Pengajuan/create') ?>">
+                  <a href="<?= base_url('pengajuan/create') ?>">
                     <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Tambah Pengajuan</button> 
                   </a>
                   </div>

@@ -23,7 +23,7 @@ class Memail extends CI_Model {
 		</tr>
 		<tr>
 		<td style="font-family:sans-serif, Verdana; font-size:22px; color:#4b4b4c; line-height:30px; font-weight:normal;" mc:edit="tm4-03" valign="top" align="center">
-		<multiline>Hello! </multiline>
+		<multiline>Halo ! </multiline>
 		<br>
 		'.$name.'
 		</td>
@@ -99,27 +99,28 @@ class Memail extends CI_Model {
 		</tbody>
 		</table>';
 
-		$config = Array(
-			'protocol' => 'smtp',
-           'smtp_host' => 'ssl://mail.karyastudio.com',
-           'smtp_port' => 465,
-           'smtp_user' => 'muhammadsafreza@karyastudio.com', // change it to yours
-           'smtp_pass' => 'loginloginlogin', // change it to yours
-           'mailtype' => 'html',
-           'charset' => 'iso-8859-1',
-           'wordwrap' => TRUE
-        );
+		// $config = Array(
+		// 	'protocol' => 'smtp',
+  //          'smtp_host' => 'ssl://mail.karyastudio.com',
+  //          'smtp_port' => 465,
+  //          'smtp_user' => 'bagus@karyastudio.com', // change it to yours
+  //          'smtp_pass' => 'bagus123bagus', // change it to yours
+  //          'mailtype' => 'html',
+  //          'charset' => 'iso-8859-1',
+  //          'wordwrap' => TRUE
+  //       );
 
-		$this->load->library('email', $config);
-		$this->email->set_newline("\r\n");
-        $this->email->from('muhammadsafreza@karyastudio.com','TOR E-REKOMENDASI'); // change it to yours
-        $this->email->to($email);// change it to yours
-        $this->email->subject('Varifikasikan Email Anda !');
-        $this->email->message($body);
-        $this->email->send();
-        if(!$this->email->send()){
-  			$this->email->print_debugger();
-  		}
+		// $this->load->library('email', $config);
+		// $this->email->set_newline("\r\n");
+  //       $this->email->from('bagus@karyastudio.com','TOR E-REKOMENDASI'); // change it to yours
+  //       $this->email->to($email);// change it to yours
+  //       $this->email->subject('Varifikasikan Email Anda !');
+  //       $this->email->message($body);
+        // if($this->email->send()){
+        	return true;
+  		// }else{
+  			$this->load->view('errors/html/error_500');
+  		// }
     }
 
 }

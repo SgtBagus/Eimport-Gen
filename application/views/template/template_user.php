@@ -129,10 +129,17 @@ if($this->session->userdata('role_id') == '17') {
 								<ul class="nav navbar-nav">
 								<li class="dropdown notifications-menu">
 									<?php
-						                $notifications = $this->mymodel->selectWithQuery(
-						                  "SELECT * FROM notifications WHERE role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." ORDER BY id DESC, read_on ASC LIMIT 5 "
-						                );
-						                $notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM notifications where role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." AND read_on = 'ENABLE' ");
+										if($this->session->userdata('id') == '24'){										
+							                $notifications = $this->mymodel->selectWithQuery(
+							                  "SELECT * FROM notifications WHERE role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." ORDER BY id DESC, read_on ASC LIMIT 5 "
+							                );
+						                	$notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM notifications where role_id = ".$this->session->userdata('role_id')." AND user_id = ".$this->session->userdata('id')." AND read_on = 'ENABLE' ");
+										}else {
+							                $notifications = $this->mymodel->selectWithQuery(
+							                  "SELECT * FROM notifications WHERE role_id = ".$this->session->userdata('role_id')." ORDER BY id DESC, read_on ASC LIMIT 5 "
+							                );
+						                	$notification_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') FROM notifications where role_id = ".$this->session->userdata('role_id')." AND read_on = 'ENABLE' ");
+										}
 						            ?>
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-bell-o"></i>
@@ -156,9 +163,8 @@ if($this->session->userdata('role_id') == '17') {
 							                        echo '<a href="'.base_url('pengajuan/view/').$notif['pengajuan_id'].'">';
 							                      }
 							                    ?>  
-														<i class="fa fa-bell"></i> <?= $notif['title'] ?>
-														<br>
-														<small><?= $notif['notif_desc'] ?></small>
+														<h5><b><?= $notif['title'] ?></b></h5>
+														<?= $notif['notif_desc'] ?>
 													</a>
 												</li>
 												<?php } ?>

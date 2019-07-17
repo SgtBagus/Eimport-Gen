@@ -16,7 +16,21 @@ class Alert extends CI_Controller  {
 		echo '	<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
 		echo '		<span aria-hidden="true" class="fa fa-close"></span>';
 		echo '	</button>';
-		echo '	<h5 class="alert-heading">Alert</h5>';
+		echo '	<h5 class="alert-heading">Berhasil</h5>';
+		echo '		<ul>';
+		echo "			<li>$status</li>";
+		echo '		</ul>';
+		echo '</div>';
+	}
+
+	public function alertwarning($status=null)
+	{
+		# code...
+		echo '<div class="alert alert-warning ks-solid ks-active-border" role="alert">';
+		echo '	<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+		echo '		<span aria-hidden="true" class="fa fa-close"></span>';
+		echo '	</button>';
+		echo '	<h5 class="alert-heading">Perhatihan !</h5>';
 		echo '		<ul>';
 		echo "			<li>$status</li>";
 		echo '		</ul>';
@@ -30,10 +44,10 @@ class Alert extends CI_Controller  {
 		echo '	<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
 		echo '		<span aria-hidden="true" class="fa fa-close"></span>';
 		echo '	</button>';
-		echo '	<h5 class="alert-heading">Warning</h5>';
+		echo '	<h5 class="alert-heading">Perhatihan !</h5>';
 		echo '		<ul>';
 		if($error==null){
-        	echo "			<li>Something Error</li>";
+        	echo "			<li>Kesalahan : </li>";
 		}else{
         	echo "			$error";
 		}
