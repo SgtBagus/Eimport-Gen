@@ -23,6 +23,12 @@
             }
             ?>
             <?php if ($user['verification'] != 'TRUE') { ?>
+            
+              <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong><b>Perhatian !<b></strong><br> Untuk Saai ini verifikasi email masih bermasalah !
+              </div>
+
               <div class="alert alert-warning">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <strong><b>Perhatian !<b></strong><br> Segera lakukan verifikasi Email anda agar mendapatkan notifikasi pembaruan dari emali anda dengan cara <a href=<?= base_url('verification/user/').$user['id']; ?> >Klik link berikut ini</a>
