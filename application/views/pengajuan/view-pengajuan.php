@@ -114,7 +114,11 @@
             <ul class="timeline">  
               <?php 
               foreach($historys as $history){ 
-                $date = date('d-m-Y H:i', strtotime($history['created_at']));
+                if( (date('Y-m-d', strtotime($history['created_at']))) == (date('Y-m-d')) ){
+                  $date = date('H:i', strtotime($history['created_at']));
+                } else {
+                  $date = date('Y-m-d', strtotime($history['created_at']));
+                }
                 ?>
                 <li>
                   <?php

@@ -163,7 +163,7 @@ if($this->session->userdata('role_id') != '17' ) {
                 </p>
               </li>
               <li class="user-footer">
-                <a href="<?= base_url('user/editUser/').$this->template->sonEncode($this->session->userdata('id')); ?>" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
+                <a href="<?= base_url('profil/')?>" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profile</a>
                 <a href="<?= base_url('login/logout') ?>" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Sign out</a>
               </li>
             </ul>
