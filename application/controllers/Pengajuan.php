@@ -69,6 +69,7 @@ class Pengajuan extends MY_Controller {
 			$dt['user_id'] = $this->session->userdata('id');
 			$dt['approve'] = 'PROCESS';
 			$dt['created_at'] = date('Y-m-d H:i:s');
+			$dt['updated_at'] = date('Y-m-d H:i:s');
 			$dt['status'] = "ENABLE";
 			$str = $this->db->insert('pengajuan', $dt);
 
@@ -87,6 +88,7 @@ class Pengajuan extends MY_Controller {
 				$dtd['approve2'] = 'PROCESS';
 				$dtd['status'] = "ENABLE";
 				$dtd['created_at'] = date('Y-m-d H:i:s');
+				$dtd['updated_at'] = date('Y-m-d H:i:s');
 				$str = $this->db->insert('pengajuan_detail', $dtd);
 
 				$last_id = $this->db->insert_id();
@@ -111,7 +113,8 @@ class Pengajuan extends MY_Controller {
 							'table'=> 'pengajuan_detail',
 							'table_id'=> $last_id,
 							'status'=>'ENABLE',
-							'created_at'=>date('Y-m-d H:i:s')
+							'created_at'=>date('Y-m-d H:i:s'),
+							'updated_at'=>date('Y-m-d H:i:s')
 						);
 						$str = $this->db->insert('file', $data); 
 					} 
@@ -125,6 +128,7 @@ class Pengajuan extends MY_Controller {
 			$history['history_status'] = 'INFO';
 			$history['status'] = "ENABLE";
 			$history['created_at'] = date('Y-m-d H:i:s');
+			
 			$str = $this->db->insert('history', $history);
 
 			$notification['user_id'] = $this->session->userdata('id');
@@ -135,6 +139,7 @@ class Pengajuan extends MY_Controller {
 			$notification['read_on'] = 'ENABLE';
 			$notification['status'] = 'ENABLE';
 			$notification['created_at'] = date('Y-m-d H:i:s');
+			$notification['updated_at'] = date('Y-m-d H:i:s');
 			$str = $this->db->insert('notifications', $notification);
 
 			$approvers = $this->mymodel->selectWithQuery("SELECT email, name, verification from user where role_id LIKE '17'");
@@ -183,8 +188,15 @@ class Pengajuan extends MY_Controller {
 
 	public function view($id)
 	{
-		$data['pengajuan'] = $this->mymodel->selectDataone('pengajuan',array('id'=>$id));
+
 		$data['page_name'] = "pengajuan";
+		$data['pengajuan'] = $this->mymodel->selectDataone('pengajuan',array('id'=>$id));
+
+		if(!$data['pengajuan']){
+  			$this->load->view('errors/html/error_pengajuan');
+
+  			return false;
+		}
 
 		$data['detail'] = $this->mymodel->selectWhere('pengajuan_detail', array('pengajuan_id'=>$id));
 		$data['historys'] = $this->mymodel->selectWithQuery(
@@ -202,6 +214,8 @@ class Pengajuan extends MY_Controller {
 	{
 		$data_master['approve'] = $_POST['dt']['approve'];
 		$data_master['note'] = $_POST['dt']['note'];
+		$data_master['updated_at'] = date('Y-m-d H:i:s');
+
 		$this->mymodel->updateData('pengajuan', $data_master , array('id'=>$id));
 
 		$data_detail_row = $this->mymodel->selectWithQuery("SELECT COUNT('id') as ROW FROM pengajuan_detail WHERE pengajuan_id = '".$id."'");
@@ -215,13 +229,18 @@ class Pengajuan extends MY_Controller {
 			} else if($this->session->userdata('role_id') == '23'){
 				$data_detail['approve2'] = $_POST['dtd']['approve_detail_'.$no];
 			}
+			$data_detail['updated_at'] = date('Y-m-d H:i:s');
+
 			$this->mymodel->updateData('pengajuan_detail', $data_detail , array('id'=>$detail_id));
+
 			if($this->session->userdata('role_id') == '17'){
 				if($_POST['dtd']['approve_detail_'.$no] == 'REJECT'){
 					$data_detail_reject['approve2'] = 'REJECT';
+					$data_detail_reject['updated_at'] = date('Y-m-d H:i:s');
 					$this->mymodel->updateData('pengajuan_detail', $data_detail_reject , array('pengajuan_id'=>$id));
 				}
 			}
+
 		}
 
 		$history['user_id'] = $this->session->userdata('id');
@@ -242,6 +261,7 @@ class Pengajuan extends MY_Controller {
 		}
 		$history['status'] = "ENABLE";
 		$history['created_at'] = date('Y-m-d H:i:s');
+		
 
 		$str = $this->db->insert('history', $history);
 		$user_notif = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
@@ -262,6 +282,7 @@ class Pengajuan extends MY_Controller {
 		$notification['read_on'] = 'ENABLE';
 		$notification['status'] = 'ENABLE';
 		$notification['created_at'] = date('Y-m-d H:i:s');
+		$notification['updated_at'] = date('Y-m-d H:i:s');
 
 		$str = $this->db->insert('notifications', $notification);
 
@@ -280,6 +301,7 @@ class Pengajuan extends MY_Controller {
 			$notif_lapangan['read_on'] = 'ENABLE';
 			$notif_lapangan['status'] = 'ENABLE';
 			$notif_lapangan['created_at'] = date('Y-m-d H:i:s');
+			$notif_lapangan['updated_at'] = date('Y-m-d H:i:s');
 
 			$str = $this->db->insert('notifications', $notif_lapangan);
 		}
@@ -320,16 +342,31 @@ class Pengajuan extends MY_Controller {
 		}
 	}
 
-		// public function delete()
-		// {
-		// 	$id = $this->input->post('id', TRUE);$this->alert->alertdanger('Success Delete Data');     
-		// }
 
-		// public function status($id,$status)
-		// {
-		// 	$this->mymodel->updateData('pengajuan',array('status'=>$status),array('id'=>$id));
-		// 	redirect('Pengajuan');
-		// }
+	public function delete($id)
+	{
+		$this->mymodel->deleteData('pengajuan',array('id'=>$id));
+		$files = $this->mymodel->selectWhere('pengajuan_detail', array('pengajuan_id' => $id));
+		foreach ($files as $file) {
+			$unlink = $this->mymodel->selectDataone('file',array('table_id'=>$file['id'],'table'=>'pengajuan_detail'));
+			@unlink($unlink['dir']);
+
+			$this->mymodel->deleteData('file',array('table_id'=>$file['id'], 'table'=>'pengajuan_detail'));
+		}
+
+		$history['user_id'] = $this->session->userdata('id');
+		$history['pengajuan_id'] = $id;
+		$history['title'] = 'PENGAJUAN DIHAPUS';
+		$history['history'] = 'Pengajuan Telah di Hapus';
+		$history['history_status'] = 'DANGER';
+		$history['status'] = "ENABLE";
+		$history['created_at'] = date('Y-m-d H:i:s');
+		
+
+		$str = $this->db->insert('history', $history);
+
+		redirect('pengajuan/?delete=true');
+	}
 
 
 	public function download($id){

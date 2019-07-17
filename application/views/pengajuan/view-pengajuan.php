@@ -256,9 +256,11 @@
             <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
           <?php } 
         } else { ?>
-          <button type="button" class="btn btn-danger" name="#">
-            <i class="fa fa-trash"></i> HAPUS
-          </button>
+          <a href="<?= base_url('pengajuan/delete/'.$pengajuan['id'])?>">
+            <button type="button" class="btn btn-danger">
+              <i class="fa fa-trash"></i> HAPUS
+            </button>
+          </a>
         <?php } ?>
       </div>
     </form>
