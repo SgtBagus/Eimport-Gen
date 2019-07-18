@@ -1,13 +1,11 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Data Tables
-      <small>advanced tables</small>
+      Pengguna
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Tables</a></li>
-      <li class="active">Data tables</li>
+      <li><a href="<?= base_url() ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Pengguna</li>
     </ol>
   </section>
   <section class="content">
@@ -16,7 +14,7 @@
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">
-              <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#addsite" onclick="reseterror()"><i class="fa fa-plus"></i> Add User</button>
+              <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#addsite" onclick="reseterror()"><i class="fa fa-plus"></i> Tambah Pengguna</button>
             </h3>
             <div class="pull-right">
             </div>
@@ -100,12 +98,9 @@
  </div>
 </div>
 
-<!-- end modal review -->
-
 <script type="text/javascript">
 
   function reseterror() {
-			// body...
 			$('.show_error').html("");
 		}
     function loaddatas() {

@@ -1,4 +1,3 @@
-
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pengajuan extends MY_Controller {
@@ -33,9 +32,34 @@ class Pengajuan extends MY_Controller {
 		} else {
 			$this->template->load('template/template_user','pengajuan/add-pengajuan',$data);
 		}
-
 	}
 
+
+	public function history_insert($user_id, $pengajuan_id, $title, $history, $history_status){
+		$his['user_id'] = $user_id;
+		$his['pengajuan_id'] = $pengajuan_id;
+		$his['title'] = $title;
+		$his['history'] = $history;
+		$his['history_status'] = $history_status;
+		$his['status'] = 'ENABLE';
+		$his['created_at'] = date('Y-m-d H:i:s');
+
+		$this->db->insert('history', $his);
+	}
+
+	public function notif_insert($user_id, $role_id, $pengajuan_id, $title, $notif_desc){
+
+		$notif['user_id'] = $user_id;
+		$notif['role_id'] = $role_id;
+		$notif['pengajuan_id'] = $pengajuan_id;
+		$notif['title'] = $title;
+		$notif['notif_desc'] = $notif_desc;
+		$notif['read_on'] = 'ENABLE';
+		$notif['status'] = 'ENABLE';
+		$notif['created_at'] = date('Y-m-d H:i:s');
+
+		$this->db->insert('notifications', $notif);
+	}
 
 	public function validate()
 	{
@@ -44,7 +68,6 @@ class Pengajuan extends MY_Controller {
 
 		$this->form_validation->set_error_delimiters('<li>', '</li>');
 		$this->form_validation->set_rules('dt[judul]', '<strong>Judul</strong>', 'required');
-		$this->form_validation->set_rules('dt[keterangan]', '<strong>Keterangan</strong>', 'required');
 		for($no; $no<=$konfig['konfig']['value']; $no++){
 
 			$supported_file = array(
@@ -121,29 +144,29 @@ class Pengajuan extends MY_Controller {
 				}
 			}
 			
-			$history['user_id'] = $this->session->userdata('id');
-			$history['pengajuan_id'] = $pengajuan_last_id;
-			$history['title'] = 'PENGAJUAN DIBUAT';
-			$history['history'] = 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi';
-			$history['history_status'] = 'INFO';
-			$history['status'] = "ENABLE";
-			$history['created_at'] = date('Y-m-d H:i:s');
-			
-			$str = $this->db->insert('history', $history);
+			$this->history_insert(
+				$this->session->userdata('id'),
+				$pengajuan_last_id,
+				'PENGAJUAN DIBUAT',
+				'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi',
+				'INFO',
+				'ENABLE',
+				date('Y-m-d H:i:s')
+			);
 
-			$notification['user_id'] = $this->session->userdata('id');
-			$notification['role_id'] = '17';
-			$notification['pengajuan_id'] = $pengajuan_last_id;
-			$notification['title'] = 'PENGAJUAN PL_'.$this->session->userdata('id').'-'.date("Ymd").'.'.$pengajuan_last_id;
-			$notification['notif_desc'] = 'Perlu Dikonfirmasi';
-			$notification['read_on'] = 'ENABLE';
-			$notification['status'] = 'ENABLE';
-			$notification['created_at'] = date('Y-m-d H:i:s');
-			$notification['updated_at'] = date('Y-m-d H:i:s');
-			$str = $this->db->insert('notifications', $notification);
+			$this->notif_insert(
+				$this->session->userdata('id'),
+				'17',
+				$pengajuan_last_id,
+				'PENGAJUAN PL_'.$this->session->userdata('id').'-'.date("Ymd").'.'.$pengajuan_last_id,
+				'Perlu Dikonfirmasi'
+			);
 
-			$approvers = $this->mymodel->selectWithQuery("SELECT email, name, verification from user where role_id LIKE '17'");
+			$approvers = $this->mymodel->selectWhere('user', array('role_id' => '17'));
 			$link = base_url('pengajuan/view/').$pengajuan_last_id;
+
+
+
 			foreach ($approvers as $approver) {
 				if($approver['verification']){
 					$this->Memail->send_email(
@@ -159,7 +182,6 @@ class Pengajuan extends MY_Controller {
 					);
 				}
 			}
-
 			$this->alert->alertsuccess('Success Send Data');   
 		}
 	}
@@ -172,8 +194,6 @@ class Pengajuan extends MY_Controller {
 		if($this->session->userdata('role_id') == '24'){
 			$this->datatables->where(array('user_id'=>$this->session->userdata('id')));
 		}
-
-	        // $this->datatables->add_column('view', '<div class="btn-group"><button type="button" class="btn btn-sm btn-primary" onclick="edit($1)"><i class="fa fa-pencil"></i> Lihat</button> <button type="button" onclick="hapus($1)" class="btn btn-sm btn-danger"> <i class="fa fa-trash-o"></i></button> </div>', 'id');
 
 		$this->datatables->add_column(
 			'view', 
@@ -243,71 +263,73 @@ class Pengajuan extends MY_Controller {
 
 		}
 
-		$history['user_id'] = $this->session->userdata('id');
-		$history['pengajuan_id'] = $id;
+		$histo_title = '';
+		$histo_history = '';
+		$histo_history_status = '';
 		if($_POST['dt']['approve'] == 'PROCESS2'){
-			$history['title'] = 'PENGAJUAN DIKONFIRMASI';
-			$history['history'] = 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan';
-			$history['history_status'] = 'WARNING';
+			$histo_title = 'PENGAJUAN DIKONFIRMASI';
+			$histo_history = 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan';
+			$histo_history_status = 'WARNING';
 		} else if($_POST['dt']['approve'] == 'ACCEPT'){
-			$history['title'] = 'PENGAJUAN DITERIMA';
-			$history['history'] = 'Pengajuan DTerima';
-			$history['history_status'] = 'SUCCESS';
+			$histo_title = 'PENGAJUAN DITERIMA';
+			$histo_history = 'Pengajuan Diterima';
+			$histo_history_status = 'SUCCESS';
 		}
 		else {
-			$history['title'] = 'PENGAJUAN DITOLAK';
-			$history['history'] = 'Pengajuan Ditolak Mohon untuk mengupload Ulang';
-			$history['history_status'] = 'DANGER';
-		}
-		$history['status'] = "ENABLE";
-		$history['created_at'] = date('Y-m-d H:i:s');
-		
-
-		$str = $this->db->insert('history', $history);
-		$user_notif = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
-
-		$notification['user_id'] = $user_notif[0]['user_id'];
-		$notification['role_id'] = '24';
-		$notification['pengajuan_id'] = $id;
-		$notification['title'] = 'PENGAJUAN '.$user_notif[0]['code'];
-
-		if($_POST['dt']['approve'] == 'PROCESS2'){
-			$notification['notif_desc'] = 'Pengajuan Anda Dikirim Lapangan';
-		} else if($_POST['dt']['approve'] == 'ACCEPT'){
-			$notification['notif_desc'] = 'Pengajuan Anda Diterima Lapangan';
-		} else {
-			$notification['notif_desc'] = 'Pengajuan Anda Ditolak';
+			$histo_title = 'PENGAJUAN DITOLAK';
+			$histo_history = 'Pengajuan Ditolak Mohon untuk mengupload Ulang';
+			$histo_history_status = 'DANGER';
 		}
 
-		$notification['read_on'] = 'ENABLE';
-		$notification['status'] = 'ENABLE';
-		$notification['created_at'] = date('Y-m-d H:i:s');
-		$notification['updated_at'] = date('Y-m-d H:i:s');
-
-		$str = $this->db->insert('notifications', $notification);
-
-		if($this->session->userdata('role_id') == '17'){
-			$notif_lapangan['user_id'] = $user_notif[0]['user_id'];
-			$notif_lapangan['role_id'] = '23';
-			$notif_lapangan['title'] = 'PENGAJUAN '.$user_notif[0]['code'];
-
-			$notif_lapangan['pengajuan_id'] = $id;
-			if($_POST['dt']['approve'] == 'PROCESS2'){
-				$notif_lapangan['notif_desc'] = 'Menunggu untuk Dikonfirmasi Lapangan';
-			}else {
-				$notif_lapangan['notif_desc'] = 'Ditolak Mohon untuk mengupload Ulang';
-			}
-			
-			$notif_lapangan['read_on'] = 'ENABLE';
-			$notif_lapangan['status'] = 'ENABLE';
-			$notif_lapangan['created_at'] = date('Y-m-d H:i:s');
-			$notif_lapangan['updated_at'] = date('Y-m-d H:i:s');
-
-			$str = $this->db->insert('notifications', $notif_lapangan);
-		}
+		$this->history_insert(
+			$this->session->userdata('id'),
+			$id,
+			$histo_title,
+			$histo_history,
+			$histo_history_status
+		);
 
 		$pg = $this->mymodel->selectWhere('pengajuan', array('id' => $id));
-		$user_email = $this->mymodel->selectWhere('user', array('id' => $user_notif[0]['user_id']));
+		$desc_notif = '';
+
+		if($_POST['dt']['approve'] == 'PROCESS2'){
+			$desc_notif = 'Pengajuan Anda Dikirim Lapangan';
+		} else if($_POST['dt']['approve'] == 'ACCEPT'){
+			$desc_notif = 'Pengajuan Anda Diterima Lapangan';
+		} else {
+			$desc_notif = 'Pengajuan Anda Ditolak';
+		}
+
+		$this->notif_insert(
+			$pg[0]['user_id'],
+			'24',
+			$id,
+			'PENGAJUAN '.$pg[0]['code'],
+			$desc_notif
+		);
+
+
+		if($this->session->userdata('role_id') == '17'){
+
+			$notif_lapangan = '';
+
+			if($_POST['dt']['approve'] == 'PROCESS2'){
+				$notif_lapangan = 'Menunggu untuk Dikonfirmasi Lapangan';
+			}else {
+				$notif_lapangan = 'Ditolak Mohon untuk mengupload Ulang';
+			}
+
+			$this->notif_insert(
+				$pg[0]['user_id'],
+				'23',
+				$id,
+				'PENGAJUAN '.$pg[0]['code'],
+				$notif_lapangan
+			);
+
+		}
+
+		$user_email = $this->mymodel->selectWhere('user', array('id' => $pg[0]['user_id']));
 
 		$link = base_url('pengajuan/view/').$id;
 		$email_title = '';

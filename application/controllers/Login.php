@@ -20,7 +20,7 @@ class Login extends MY_Controller {
 	{
 		# code...
         $this->session->sess_destroy();
-		redirect('login');
+		redirect('/');
 	}
 
 

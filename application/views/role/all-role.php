@@ -6,11 +6,9 @@
     <section class="content-header">
       <h1>
         Role
-        <small>master</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">master</a></li>
+        <li><a href="<?= base_url() ?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Role</li>
       </ol>
     </section>
@@ -19,29 +17,7 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
-            <!-- /.box-header -->
             <div class="box-header">
-              <div class="row">
-                <div class="col-md-6">
-                  <select onchange="loadtable(this.value)" id="select-status" style="width: 150px" class="form-control">
-                      <option value="ENABLE">ENABLE</option>
-                      <option value="DISABLE">DISABLE</option>
-
-                  </select>
-                </div>
-                <div class="col-md-6">
-                  <div class="pull-right">
-                  <a href="<?= base_url('role/create') ?>">
-                    <button type="button" class="btn btn-sm btn-success"><i class="fa fa-plus"></i> Tambah Role</button> 
-                  </a>
-                  <a href="<?= base_url('fitur/ekspor/role') ?>" target="_blank">
-                    <button type="button" class="btn btn-sm btn-warning"><i class="fa fa-file-excel-o"></i> Ekspor Role</button> 
-                  </a>
-                  <button type="button" class="btn btn-sm btn-info" onclick="$('#modal-impor').modal()"><i class="fa fa-file-excel-o"></i> Import Role</button>
-                  </div>
-                </div>  
-              </div>
-              
             </div>
             <div class="box-body">
                 <div class="show_error"></div>
@@ -116,7 +92,7 @@
             var table = '<table class="table table-bordered" id="mytable">'+
                    '     <thead>'+
                    '     <tr>'+
-                   '       <th style="width:20px">No</th>'+'<th>Role</th>'+'       <th style="width:150px">Status</th>'+
+                   '       <th style="width:20px">No</th>'+'<th>Role</th>'+
                    '       <th style="width:150px"></th>'+
                    '     </tr>'+
                    '     </thead>'+
@@ -145,29 +121,12 @@
                 ajax: {"url": "<?= base_url('role/json?status=') ?>"+status, "type": "POST"},
                 columns: [
                     {"data": "id","orderable": false},{"data": "role"},
-                   {"data": "status"},
                     {   "data": "view",
                         "orderable": false
                     }
                 ],
                 order: [[1, 'asc']],
-                columnDefs : [
-                    { targets : [2],
-                        render : function (data, type, row, meta) {
-                              if(row['status']=='ENABLE'){
-                                var htmls = '<a href="<?= base_url('role/status/') ?>'+row['id']+'/DISABLE">'+
-                                            '    <button type="button" class="btn btn-sm btn-sm btn-success"><i class="fa fa-home"></i> ENABLE</button>'+
-                                            '</a>';
-                              }else{
-                                var htmls = '<a href="<?= base_url('role/status/') ?>'+row['id']+'/ENABLE">'+
-                                            '    <button type="button" class="btn btn-sm btn-sm btn-danger"><i class="fa fa-home"></i> DISABLE</button>'+
-                                            '</a>';
 
-                              }
-                              return htmls;
-                          }
-                      }
-                ],
              
                 rowCallback: function(row, data, iDisplayIndex) {
                     var info = this.fnPagingInfo();
@@ -191,42 +150,5 @@
             $("#delete-input").val(id);
             
          }
-         $("#upload-delete").submit(function(){
-            event.preventDefault();
-            var form = $(this);
-            var mydata = new FormData(this);
-
-            $.ajax({
-                type: "POST",
-                url: form.attr("action"),
-                data: mydata,
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend : function(){
-                    $(".btn-send").addClass("disabled").html("<i class='la la-spinner la-spin'></i>  Processing...").attr('disabled',true);
-                    $(".show_error").slideUp().html("");
-                },
-                success: function(response, textStatus, xhr) {
-                   var str = response;
-                    if (str.indexOf("success") != -1){
-                        $(".show_error").hide().html(response).slideDown("fast");
-                       
-                        $(".btn-send").removeClass("disabled").html('Yes, Delete it').attr('disabled',false);
-                    }else{
-                         setTimeout(function(){ 
-                           $("#modal-delete").modal('hide');
-                        }, 1000);
-                        $(".show_error").hide().html(response).slideDown("fast");
-                        $(".btn-send").removeClass("disabled").html('Yes , Delete it').attr('disabled',false);
-                        loadtable()
-                    }
-                },
-                error: function(xhr, textStatus, errorThrown) {
-            
-                }
-            });
-            return false;
-    
-        });
+         
   </script>

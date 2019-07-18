@@ -6,11 +6,9 @@
     <section class="content-header">
       <h1>
         Role
-        <small>master</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">master</a></li>
+        <li><a href="<?= base_url() ?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Role</li>
       </ol>
     </section>
