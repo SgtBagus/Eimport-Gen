@@ -376,17 +376,15 @@ class Pengajuan extends MY_Controller {
 			$this->mymodel->deleteData('file',array('table_id'=>$file['id'], 'table'=>'pengajuan_detail'));
 		}
 
-		$history['user_id'] = $this->session->userdata('id');
-		$history['pengajuan_id'] = $id;
-		$history['title'] = 'PENGAJUAN DIHAPUS';
-		$history['history'] = 'Pengajuan Telah di Hapus';
-		$history['history_status'] = 'DANGER';
-		$history['status'] = "ENABLE";
-		$history['created_at'] = date('Y-m-d H:i:s');
 		
-
-		$str = $this->db->insert('history', $history);
-
+		$this->history_insert(
+			$this->session->userdata('id'),
+			$id,
+			'PENGAJUAN DIHAPUS',
+			'Pengajuan Telah di Hapus',
+			'DANGER'
+		);
+		
 		redirect('pengajuan/?delete=true');
 	}
 

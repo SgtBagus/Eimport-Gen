@@ -58,7 +58,7 @@
   $("#upload-create").submit(function(){
     var form = $(this);
     var mydata = new FormData(this);
-    $.ajax({
+    $.ajax({ 
       type: "POST",
       url: form.attr("action"),
       data: mydata,

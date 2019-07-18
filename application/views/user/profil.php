@@ -36,12 +36,12 @@
           <div class="box-header with-border">
             <h3 class="box-title">Pengaturan</h3>
           </div>
-          <form action="<?= base_url('profil/updateProfil') ?>" enctype="multipart/form-data" method="POST" id="upload">
-            <div class="show_error"></div>
+          <form action="<?= base_url('profil/updateprofil') ?>" enctype="multipart/form-data" method="POST" id="upload_profil">
             <div class="box-body">
+              <div id="show_error_profil"></div>
               <div class="form-group">
                 <label>NIB</label>
-                <input type="text" name="nib" class="form-control" value="<?= $user['nib'] ?>" required>
+                <input type="text" name="nib" class="form-control" value="<?= $user['nib'] ?>">
               </div>
               <div class="form-group">
                 <label>Email</label>
@@ -56,7 +56,7 @@
               </div>
               <div class="form-group">
                 <label>Nama</label>
-                <input type="text" name="name" class="form-control" value="<?= $user['name'] ?>" required>
+                <input type="text" name="name" class="form-control" value="<?= $user['name'] ?>">
               </div>
               <div class="form-group">
                 <label>Deskription</label>
@@ -64,10 +64,10 @@
               </div>
               <div class="form-group">
                 <label>Foto</label>
-                <input type="file" class="form-control" id="form-file" placeholder="Masukan File" name="file">
+                <input type="file" class="form-control" id="form-file" placeholder="Masukan File" name="file" accept="image/x-png,image/jpeg">
               </div>
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-edit"></i> Ubah Profil</button>
+                <button type="submit" class="btn btn-primary pull-right" id="btn-profil"><i class="fa fa-edit"></i> Ubah Profil</button>
               </div>
             </form>
           </div>
@@ -78,83 +78,107 @@
           <div class="box-header with-border">
             <h3 class="box-title">Ubah Password</h3>
           </div>
-          <form action="<?= base_url('profil/updatePassword') ?>" enctype="multipart/form-data" method="POST" id="upload">
-            <div class="show_error"></div>
+          <form action="<?= base_url('profil/updatepassword') ?>" enctype="multipart/form-data" method="POST" id="upload_password">
             <div class="box-body">
-
-              <?php 
-              if (isset($_GET['password'])) { ?>
-              <div class="alert alert-success alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4>Berhasil!</h4>
-                Password Berhasil diubah !
-              </div>
-            <?php } ?>
+              <div id="show_error_password"></div>
               <div class="form-group">
                 <label>Password Baru</label>
-                <input type="password" name="password" class="form-control" required>
+                <input type="password" name="password" class="form-control">
               </div>
               <div class="form-group">
                 <label>Konfirmasi Password Baru</label>
-                <input type="password" name="password_confirmation" class="form-control" required>
+                <input type="password" name="password_confirmation" class="form-control">
               </div>
-              <?php 
-              if (isset($_GET['new_password'])) { 
-                echo "<p class='text-red'>Konfirmasi Passowrd tidak sama</p>";
-              } ?>
               <div class="form-group">
                 <label>Konfirmasi Password Lama</label>
-                <input type="password" name="password_confirmation_last" class="form-control" required>
+                <input type="password" name="password_confirmation_last" class="form-control">
               </div>
-              <?php 
-              if (isset($_GET['last_password'])) { 
-                echo "<p class='text-red'>Konfirmasi Password lama tidak sesuai </p>";
-              } ?>
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-edit"></i> Ubah Password</button>
+                <button type="submit" id="#btn-password" class="btn btn-primary pull-right"><i class="fa fa-edit"></i> Ubah Password</button>
               </div>
             </form>
           </div>
         </div>
       </section>
     </div>
-    <script type="text/javascript">
-      $("#uploads").submit(function(){
-        var mydata = new FormData(this);
-        var form = $(this);
-        $.ajax({
-          type: "POST",
-          url: form.attr("action"),
-          data: mydata,
-          cache: false,
-          contentType: false,
-          processData: false,
-          beforeSend : function(){
-            $("#send-btns").addClass("disabled").html("<i class='fa fa-spinner fa-spin'></i>  Processing...").attr('disabled',true);
-            form.find(".show_error").slideUp().html("");
+    
+<script type="text/javascript">
 
-          },
-          success: function(response, textStatus, xhr) {
-                // alert(mydata);
-                var str = response;
-                if (str.indexOf("Success") != -1){
-                  form.find(".show_error").hide().html(response).slideDown("fast");
-                  $("#send-btns").removeClass("disabled").html('<i class="fa fa-save"></i> Simpan').attr('disabled',false);
-                  loaddatas();
-                    // document.getElementById('upload').reset();
-                    $('#uploads')[0].reset();
-                    $("#editsite").modal('hide');
-                    
-                  }else{
-                    form.find(".show_error").hide().html(response).slideDown("fast");
-                    $("#send-btns").removeClass("disabled").html('<i class="fa fa-save"></i> Simpan').attr('disabled',false);
-                  }
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                  console.log(xhr);
-                }
-              });
-        return false;
-      });
+  $("#upload_profil").submit(function(){
+    var form = $(this);
+    var mydata = new FormData(this);
+    $.ajax({
+      type: "POST",
+      url: form.attr("action"),
+      data: mydata,
+      cache: false,
+      contentType: false,
+      processData: false,
+      beforeSend : function(){
+        $("#btn-profil").addClass("disabled").html("<i class='la la-spinner la-spin'></i>  Prosess...").attr('disabled',true);
+        form.find("#show_error_profil").slideUp().html("");
+      },
 
-    </script>
+      success: function(response, textStatus, xhr) {
+        var str = response;
+        console.log(str);
+        if (str.indexOf("success") != -1){
+          form.find("#show_error_profil").html(response).slideDown("fast");
+          setTimeout(function(){ 
+           window.location.href = "<?= base_url('profil') ?>";
+         }, 1000);
+          $("#btn-profil").removeClass("disabled").html('<i class="fa fa-edit"></i> Ubah Password').attr('disabled',false);
+        }else{
+          form.find("#show_error_profil").hide().html(response).slideDown("fast");
+          $("#btn-profil").removeClass("disabled").html('<i class="fa fa-edit"></i> Ubah Password').attr('disabled',false);
+        }
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log(xhr);
+        $("$btn-profil").removeClass("disabled").html('<i class="fa fa-edit"></i> Ubah Password').attr('disabled',false);
+        form.find("#show_error_profil").hide().html(xhr).slideDown("fast");
+      }
+    });
+    return false;
+  });
+
+  
+  $("#upload_password").submit(function(){
+    var form = $(this);
+    var mydata = new FormData(this);
+    $.ajax({
+      type: "POST",
+      url: form.attr("action"),
+      data: mydata,
+      cache: false,
+      contentType: false,
+      processData: false,
+      beforeSend : function(){
+        $("#btn-password").addClass("disabled").html("<i class='la la-spinner la-spin'></i>  Prosess...").attr('disabled',true);
+        form.find("#show_error_password").slideUp().html("");
+      },
+
+      success: function(response, textStatus, xhr) {
+        var str = response;
+        console.log(str);
+        if (str.indexOf("success") != -1){
+          form.find("#show_error_password").html(response).slideDown("fast");
+          setTimeout(function(){ 
+           window.location.href = "<?= base_url('profil') ?>";
+         }, 1000);
+          $("#btn-password").removeClass("disabled").html('<i class="fa fa-edit"></i> Ubah Profil').attr('disabled',false);
+        }else{
+          form.find("#show_error_password").hide().html(response).slideDown("fast");
+          $("#btn-password").removeClass("disabled").html('<i class="fa fa-edit"></i> Ubah Profil').attr('disabled',false);
+        }
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log(xhr);
+        $("$btn-password").removeClass("disabled").html('<i class="fa fa-edit"></i> Ubah Profil').attr('disabled',false);
+        form.find("#show_error_password").hide().html(xhr).slideDown("fast");
+      }
+    });
+    return false;
+  });
+
+</script>

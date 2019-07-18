@@ -11,12 +11,12 @@ class Alert extends CI_Controller  {
 	}
 	public function alertsuccess($status=null)
 	{
-		# code...
+		# code... 
 		echo '<div class="alert alert-success ks-solid ks-active-border" role="alert">';
 		echo '	<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
 		echo '		<span aria-hidden="true" class="fa fa-close"></span>';
 		echo '	</button>';
-		echo '	<h5 class="alert-heading">Berhasil</h5>';
+		echo '	<h5 class="alert-heading">Berhasil </h5>';
 		echo '		<ul>';
 		echo "			<li>$status</li>";
 		echo '		</ul>';

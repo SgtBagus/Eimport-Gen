@@ -290,7 +290,7 @@ class CI_Form_validation {
 	{
 		if ( ! is_array($lang))
 		{
-			$lang = array($lang => $val);
+			$lang = array($lang => $val); 
 		}
 
 		$this->_error_messages = array_merge($this->_error_messages, $lang);
