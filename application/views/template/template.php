@@ -70,8 +70,7 @@ if($this->session->userdata('role_id') != '17' ) {
     <div class="wrapper">
       <header class="main-header">
         <a href="<?= base_url() ?>" class="logo">
-          <span class="logo-mini"><?= APPLICATION_SMALL  ?> </span>
-          <span class="logo-lg"><?= APPLICATION  ?> </span>
+          <span class="logo-lg"> <img src="<?= LOGO ?>" width="40px" height="40px"> <?= APPLICATION  ?> </span>
         </a>
         <nav class="navbar navbar-static-top">
           <div class="navbar-custom-menu">

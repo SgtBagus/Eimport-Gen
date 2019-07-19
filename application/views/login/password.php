@@ -10,7 +10,7 @@ if($this->session->userdata('session_sop')!="") {
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?= TITLE_LOGIN_APPLICATION ?></title>
+  <title><?= TITLE_APPLICATION ?></title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/login/')?>/vendor/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/login/')?>/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -29,7 +29,7 @@ if($this->session->userdata('session_sop')!="") {
       <div class="wrap-login100" style="<?= LOGIN_BOX  ?>"> 
         <form action="<?= base_url('login/emailpassword')?>" method="post" id="upload">
           <span class="login100-form-logo">
-            <img src="<?= base_url('assets/login/')?>/images/logo.png">
+            <img src="<?= LOGO ?>">
           </span>
 
           <span class="login100-form-title p-b-34 p-t-27">

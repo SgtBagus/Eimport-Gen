@@ -31,12 +31,12 @@
 		// }
 
 
-// 		public function validate()
-// 		{
-// 			$this->form_validation->set_error_delimiters('<li>', '</li>');
-// 	$this->form_validation->set_rules('dt[slug]', '<strong>Slug</strong>', 'required');
-// $this->form_validation->set_rules('dt[value]', '<strong>Value</strong>', 'required');
-// 	}
+		public function validate()
+		{
+			$this->form_validation->set_error_delimiters('<li>', '</li>');
+	$this->form_validation->set_rules('dt[slug]', '<strong>Slug</strong>', 'required');
+$this->form_validation->set_rules('dt[value]', '<strong>Value</strong>', 'required');
+	}
 
 		// public function store()
 		// {

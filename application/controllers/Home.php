@@ -14,7 +14,7 @@ class Home extends MY_Controller {
         if($this->session->userdata('role_id') == '17'){
             $this->template->load('template/template','template/index',$data);
         } else {
-            $this->template->load('template/template_user','template/index_user',$data);
+            $this->template->load('template/template_user','template/index',$data);
         }
     }
 }

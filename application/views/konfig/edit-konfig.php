@@ -5,11 +5,9 @@
   <section class="content-header">
     <h1>
       Konfig
-      <small>Master</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">master</a></li>
+      <li><a href="<?=base_url()?>"><i class="fa fa-dashboard"></i> Home</a></li>
       <li class="active">Konfig</li>
     </ol>
   </section>
@@ -31,7 +29,7 @@
             <div class="box-body">
               <div class="show_error"></div><div class="form-group">
                 <label for="form-slug">Slug</label>
-                <input type="text" class="form-control" id="form-slug" placeholder="Masukan Slug" name="dt[slug]" value="<?= $konfig['slug'] ?>">
+                <input type="text" class="form-control" id="form-slug" placeholder="Masukan Slug" name="dt[slug]" value="<?= $konfig['slug'] ?>" readonly="true">
               </div><div class="form-group">
                 <label for="form-value">Value</label>
                 <input type="text" class="form-control" id="form-value" placeholder="Masukan Value" name="dt[value]" value="<?= $konfig['value'] ?>">
