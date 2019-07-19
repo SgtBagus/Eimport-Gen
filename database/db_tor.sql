@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 17 Jul 2019 pada 13.04
--- Versi server: 10.1.39-MariaDB
--- Versi PHP: 7.3.5
+-- Host: localhost
+-- Generation Time: Jul 19, 2019 at 06:15 AM
+-- Server version: 10.3.16-MariaDB
+-- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `access`
+-- Table structure for table `access`
 --
 
 CREATE TABLE `access` (
@@ -36,7 +36,7 @@ CREATE TABLE `access` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `access`
+-- Dumping data for table `access`
 --
 
 INSERT INTO `access` (`id`, `access_control_id`, `role_id`, `status`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `access` (`id`, `access_control_id`, `role_id`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `access_control`
+-- Table structure for table `access_control`
 --
 
 CREATE TABLE `access_control` (
@@ -57,7 +57,7 @@ CREATE TABLE `access_control` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `access_control`
+-- Dumping data for table `access_control`
 --
 
 INSERT INTO `access_control` (`id`, `folder`, `class`, `method`, `val`) VALUES
@@ -387,7 +387,7 @@ INSERT INTO `access_control` (`id`, `folder`, `class`, `method`, `val`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `company`
+-- Table structure for table `company`
 --
 
 CREATE TABLE `company` (
@@ -396,7 +396,7 @@ CREATE TABLE `company` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `company`
+-- Dumping data for table `company`
 --
 
 INSERT INTO `company` (`id`, `name`) VALUES
@@ -406,7 +406,7 @@ INSERT INTO `company` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `file`
+-- Table structure for table `file`
 --
 
 CREATE TABLE `file` (
@@ -422,7 +422,7 @@ CREATE TABLE `file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `file`
+-- Dumping data for table `file`
 --
 
 INSERT INTO `file` (`id`, `name`, `mime`, `dir`, `table`, `table_id`, `status`, `created_at`, `updated_at`) VALUES
@@ -432,13 +432,13 @@ INSERT INTO `file` (`id`, `name`, `mime`, `dir`, `table`, `table_id`, `status`, 
 (184, '6950c16c9bcc6995f376b297f163175915577.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175915577.png', 'user', 16, 'ENABLE', '2019-07-08 11:10:54', NULL),
 (199, '6950c16c9bcc6995f376b297f16317591331.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f16317591331.png', 'user', 18, 'ENABLE', '2019-07-10 08:48:28', NULL),
 (200, '6950c16c9bcc6995f376b297f163175956227.png', 'image/png', 'webfile/6950c16c9bcc6995f376b297f163175956227.png', 'user', 19, 'ENABLE', '2019-07-15 16:27:02', NULL),
-(203, 'bd120ba9d6755a270cf0ed8ac039dd7e93677.pdf', 'application/pdf', 'webfile/pdf/bd120ba9d6755a270cf0ed8ac039dd7e93677.pdf', 'pengajuan_detail', 1, 'ENABLE', '2019-07-17 18:02:36', '2019-07-17 18:02:36'),
-(204, 'bd120ba9d6755a270cf0ed8ac039dd7e936771.pdf', 'application/pdf', 'webfile/pdf/bd120ba9d6755a270cf0ed8ac039dd7e936771.pdf', 'pengajuan_detail', 2, 'ENABLE', '2019-07-17 18:02:36', '2019-07-17 18:02:36');
+(217, 'bd120ba9d6755a270cf0ed8ac039dd7e43127.pdf', 'application/pdf', 'webfile/pdf/bd120ba9d6755a270cf0ed8ac039dd7e43127.pdf', 'pengajuan_detail', 15, 'ENABLE', '2019-07-18 09:11:46', '2019-07-18 09:11:46'),
+(218, 'bd120ba9d6755a270cf0ed8ac039dd7e431271.pdf', 'application/pdf', 'webfile/pdf/bd120ba9d6755a270cf0ed8ac039dd7e431271.pdf', 'pengajuan_detail', 16, 'ENABLE', '2019-07-18 09:11:46', '2019-07-18 09:11:46');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `history`
+-- Table structure for table `history`
 --
 
 CREATE TABLE `history` (
@@ -446,39 +446,39 @@ CREATE TABLE `history` (
   `user_id` int(11) NOT NULL,
   `pengajuan_id` int(11) NOT NULL,
   `title` varchar(225) NOT NULL,
-  `history` text,
+  `history` text DEFAULT NULL,
   `history_status` enum('INFO','SUCCESS','WARNING','DANGER') DEFAULT NULL,
-  `status` enum('ENABLE','DISABLE') DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `disabled_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `history`
---
-
-INSERT INTO `history` (`id`, `user_id`, `pengajuan_id`, `title`, `history`, `history_status`, `status`, `created_at`, `disabled_at`) VALUES
-(1, 18, 1, 'PENGAJUAN DIBUAT', 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi', 'INFO', 'ENABLE', '2019-07-17 18:02:36', NULL),
-(2, 1, 1, 'PENGAJUAN DIKONFIRMASI', 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan', 'WARNING', 'ENABLE', '2019-07-17 18:03:19', NULL),
-(3, 14, 1, 'PENGAJUAN DITERIMA', 'Pengajuan DTerima', 'SUCCESS', 'ENABLE', '2019-07-17 18:03:44', NULL);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `konfig`
---
-
-CREATE TABLE `konfig` (
-  `id` int(11) NOT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `value` text,
   `status` enum('ENABLE','DISABLE') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `konfig`
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`id`, `user_id`, `pengajuan_id`, `title`, `history`, `history_status`, `status`, `created_at`, `updated_at`) VALUES
+(17, 15, 8, 'PENGAJUAN DIBUAT', 'Pengajuan Berhasil Dibuat dan Menunggu Di konfirmasi', 'INFO', 'ENABLE', '2019-07-18 09:11:46', NULL),
+(18, 1, 8, 'PENGAJUAN DIKONFIRMASI', 'Pengajuan Dikonfirmasi dan Menunggu Dikonfirmasi Lapangan', 'WARNING', 'ENABLE', '2019-07-18 09:41:32', NULL),
+(19, 14, 8, 'PENGAJUAN DITERIMA', 'Pengajuan Diterima', 'SUCCESS', 'ENABLE', '2019-07-18 10:05:40', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `konfig`
+--
+
+CREATE TABLE `konfig` (
+  `id` int(11) NOT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `value` text DEFAULT NULL,
+  `status` enum('ENABLE','DISABLE') DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `konfig`
 --
 
 INSERT INTO `konfig` (`id`, `slug`, `value`, `status`, `created_at`, `updated_at`) VALUES
@@ -500,7 +500,7 @@ INSERT INTO `konfig` (`id`, `slug`, `value`, `status`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `menu_master`
+-- Table structure for table `menu_master`
 --
 
 CREATE TABLE `menu_master` (
@@ -517,7 +517,7 @@ CREATE TABLE `menu_master` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `menu_master`
+-- Dumping data for table `menu_master`
 --
 
 INSERT INTO `menu_master` (`id`, `name`, `icon`, `link`, `urutan`, `parent`, `notif`, `status`, `created_at`, `updated_at`) VALUES
@@ -527,12 +527,13 @@ INSERT INTO `menu_master` (`id`, `name`, `icon`, `link`, `urutan`, `parent`, `no
 (20, 'Dashboard', 'fa fa-dashboard', '/', '0', '0', '', 'ENABLE', '2019-07-03 14:53:31', '2019-07-03 14:53:46'),
 (25, 'Pengaturan menu', 'mdi mdi-folder-network', '/menu_master', '0', '24', '', 'ENABLE', '2019-07-10 13:37:15', NULL),
 (26, 'Role', 'fa fa-info', '/role', '1', '24', '', 'ENABLE', '2019-07-10 13:39:50', '2019-07-10 13:41:19'),
-(27, 'Konfig', 'fa fa-link', '/konfig', '2', '24', '', 'ENABLE', '2019-07-10 13:40:43', '2019-07-10 13:41:30');
+(27, 'Konfig', 'fa fa-link', '/konfig', '2', '24', '', 'ENABLE', '2019-07-10 13:40:43', '2019-07-10 13:41:30'),
+(28, 'Log Aktifitas', 'fa fa-history', '/logactivity', '4', '0', '', 'ENABLE', '2019-07-18 10:18:43', '2019-07-18 10:18:57');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `notifications`
+-- Table structure for table `notifications`
 --
 
 CREATE TABLE `notifications` (
@@ -541,7 +542,7 @@ CREATE TABLE `notifications` (
   `role_id` int(11) NOT NULL,
   `pengajuan_id` int(11) NOT NULL,
   `title` varchar(225) DEFAULT NULL,
-  `notif_desc` text,
+  `notif_desc` text DEFAULT NULL,
   `read_on` enum('ENABLE','DISABLE') DEFAULT NULL,
   `status` enum('ENABLE','DISABLE') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -549,19 +550,19 @@ CREATE TABLE `notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `notifications`
+-- Dumping data for table `notifications`
 --
 
 INSERT INTO `notifications` (`id`, `user_id`, `role_id`, `pengajuan_id`, `title`, `notif_desc`, `read_on`, `status`, `created_at`, `updated_at`) VALUES
-(1, 18, 17, 1, 'PENGAJUAN PL_18-20190717.1', 'Perlu Dikonfirmasi', 'DISABLE', 'ENABLE', '2019-07-17 18:02:36', '2019-07-17 18:02:36'),
-(2, 18, 24, 1, 'PENGAJUAN PL_18-20190717.1', 'Pengajuan Anda Dikirim Lapangan', 'ENABLE', 'ENABLE', '2019-07-17 18:03:19', '2019-07-17 18:03:19'),
-(3, 18, 23, 1, 'PENGAJUAN PL_18-20190717.1', 'Menunggu untuk Dikonfirmasi Lapangan', 'ENABLE', 'ENABLE', '2019-07-17 18:03:19', '2019-07-17 18:03:19'),
-(4, 18, 24, 1, 'PENGAJUAN PL_18-20190717.1', 'Pengajuan Anda Diterima Lapangan', 'ENABLE', 'ENABLE', '2019-07-17 18:03:44', '2019-07-17 18:03:44');
+(25, 15, 17, 8, 'PENGAJUAN PL_15-20190718.8', 'Perlu Dikonfirmasi', 'ENABLE', 'ENABLE', '2019-07-18 09:11:46', '2019-07-18 09:11:46'),
+(26, 15, 24, 8, 'PENGAJUAN PL_15-20190718.8', 'Pengajuan Anda Dikirim Lapangan', 'ENABLE', 'ENABLE', '2019-07-18 09:41:32', NULL),
+(27, 15, 23, 8, 'PENGAJUAN PL_15-20190718.8', 'Menunggu untuk Dikonfirmasi Lapangan', 'DISABLE', 'ENABLE', '2019-07-18 09:41:32', NULL),
+(28, 15, 24, 8, 'PENGAJUAN PL_15-20190718.8', 'Pengajuan Anda Diterima Lapangan', 'ENABLE', 'ENABLE', '2019-07-18 10:05:41', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengajuan`
+-- Table structure for table `pengajuan`
 --
 
 CREATE TABLE `pengajuan` (
@@ -569,32 +570,32 @@ CREATE TABLE `pengajuan` (
   `user_id` int(11) DEFAULT NULL,
   `code` varchar(225) NOT NULL,
   `judul` varchar(225) DEFAULT NULL,
-  `keterangan` text,
+  `keterangan` text DEFAULT NULL,
   `approve` enum('PROCESS','PROCESS2','ACCEPT','REJECT') DEFAULT NULL,
-  `note` text,
+  `note` text DEFAULT NULL,
   `status` enum('ENABLE','DISABLE') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pengajuan`
+-- Dumping data for table `pengajuan`
 --
 
 INSERT INTO `pengajuan` (`id`, `user_id`, `code`, `judul`, `keterangan`, `approve`, `note`, `status`, `created_at`, `updated_at`) VALUES
-(1, 18, 'PL_18-20190717.1', 'Pengajuan 1', 'Ini isi pengajuan 1', 'ACCEPT', 'Catatan Master', 'ENABLE', '2019-07-17 18:02:35', '2019-07-17 18:03:44');
+(8, 15, 'PL_15-20190718.8', 'Perubahan Sistem Notifikasi dan history', 'Perubahan Sistem notikasi dengan tambahan fucntion', 'ACCEPT', '', 'ENABLE', '2019-07-18 09:11:45', '2019-07-18 10:05:40');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengajuan_detail`
+-- Table structure for table `pengajuan_detail`
 --
 
 CREATE TABLE `pengajuan_detail` (
   `id` int(11) NOT NULL,
   `pengajuan_id` int(11) NOT NULL,
-  `file` text,
-  `note` text,
+  `file` text DEFAULT NULL,
+  `note` text DEFAULT NULL,
   `approve` enum('PROCESS','ACCEPT','REJECT') NOT NULL,
   `approve2` enum('PROCESS','ACCEPT','REJECT') NOT NULL,
   `status` enum('ENABLE','DISABLE') DEFAULT NULL,
@@ -603,41 +604,41 @@ CREATE TABLE `pengajuan_detail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pengajuan_detail`
+-- Dumping data for table `pengajuan_detail`
 --
 
 INSERT INTO `pengajuan_detail` (`id`, `pengajuan_id`, `file`, `note`, `approve`, `approve2`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'pdf.pdf', 'Catatan 1', 'ACCEPT', 'ACCEPT', 'ENABLE', '2019-07-17 18:02:36', '2019-07-17 18:03:44'),
-(2, 1, 'pdf.pdf', 'Catatan 2', 'ACCEPT', 'ACCEPT', 'ENABLE', '2019-07-17 18:02:36', '2019-07-17 18:03:44');
+(15, 8, 'sample.pdf', '', 'ACCEPT', 'ACCEPT', 'ENABLE', '2019-07-18 09:11:45', '2019-07-18 10:05:40'),
+(16, 8, 'your_filename.pdf', '', 'ACCEPT', 'ACCEPT', 'ENABLE', '2019-07-18 09:11:46', '2019-07-18 10:05:40');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `role`
+-- Table structure for table `role`
 --
 
 CREATE TABLE `role` (
   `id` int(11) NOT NULL,
   `role` varchar(255) DEFAULT NULL,
   `status` enum('DISABLE','ENABLE') DEFAULT NULL,
-  `menu` text,
+  `menu` text DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `role`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `role`, `status`, `menu`, `created_at`, `updated_at`) VALUES
-(17, 'Admin', 'ENABLE', '[\"20\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\"]', '2018-10-12 17:03:59', '2019-07-10 13:50:44'),
-(23, 'Admin Lapangan', 'ENABLE', '[\"20\",\"22\"]', '2019-07-04 10:13:35', '2019-07-10 13:50:33'),
-(24, 'Pengaju', 'ENABLE', '[\"20\",\"22\"]', '2019-07-04 10:48:31', '2019-07-10 13:50:56');
+(17, 'Admin', 'ENABLE', '[\"20\",\"22\",\"23\",\"24\",\"25\",\"26\",\"27\",\"28\"]', '2018-10-12 17:03:59', '2019-07-18 10:19:15'),
+(23, 'Admin Lapangan', 'ENABLE', '[\"20\",\"22\",\"28\"]', '2019-07-04 10:13:35', '2019-07-18 13:28:54'),
+(24, 'Pengaju', 'ENABLE', '[\"20\",\"22\",\"28\"]', '2019-07-04 10:48:31', '2019-07-18 13:29:04');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -655,7 +656,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `nib`, `name`, `email`, `password`, `role_id`, `desc`, `verification`, `status`, `created_at`, `updated_at`) VALUES
@@ -671,137 +672,137 @@ INSERT INTO `user` (`id`, `nib`, `name`, `email`, `password`, `role_id`, `desc`,
 --
 
 --
--- Indeks untuk tabel `access`
+-- Indexes for table `access`
 --
 ALTER TABLE `access`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `access_control`
+-- Indexes for table `access_control`
 --
 ALTER TABLE `access_control`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `file`
+-- Indexes for table `file`
 --
 ALTER TABLE `file`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `history`
+-- Indexes for table `history`
 --
 ALTER TABLE `history`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `konfig`
+-- Indexes for table `konfig`
 --
 ALTER TABLE `konfig`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
--- Indeks untuk tabel `menu_master`
+-- Indexes for table `menu_master`
 --
 ALTER TABLE `menu_master`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `notifications`
+-- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `pengajuan`
+-- Indexes for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `pengajuan_detail`
+-- Indexes for table `pengajuan_detail`
 --
 ALTER TABLE `pengajuan_detail`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `role`
+-- Indexes for table `role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `access`
+-- AUTO_INCREMENT for table `access`
 --
 ALTER TABLE `access`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `access_control`
+-- AUTO_INCREMENT for table `access_control`
 --
 ALTER TABLE `access_control`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
 
 --
--- AUTO_INCREMENT untuk tabel `file`
+-- AUTO_INCREMENT for table `file`
 --
 ALTER TABLE `file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
 
 --
--- AUTO_INCREMENT untuk tabel `history`
+-- AUTO_INCREMENT for table `history`
 --
 ALTER TABLE `history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT untuk tabel `konfig`
+-- AUTO_INCREMENT for table `konfig`
 --
 ALTER TABLE `konfig`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT untuk tabel `menu_master`
+-- AUTO_INCREMENT for table `menu_master`
 --
 ALTER TABLE `menu_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
--- AUTO_INCREMENT untuk tabel `notifications`
+-- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT untuk tabel `pengajuan`
+-- AUTO_INCREMENT for table `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `pengajuan_detail`
+-- AUTO_INCREMENT for table `pengajuan_detail`
 --
 ALTER TABLE `pengajuan_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT untuk tabel `role`
+-- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT untuk tabel `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
