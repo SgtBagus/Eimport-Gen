@@ -344,17 +344,21 @@ class Pengajuan extends MY_Controller {
 			$email_title = 'Pengajuan Anda Di Tolak';
 			$email_content = 'Pengajuan <b>'.$pg[0]['code'].'</b> anda telah ditolak';
 		}
-		$this->Memail->send_email(
-			$user_email[0]['email'], 
-			$user_email[0]['name'], 
-			$email_title,
-			$email_content,
-			'<a href="'.$link.'" style="text-decoration:none; color:#FFF;" target="_blank">
-			<button style="color:#FFF; background-color: #007aff; border:0px; border-radius: 100px; height:60px; width:200px; font-family:Verdana, Arial; font-size:20px; font-weight:bold;" align="center">
-			Lihat Pengajuan !
-			</button>
-			</a>'
-		);
+
+		if($user_email[0]['verification']){
+			$this->Memail->send_email(
+				$user_email[0]['email'], 
+				$user_email[0]['name'], 
+				$email_title,
+				$email_content,
+				'<a href="'.$link.'" style="text-decoration:none; color:#FFF;" target="_blank">
+				<button style="color:#FFF; background-color: #007aff; border:0px; border-radius: 100px; height:60px; width:200px; font-family:Verdana, Arial; font-size:20px; font-weight:bold;" align="center">
+				Lihat Pengajuan !
+				</button>
+				</a>'
+			);
+		}
+
 		if($_POST['dt']['approve'] == 'PROCESS2'){
 			$this->alert->alertwarning('Data Di Kirim Ke Lapangan !');
 		} else if($_POST['dt']['approve'] == 'ACCEPT'){

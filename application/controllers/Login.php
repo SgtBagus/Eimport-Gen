@@ -5,6 +5,7 @@ class Login extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+        $this->load->model('Memail');
 	}
 
 	public function index()
@@ -45,14 +46,75 @@ class Login extends MY_Controller {
                 echo "oke";
                 return TRUE;
             } else {
-                $this->alert->alertdanger('Check again your NIP and password');
+                $this->alert->alertdanger('Mohon cek ulang Email dan Passowrd Anda !');
                 return FALSE;
 
             }
     }
     
-    function lockscreen(){
-        $this->load->view('login/lockscreen');
+    public function password()
+    { 
+        $this->load->view('login/password');
     }
+
+    public function emailpassword(){
+        $email = $this->input->post('email');
+        $cek_email = $this->mymodel->selectWhere('user', array('email' => $email));
+        if($cek_email){
+
+            $link = base_url('login/changepassword/').md5($cek_email[0]['email']);
+
+            $this->Memail->send_email(
+              $cek_email[0]['email'], 
+              $cek_email[0]['name'], 
+              'Merubah Password !', 
+              'Perubahan password bisa di lakukan dengan mengklik tombol di bawah ini !', 
+              '<a href="'.$link.'" style="text-decoration:none; color:#FFF;" target="_blank">
+              <button style="color:#FFF; background-color: #007aff; border:0px; border-radius: 100px; height:60px; width:200px; font-family:Verdana, Arial; font-size:20px; font-weight:bold;" align="center">
+              Ganti Password
+              </button>
+              </a>'
+          );
+        
+            $this->alert->alertsuccess('Mohon mengencek inbox email anda !');
+
+        }else{
+            $this->alert->alertdanger('Email Tidak Terdaftar');
+        }
+    }
+
+    public function changepassword($email){
+
+        $cek_user = $this->mymodel->selectWithQuery('SELECT * FROM user WHERE md5(email) = "'.$email.'"');
+
+        if($cek_user){
+            $data['id'] = $cek_user[0]['id'];
+            $this->load->view('login/change-pass', $data);
+        }else{
+            $this->load->view('errors/html/error_404');
+        }
+    }
+
+    public function act_password($id){
+
+        $password = $this->input->post('password');
+        $new_password = $this->input->post('new_password');
+
+        if(!$password){
+            $this->alert->alertdanger('Password Tidak Boleh Kosong !');   
+        }else if ($password != $new_password){
+            $this->alert->alertdanger('Konfirmasi Passowrd harus sama !');   
+        }else {    
+            $dataup['password'] = md5($password);
+            $dataup['updated_at'] = date("Y-m-d H:i:s");
+            $this->mymodel->updateData('user', $dataup , array('id'=> $id));
+            $this->alert->alertsuccess('Berhasil mengubah Password');   
+        }
+    }
+
+
+    // function lockscreen(){
+    //     $this->load->view('login/lockscreen');
+    // }
 
 }

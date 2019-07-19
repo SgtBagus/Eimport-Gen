@@ -44,6 +44,11 @@ if($this->session->userdata('session_sop')!="") {
             <input class="input100" type="password" name="password" placeholder="Password">
             <span class="focus-input100" data-placeholder="&#xf191;"></span>
           </div>
+          <div class="row">
+            <div class="col-xl-12" align="right">
+              <a href="<?= base_url('login/password') ?>" style="color:white" align="left"><u>Lupa Passowrd</u></a>
+            </div>
+          </div>
           <div class="container-login100-form-btn">
             <button class="login100-form-btn btn-primary">
               Login
@@ -93,7 +98,7 @@ if($this->session->userdata('session_sop')!="") {
          }
        },
        error: function(xhr, textStatus, errorThrown) {
-        
+
        }
      });
       return false;
