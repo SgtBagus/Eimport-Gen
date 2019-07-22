@@ -28,9 +28,9 @@ if($this->session->userdata('session_sop')!="") {
     <div class="container-login100" style="<?= LOGIN_BACKGROUND ?>">
       <div class="wrap-login100" style="<?= LOGIN_BOX  ?>"> 
         <form action="<?= base_url('login/act_login')?>" method="post" id="upload">
-          <span class="login100-form-logo">
+          <!-- <span class="login100-form-logo">
             <img src="<?= LOGO ?>">
-          </span>
+          </span> -->
 
           <span class="login100-form-title p-b-34 p-t-27">
            <b><?= LOGIN_TITLE ?>

@@ -26,6 +26,7 @@
         <?php } ?>
         <div class="box">
           <!-- /.box-header -->
+          <?php if ($this->session->userdata('role_id') == "24")  {?>
           <div class="box-header">
             <div class="row">
               <div class="col-md-6">
@@ -39,8 +40,8 @@
                 </div>
               </div>  
             </div>
-
           </div>
+        <?php } ?>
           <div class="box-body">
             <div class="show_error"></div>
 
@@ -54,7 +55,7 @@
   </section>
 </div>
 
-<div class="modal fade bd-example-modal-sm" tabindex="-1" pengajuan="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-delete">
+<!-- <div class="modal fade bd-example-modal-sm" tabindex="-1" pengajuan="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="modal-delete">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <form id="upload-delete" action="<?= base_url('Pengajuan/delete') ?>">
@@ -75,7 +76,7 @@
       </form>
     </div>
   </div>
-</div> 
+</div>  -->
 
 <div class="modal fade" id="modal-impor">
   <div class="modal-dialog">
@@ -165,13 +166,13 @@
 
 
                       if (data.approve == "PROCESS") { 
-                        $("td:eq(3)", row).html('<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>');
+                        $("td:eq(4)", row).html('<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>');
                       } else if (data.approve == "PROCESS2") {
-                        $("td:eq(3)", row).html('<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES LAPANGAN</small>');
+                        $("td:eq(4)", row).html('<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES LAPANGAN</small>');
                       } else if (data.approve == "ACCEPT") {
-                        $("td:eq(3)", row).html('<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>');
+                        $("td:eq(4)", row).html('<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>');
                       } else if (data.approve == "REJECT") {
-                        $("td:eq(3)", row).html('<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>');
+                        $("td:eq(4)", row).html('<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>');
                       }
 
                     }

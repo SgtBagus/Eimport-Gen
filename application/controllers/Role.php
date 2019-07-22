@@ -25,11 +25,11 @@
 		// }
 
 
-	// 	public function validate()
-	// 	{
-	// 		$this->form_validation->set_error_delimiters('<li>', '</li>');
-	// $this->form_validation->set_rules('dt[role]', '<strong>Role</strong>', 'required');
-	// }
+		public function validate()
+		{
+			$this->form_validation->set_error_delimiters('<li>', '</li>');
+	$this->form_validation->set_rules('dt[role]', '<strong>Role</strong>', 'required');
+	}
 
 		// public function store()
 		// {

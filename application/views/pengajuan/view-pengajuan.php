@@ -18,6 +18,10 @@
             <div class="box-header">
               <h3>
                 <b><?= $pengajuan['code'] ?></b>
+                <?php 
+                $pengaju = $this->mymodel->selectWhere('user', array('id' => $pengajuan['user_id']));
+                ?>
+                <small> <?= $pengaju[0]['name'] ?> </small>
               </h3>
             </div>
             <div class="row">
@@ -65,152 +69,152 @@
                             <option value="REJECT" <?php if($pengajuan['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
                           </select>
                         <?php } else { ?>
-                        <p class="help-block">*File Telah Di Kirim Di Lapangan</p>
-                      <?php }
-                    } else { 
-                      if($pengajuan['approve'] == 'PROCESS'){ ?>
-                        <p class="help-block">*File Masih Diproses ! </p>
-                    <?php } else { ?>
-                        <select class="form-control" name="dt[approve]">
-                          <option value="ACCEPT" <?php if($pengajuan['approve'] == 'ACCEPT'){ echo "selected"; } ?> > Terima File</option>
-                          <option value="REJECT" <?php if($pengajuan['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
-                        </select>
-                    <?php }
-                  }
+                          <p class="help-block">*Dokumen Telah Di Kirim Di Lapangan</p>
+                        <?php }
+                      } else { 
+                        if($pengajuan['approve'] == 'PROCESS'){ ?>
+                          <p class="help-block">*Dokumen Masih Diproses ! </p>
+                        <?php } else { ?>
+                          <select class="form-control" name="dt[approve]">
+                            <option value="ACCEPT" <?php if($pengajuan['approve'] == 'ACCEPT'){ echo "selected"; } ?> > Terima File</option>
+                            <option value="REJECT" <?php if($pengajuan['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
+                          </select>
+                        <?php }
+                      }
+                      ?>
+                    </div>
+                  <?php } 
                   ?>
                 </div>
-              <?php } 
-              ?>
-            </div>
-          </div>
-          <div class="col-xs-4">
-            <div class="form-group">
-              <label for="form-approve">Status</label> <br>
-              <div class="row" align="center">
-                <?php
-                if($pengajuan['approve'] == "PROCESS"){
-                  echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS</h3>';
-                } else if ($pengajuan['approve'] == "PROCESS2") {
-                  echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS LAPANGAN</h3>';
-                } else if ($pengajuan['approve'] == "ACCEPT") {
-                  echo '<i class="fa fa-check-circle-o fa-5x text-blue"></i> <br> <h3 class="text-blue">DITERIMA</h3>';
-                } else if ($pengajuan['approve'] == "REJECT") {
-                  echo '<i class="fa fa-ban fa-5x text-red"></i> <br> <h3 class="text-red">DITOLAK</h3>';
-                }
-                ?>
+              </div>
+              <div class="col-xs-4">
+                <div class="form-group">
+                  <label for="form-approve">Status</label> <br>
+                  <div class="row" align="center">
+                    <?php
+                    if($pengajuan['approve'] == "PROCESS"){
+                      echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS</h3>';
+                    } else if ($pengajuan['approve'] == "PROCESS2") {
+                      echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS LAPANGAN</h3>';
+                    } else if ($pengajuan['approve'] == "ACCEPT") {
+                      echo '<i class="fa fa-check-circle-o fa-5x text-blue"></i> <br> <h3 class="text-blue">DITERIMA</h3>';
+                    } else if ($pengajuan['approve'] == "REJECT") {
+                      echo '<i class="fa fa-ban fa-5x text-red"></i> <br> <h3 class="text-red">DITOLAK</h3>';
+                    }
+                    ?>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="col-xs-4">
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">History</h3>
-        </div>
-        <div class="box-body">
-          <div class="direct-chat-messages">
-            <ul class="timeline">  
-              <?php 
-              foreach($historys as $history){ 
-                if( (date('Y-m-d', strtotime($history['created_at']))) == (date('Y-m-d')) ){
-                  $date = date('H:i', strtotime($history['created_at']));
-                } else {
-                  $date = date('Y-m-d', strtotime($history['created_at']));
-                }
-                ?>
-                <li>
-                  <?php
-                  if($history['history_status'] == 'INFO'){
-                    ?>
-                    <i class="fa fa-check-circle-o bg-aqua"></i> 
-                    <?php
-                  } else if($history['history_status'] == 'WARNING'){
-                    ?>
-                    <i class="fa fa-clock-o bg-yellow"></i> 
-                    <?php
-                  } else if($history['history_status'] == 'SUCCESS'){
-                    ?>
-                    <i class="fa fa-check-circle-o bg-green"></i> 
-                    <?php
-                  } else if($history['history_status'] == 'DANGER'){
-                    ?>
-                    <i class="fa fa-ban bg-red"></i> 
-                    <?php
-                  }
-                  ?>
-                  <div class="timeline-item">
-                    <i class="fa fa-calendar"></i> <?= $date?>
-
-                    <div class= "callout callout-<?= strtolower($history['history_status']) ?>" >
-                      <h4><?= $history['title'] ?></h4>
-
-                      <p><?= $history['history'] ?></p>
-                    </div>
-                  </li>
+        <div class="col-xs-4">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">History</h3>
+            </div>
+            <div class="box-body">
+              <div class="direct-chat-messages">
+                <ul class="timeline">  
                   <?php 
-                }      
-                ?>
-                <li>
-                  <i class="fa fa-clock-o bg-gray"></i>
-                </li>
-              </ul>
+                  foreach($historys as $history){ 
+                    if( (date('Y-m-d', strtotime($history['created_at']))) == (date('Y-m-d')) ){
+                      $date = date('H:i', strtotime($history['created_at']));
+                    } else {
+                      $date = date('Y-m-d', strtotime($history['created_at']));
+                    }
+                    ?>
+                    <li>
+                      <?php
+                      if($history['history_status'] == 'INFO'){
+                        ?>
+                        <i class="fa fa-check-circle-o bg-aqua"></i> 
+                        <?php
+                      } else if($history['history_status'] == 'WARNING'){
+                        ?>
+                        <i class="fa fa-clock-o bg-yellow"></i> 
+                        <?php
+                      } else if($history['history_status'] == 'SUCCESS'){
+                        ?>
+                        <i class="fa fa-check-circle-o bg-green"></i> 
+                        <?php
+                      } else if($history['history_status'] == 'DANGER'){
+                        ?>
+                        <i class="fa fa-ban bg-red"></i> 
+                        <?php
+                      }
+                      ?>
+                      <div class="timeline-item">
+                        <i class="fa fa-calendar"></i> <?= $date?>
+
+                        <div class= "callout callout-<?= strtolower($history['history_status']) ?>" >
+                          <h4><?= $history['title'] ?></h4>
+
+                          <p><?= $history['history'] ?></p>
+                        </div>
+                      </li>
+                      <?php 
+                    }      
+                    ?>
+                    <li>
+                      <i class="fa fa-clock-o bg-gray"></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">Data File</h3>
-            <div class="box-tools">
-            </div>
-          </div>
-          <div class="box-body table-responsive no-padding">
-            <table class="table table-hover">
-              <tr>
-                <th>No</th>
-                <th>Tanggal</th>
-                <th>File</th>
-                <th>Diterima</th>
-                <th>Diterima Di Lapangan</th>
-                <th></th>
-                <th>Catatan</th>
-              </tr>
-              <?php 
-              $no = 1;
-              foreach($detail as $d){ 
-                ?>
-                <tr>
-                  <td><?= $no ?><input type="hidden" name="dtd[pengajuan_<?= $no ?>]" value=<?= $d['id'] ?>></td>
-                  <td><?= date('d-m-Y', strtotime($d['created_at'])); ?></td>
-                  <td><?= $d['file'] ?></td>
-                  <td align="center">
-                    <?php
-                    if ($d['approve'] == "PROCESS") {
-                      echo '<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>';
-                    } else if ($d['approve'] == "ACCEPT") {
-                      echo '<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>';
-                    } else if ($d['approve'] == "REJECT") {
-                      echo '<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>';
-                    }
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 class="box-title">Data File</h3>
+                <div class="box-tools">
+                </div>
+              </div>
+              <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                  <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>File</th>
+                    <th>Diterima</th>
+                    <th>Diterima Di Lapangan</th>
+                    <th></th>
+                    <th>Catatan</th>
+                  </tr>
+                  <?php 
+                  $no = 1;
+                  foreach($detail as $d){ 
                     ?>
-                  </td>
-                  <td align="center">
-                    <?php
-                    if ($d['approve2'] == "PROCESS") {
-                      echo '<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>';
-                    } else if ($d['approve2'] == "ACCEPT") {
-                      echo '<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>';
-                    } else if ($d['approve2'] == "REJECT") {
-                      echo '<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>';
-                    }
-                    ?>
-                  </td>
-                  <td>
+                    <tr>
+                      <td><?= $no ?><input type="hidden" name="dtd[pengajuan_<?= $no ?>]" value=<?= $d['id'] ?>></td>
+                      <td><?= date('d-m-Y', strtotime($d['created_at'])); ?></td>
+                      <td><?= $d['file'] ?></td>
+                      <td align="center">
+                        <?php
+                        if ($d['approve'] == "PROCESS") {
+                          echo '<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>';
+                        } else if ($d['approve'] == "ACCEPT") {
+                          echo '<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>';
+                        } else if ($d['approve'] == "REJECT") {
+                          echo '<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>';
+                        }
+                        ?>
+                      </td>
+                      <td align="center">
+                        <?php
+                        if ($d['approve2'] == "PROCESS") {
+                          echo '<small class="label pull-left bg-yellow"><i class="fa fa-clock-o"></i> SEDANG DI PROSES</small>';
+                        } else if ($d['approve2'] == "ACCEPT") {
+                          echo '<small class="label pull-left bg-blue"><i class="fa fa-check-circle-o"></i> DITERIMA</small>';
+                        } else if ($d['approve2'] == "REJECT") {
+                          echo '<small class="label pull-left bg-red"><i class="fa fa-ban"></i>DITOLAK</small>';
+                        }
+                        ?>
+                      </td>
+                      <td>
                     <!-- <a href="<?php echo base_url('pengajuan/').'webfile/'. $d['id']?>" target="_blank" class="btn btn-sm btn-primary">
                       <i class="fa fa-eye"></i>
                     </a> -->
@@ -252,15 +256,21 @@
         </a>
         <?php 
         if(($pengajuan['approve'] != 'ACCEPT') && ($pengajuan['approve'] != 'REJECT')) {
-          if($this->session->userdata('role_id') != '24') { ?>
-            <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
-          <?php } 
+          if($this->session->userdata('role_id') == '17') { 
+            if($pengajuan['approve'] == 'PROCESS') { ?>
+              <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
+            <?php } 
+          } else if ($this->session->userdata('role_id') == '23') { 
+            if($pengajuan['approve'] == 'PROCESS2') { ?>
+              <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
+            <?php } 
+          } 
         } else { ?>
-          <a href="<?= base_url('pengajuan/delete/'.$pengajuan['id'])?>">
+          <!-- <a href="<?= base_url('pengajuan/delete/'.$pengajuan['id'])?>">
             <button type="button" class="btn btn-danger">
               <i class="fa fa-trash"></i> HAPUS
             </button>
-          </a>
+          </a> -->
         <?php } ?>
       </div>
     </form>

@@ -100,24 +100,23 @@ if($this->session->userdata('role_id') != '17' ) {
                       foreach($notifications as $notif){ 
                         $user = $this->mymodel->selectDataone('user',array('id'=>$notif['user_id']));
                         $user_image = $this->mymodel->selectDataone('file',array('table'=>'user', 'table_id'=>$notif['user_id']));
-
-                        if ($notif['read_on'] != 'ENABLE'){
-                          echo '<li style="background:#f5f5f5">';
-                        } else {
                           echo '<li>';
-                        }
-
                         if ($notif['read_on'] == 'ENABLE'){
                           echo '<a href="'.base_url('notif/readon/').$notif['id'].'">';
                         } else {
                           echo '<a href="'.base_url('pengajuan/view/').$notif['pengajuan_id'].'">';
                         }
                         ?>  
+
                         <div class="pull-left">
                           <img src="<?= base_url('webfile/').$user_image['name'] ?>" class="img-circle" alt="User Image">
                         </div>
                         <h4>
-                          <?= $user['name']?>
+                          <?php  if ($notif['read_on'] == 'ENABLE') { ?>
+                            <b style="color:#393345;"><?= $user['name'] ?></b>
+                          <?php } else { 
+                            echo $user['name'];
+                          } ?>
                           <small><i class="fa fa-clock-o"></i> 
                             <?php
                               if( (date('Y-m-d', strtotime($notif['created_at']))) == (date('Y-m-d')) ){
@@ -128,8 +127,13 @@ if($this->session->userdata('role_id') != '17' ) {
                             ?>
                           </small>
                         </h4>
-                        <b style="color:#393345;"><?= $notif['title'] ?></b><br>
-                        <small style="color:#393345;"><?= $notif['notif_desc']  ?></small>
+                        <?php  if ($notif['read_on'] == 'ENABLE') { ?>
+                          <b style="color:#393345;"><?= $notif['title'] ?></b><br>
+                          <b><small style="color:#393345;"><?= $notif['notif_desc']  ?></small></b>
+                        <?php } else { ?>
+                          <p style="color:#393345;"><?= $notif['title'] ?><br></p>
+                          <small style="color:#393345;"><?= $notif['notif_desc']  ?></small>
+                        <?php } ?>
                       </a>
                     </li>
                     <?php
@@ -137,7 +141,6 @@ if($this->session->userdata('role_id') != '17' ) {
                   ?>
                 </ul>
               </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
             </ul>
           </li> 
           <li class="dropdown user user-menu">
@@ -173,18 +176,8 @@ if($this->session->userdata('role_id') != '17' ) {
   </header>
   <aside class="main-sidebar">
     <section class="sidebar">
-      <form class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search..." id="user-data-autocomplete">
-          <span class="input-group-btn">
-            <button type="button" name="search" id="search-btn" class="btn btn-flat">
-              <i class="fa fa-search"></i>
-            </button>
-          </span>
-        </div>
-      </form>
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MENU BUILD</li>
+        <li class="header">MENU UTAMA</li>
         <?php 
         $role = $this->mymodel->selectDataone('role',['id'=>$this->session->userdata('role_id')]);
         $jsonmenu = json_decode($role['menu']);
