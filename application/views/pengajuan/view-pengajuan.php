@@ -13,7 +13,7 @@
     <form method="POST" action="<?= base_url('pengajuan/approve/').$pengajuan['id'] ?>" id="approve-create" enctype="multipart/form-data">
       <input type="hidden" name="id" value="<?= $pengajuan['id'] ?>">
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-xs-7">
           <div class="box">
             <div class="box-header">
               <h3>
@@ -87,7 +87,7 @@
                   ?>
                 </div>
               </div>
-              <div class="col-xs-4">
+              <div class="col-xs-5">
                 <div class="form-group">
                   <label for="form-approve">Status</label> <br>
                   <div class="row" align="center">
@@ -108,7 +108,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-5">
           <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">History</h3>
@@ -164,8 +164,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">

@@ -212,10 +212,26 @@ if($this->session->userdata('role_id') == '17') {
 		<?=$contents?>
 
 		<footer class="main-footer">
-			<div class="pull-right hidden-xs">
-				<b>Version</b> <?= VERSION ?>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-4 my-auto text-center">
+						<dl class="text-left small mb-0 w-75 mx-auto">
+							<dd><?= ADDRESS ?></dd>
+							<dd><b>Telp.</b> : <?= TELP ?></dd>
+						</dl>
+					</div>
+					<div class="col-md-4 my-auto text-center">
+						<dl class="text-left small mb-0 w-50 mx-auto">
+							<dd><b>Fax</b> : <?= FAX ?></dd>
+							<dd><b>Email</b> : <?= EMAIL ?></dd>
+							<dd><b>SMS Center</b> : <?= SMS_CENTER ?></dd>
+						</dl>
+					</div>
+					<div class="col-md-4 my-auto">
+						<p class="text-center mb-0"><?= COPYRIGHT ?></p>
+					</div>
+				</div>
 			</div>
-			<strong>Copyright <?= COPYRIGHT ?>
 		</footer>
 		<div class="control-sidebar-bg"></div>
 	</div>

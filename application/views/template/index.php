@@ -1,7 +1,6 @@
 <div class="content-wrapper">
   <section class="content-header">
     <h1>Dashboard</h1>
-    <h5 style="padding-left:1px;">Welcome to SmartSoft Dashboard</h5>
   </section>
   <section class="content">
     <div class="row">
@@ -38,50 +37,53 @@
               <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-aqua">
                   <div class="inner">
-                    <h5 class="text-uppercase"><strong>New Orders</strong></h5>
+                    <h5 class="text-uppercase"><strong>Pengajuan</strong></h5>
                     <h3>150</h3>
                   </div>
                   <div class="icon">
-                    <i class="mdi mdi-shopping"></i>
+                    <i class="fa fa-file"></i>
                   </div>
-                  <a href="#" class="small-box-footer">Detail <i class="mdi mdi-chevron-right"></i></a>
-                </div>
-              </div>
-              <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-green">
-                  <div class="inner">
-                    <h5 class="text-uppercase"><strong>Bounce Rate</strong></h5>
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-                  </div>
-                  <div class="icon">
-                    <i class="mdi mdi-chart-areaspline"></i>
-                  </div>
-                  <a href="#" class="small-box-footer">Detail <i class="mdi mdi-chevron-right"></i></a>
+                  <a href="<?= base_url("/pengajuan") ?>" class="small-box-footer">Semua Pengajuan <i class="mdi mdi-chevron-right"></i></a>
                 </div>
               </div>
               <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-yellow">
                   <div class="inner">
-                    <h5 class="text-uppercase"><strong>User Registrations</strong></h5>
+                    <h5 class="text-uppercase"><strong>Pengajuan Di Lapangan</strong></h5>
                     <h3>44</h3>
                   </div>
                   <div class="icon">
-                    <i class="mdi mdi-account-plus"></i>
+                    <i class="fa fa-clock-o"></i>
                   </div>
-                  <a href="#" class="small-box-footer">Detail <i class="mdi mdi-chevron-right"></i></a>
+                  <a href="<?= base_url('/pengajuan') ?>" class="small-box-footer">Semua Pengguna <i class="mdi mdi-chevron-right"></i></a>
+                </div>
+              </div>
+              <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                  <div class="inner">
+                    <h5 class="text-uppercase"><strong>Pengajuan Di Terima</strong></h5>
+                    <h3>53<sup style="font-size: 20px">%</sup></h3>
+                  </div>
+                  <div class="icon">
+                    <i class="fa fa-check-circle-o"></i>
+                  </div>
+                  <a href="<?= base_url('/approve_pengajuan') ?>" class="small-box-footer">Semua Pengajuan Diterima <i class="mdi mdi-chevron-right"></i></a>
                 </div>
               </div>
               <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-red">
                   <div class="inner">
-                    <h5 class="text-uppercase"><strong>Unique Visitors</strong></h5>
+                    <h5 class="text-uppercase"><strong>Data ditolak</strong></h5>
                     <h3>65</h3>
                   </div>
                   <div class="icon">
-                    <i class="mdi mdi-chart-pie"></i>
+                    <i class="fa fa-ban"></i>
                   </div>
-                  <a href="#" class="small-box-footer">Detail <i class="mdi mdi-chevron-right"></i></a>
+                  <a href="<?= base_url('/pengajuan') ?>" class="small-box-footer">Semua Pengajuan<i class="mdi mdi-chevron-right"></i></a>
                 </div>
+              </div>
+              <div class="row" align="center">
+                <h1>SELAMAT DATANG DI EREKOMENDASI IMPORT TEMBAKAU</h1>
               </div>
             </div>
           </section>
