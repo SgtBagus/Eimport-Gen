@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-xs-12">    
         <?php 
-          if (isset($_GET['delete'])) { ?>
+        if (isset($_GET['delete'])) { ?>
           <div class="alert alert-danger alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <h4><i class="icon fa fa-ban"></i> Perhatian!</h4>
@@ -26,7 +26,6 @@
         <?php } ?>
         <div class="box">
           <!-- /.box-header -->
-          <?php if ($this->session->userdata('role_id') == "24")  {?>
           <div class="box-header">
             <div class="row">
               <div class="col-md-6">
@@ -34,14 +33,15 @@
               </div>
               <div class="col-md-6">
                 <div class="pull-right">
-                  <a href="<?= base_url('pengajuan/create') ?>">
-                    <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Tambah Pengajuan</button> 
-                  </a>
+                  <?php if ($this->session->userdata('role_id') == "24")  {?>
+                    <a href="<?= base_url('pengajuan/create') ?>">
+                      <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> Tambah Pengajuan</button> 
+                    </a>
+                  <?php } ?>
                 </div>
               </div>  
             </div>
           </div>
-        <?php } ?>
           <div class="box-body">
             <div class="show_error"></div>
 

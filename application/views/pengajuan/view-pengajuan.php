@@ -29,7 +29,7 @@
                     ?>
                     <small> <?= $pengaju[0]['name'] ?> </small>
                   </h1>
-                        <label><?= $pengajuan['code'] ?></label>
+                  <label><?= $pengajuan['code'] ?></label>
                 </div>
                 <div class="row">
                   <div class="col-xs-7">
@@ -208,57 +208,60 @@
                         ?>
                       </td>
                       <td>
-                    <!-- <a href="<?php echo base_url('pengajuan/').'webfile/'. $d['id']?>" target="_blank" class="btn btn-sm btn-primary">
-                      <i class="fa fa-eye"></i>
-                    </a> -->
-                    <a href="<?php echo base_url('pengajuan/').'download/'. $d['id']?>" class="btn btn-sm btn-primary">
-                      <i class="fa fa-download"></i>
-                    </a>
-                  </td>
-                  <td>
-                    <?php if($this->session->userdata('role_id') != '24'){ ?>
-                      <div class="row">
-                        <div class="col-xs-8">
-                          <textarea class="form-control" rows="2" placeholder="Masukan Catatan..." name="dtd[note_detail_<?= $no ?>]"><?= $d['note'] ?></textarea>
-                        </div>
-                        <div class="col-xs-4">
-                          <select class="form-control" name="dtd[approve_detail_<?= $no ?>]">
-                            <option value="ACCEPT" <?php if($d['approve'] == 'ACCEPT'){ echo "selected"; } ?> > Terima File</option>
-                            <option value="REJECT" <?php if($d['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
-                          </select>
-                        </div>
-                      </div>
-                    <?php }  else  { ?>
-                      <?php if(!$d['note']){?>
-                        <p class="help-block">*Catatan Di Berikan Oleh Admin</p>
-                      <?php } else { 
-                        echo $d['note'];
-                      } ?>
-                    <?php } ?>
-                  </td>
-                </tr>
-                <?php $no++; } ?>
-              </table>
+                        <?php
+                          $file = $this->mymodel->selectWhere('file', array('table' => 'pengajuan_detail', 'table_id' => $d['id']));
+                        ?>
+                        <a href="<?php echo base_url($file[0]['dir']) ?>" target="_blank" class="btn btn-sm btn-info">
+                          <i class="fa fa-eye"></i>
+                        </a>
+                        <a href="<?php echo base_url('pengajuan/').'download/'. $d['id']?>" class="btn btn-sm btn-primary">
+                          <i class="fa fa-download"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <?php if($this->session->userdata('role_id') != '24'){ ?>
+                          <div class="row">
+                            <div class="col-xs-8">
+                              <textarea class="form-control" rows="2" placeholder="Masukan Catatan..." name="dtd[note_detail_<?= $no ?>]"><?= $d['note'] ?></textarea>
+                            </div>
+                            <div class="col-xs-4">
+                              <select class="form-control" name="dtd[approve_detail_<?= $no ?>]">
+                                <option value="ACCEPT" <?php if($d['approve'] == 'ACCEPT'){ echo "selected"; } ?> > Terima File</option>
+                                <option value="REJECT" <?php if($d['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
+                              </select>
+                            </div>
+                          </div>
+                        <?php }  else  { ?>
+                          <?php if(!$d['note']){?>
+                            <p class="help-block">*Catatan Di Berikan Oleh Admin</p>
+                          <?php } else { 
+                            echo $d['note'];
+                          } ?>
+                        <?php } ?>
+                      </td>
+                    </tr>
+                    <?php $no++; } ?>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row" align="center">
-        <a href="javascript:history.back()" type="button" class="btn btn-primary btn-info">
-          <i class="fa fa-arrow-left"></i> BACK
-        </a>
-        <?php 
-        if(($pengajuan['approve'] != 'ACCEPT') && ($pengajuan['approve'] != 'REJECT')) {
-          if($this->session->userdata('role_id') == '17') { 
-            if($pengajuan['approve'] == 'PROCESS') { ?>
-              <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
-            <?php } 
-          } else if ($this->session->userdata('role_id') == '23') { 
-            if($pengajuan['approve'] == 'PROCESS2') { ?>
-              <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
-            <?php } 
-          } 
-        } else { ?>
+          <div class="row" align="center">
+            <a href="javascript:history.back()" type="button" class="btn btn-primary btn-info">
+              <i class="fa fa-arrow-left"></i> BACK
+            </a>
+            <?php 
+            if(($pengajuan['approve'] != 'ACCEPT') && ($pengajuan['approve'] != 'REJECT')) {
+              if($this->session->userdata('role_id') == '17') { 
+                if($pengajuan['approve'] == 'PROCESS') { ?>
+                  <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
+                <?php } 
+              } else if ($this->session->userdata('role_id') == '23') { 
+                if($pengajuan['approve'] == 'PROCESS2') { ?>
+                  <button type="submit" class="btn btn-primary btn-send" ><i class="fa fa-save"></i> Simpan</button>
+                <?php } 
+              } 
+            } else { ?>
           <!-- <a href="<?= base_url('pengajuan/delete/'.$pengajuan['id'])?>">
             <button type="button" class="btn btn-danger">
               <i class="fa fa-trash"></i> HAPUS
