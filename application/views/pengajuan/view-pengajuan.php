@@ -13,108 +13,103 @@
     <form method="POST" action="<?= base_url('pengajuan/approve/').$pengajuan['id'] ?>" id="approve-create" enctype="multipart/form-data">
       <input type="hidden" name="id" value="<?= $pengajuan['id'] ?>">
       <div class="row">
-        <div class="col-xs-7">
-          <div class="box">
-            <div class="box-header">
-              <h3>
-                <b><?= $pengajuan['code'] ?></b>
-                <?php 
-                $pengaju = $this->mymodel->selectWhere('user', array('id' => $pengajuan['user_id']));
-                ?>
-                <small> <?= $pengaju[0]['name'] ?> </small>
-              </h3>
-            </div>
-            <div class="row">
-              <div class="col-xs-7">
-                <div class="box-body">
-                  <div class="form-group">
-                    <input type="hidden" name="dt[user_id]" value="<?= $pengajuan['user_id'] ?>">
-                    <label for="form-judul">Nama Pengajuan : </label><br>
-                    <label><?= $pengajuan['judul'] ?></label>
-                  </div>
-                  <div class="form-group">
-                    <label for="form-judul">Tanggal Dibuat : </label>
-                    <br>
-                    <label><?= date('d-m-Y', strtotime($pengajuan['created_at'])); ?></label>
-                  </div>
-                  <div class="form-group">
-                    <label for="form-keterangan">Keterangan : </label>
-                    <p><?= $pengajuan['keterangan'] ?></p>
-                  </div>
-                  <div class="form-group">
-                    <label for="form-note">Catatan : </label>
-                    <?php if($this->session->userdata('role_id') != '24'){
-                      ?>
-                      <textarea class="form-control" rows="3" placeholder="Masukan Catatan ..." name="dt[note]"><?= $pengajuan['note'] ?></textarea>
-                      <?php
-                    } else {
-                      ?>
-                      <?php if(!$pengajuan['note']){?>
-                        <p class="help-block">*Catatan Di Berikan Oleh Admin</p>
-                      <?php } else { 
-                        echo "<p>".$pengajuan['note']."</p>";
-                      } 
-                    }
+        <div class="col-md-12">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#pengajuan" data-toggle="tab" aria-expanded="true">Pengajuan</a></li>
+              <li class=""><a href="#history" data-toggle="tab" aria-expanded="false">History</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="pengajuan">
+                <div class="box-header">
+                  <h1>
+                    <b><?= $pengajuan['judul'] ?></b>
+                    <?php 
+                    $pengaju = $this->mymodel->selectWhere('user', array('id' => $pengajuan['user_id']));
                     ?>
-                  </div>
-                  <?php 
-                  if($this->session->userdata('role_id') != '24') { 
-                    ?>
-                    <div class="form-group">
-                      <label for="form-note">Konfirmasi Pengajuan : </label>
-                      <?php if($this->session->userdata('role_id') == '17'){ 
-                        if($pengajuan['approve'] == 'PROCESS'){ ?>
-                          <select class="form-control" name="dt[approve]">
-                            <option value="PROCESS2" <?php if($pengajuan['approve'] == 'PROCESS2'){ echo "selected"; } ?> > Terima File</option>
-                            <option value="REJECT" <?php if($pengajuan['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
-                          </select>
-                        <?php } else { ?>
-                          <p class="help-block">*Dokumen Telah Di Kirim Di Lapangan</p>
-                        <?php }
-                      } else { 
-                        if($pengajuan['approve'] == 'PROCESS'){ ?>
-                          <p class="help-block">*Dokumen Masih Diproses ! </p>
-                        <?php } else { ?>
-                          <select class="form-control" name="dt[approve]">
-                            <option value="ACCEPT" <?php if($pengajuan['approve'] == 'ACCEPT'){ echo "selected"; } ?> > Terima File</option>
-                            <option value="REJECT" <?php if($pengajuan['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
-                          </select>
-                        <?php }
-                      }
+                    <small> <?= $pengaju[0]['name'] ?> </small>
+                  </h1>
+                        <label><?= $pengajuan['code'] ?></label>
+                </div>
+                <div class="row">
+                  <div class="col-xs-7">
+                    <div class="box-body">
+                      <input type="hidden" name="dt[user_id]" value="<?= $pengajuan['user_id'] ?>">
+                      <div class="form-group">
+                        <label for="form-judul">Tanggal Dibuat : </label>
+                        <br>
+                        <label><?= date('d-m-Y', strtotime($pengajuan['created_at'])); ?></label>
+                      </div>
+                      <div class="form-group">
+                        <label for="form-keterangan">Keterangan : </label>
+                        <p><?= $pengajuan['keterangan'] ?></p>
+                      </div>
+                      <div class="form-group">
+                        <label for="form-note">Catatan : </label>
+                        <?php if($this->session->userdata('role_id') != '24'){
+                          ?>
+                          <textarea class="form-control" rows="3" placeholder="Masukan Catatan ..." name="dt[note]"><?= $pengajuan['note'] ?></textarea>
+                          <?php
+                        } else {
+                          ?>
+                          <?php if(!$pengajuan['note']){?>
+                            <p class="help-block">*Catatan Di Berikan Oleh Admin</p>
+                          <?php } else { 
+                            echo "<p>".$pengajuan['note']."</p>";
+                          } 
+                        }
+                        ?>
+                      </div>
+                      <?php 
+                      if($this->session->userdata('role_id') != '24') { 
+                        ?>
+                        <div class="form-group">
+                          <label for="form-note">Konfirmasi Pengajuan : </label>
+                          <?php if($this->session->userdata('role_id') == '17'){ 
+                            if($pengajuan['approve'] == 'PROCESS'){ ?>
+                              <select class="form-control" name="dt[approve]">
+                                <option value="PROCESS2" <?php if($pengajuan['approve'] == 'PROCESS2'){ echo "selected"; } ?> > Terima File</option>
+                                <option value="REJECT" <?php if($pengajuan['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
+                              </select>
+                            <?php } else { ?>
+                              <p class="help-block">*Dokumen Telah Di Kirim Di Lapangan</p>
+                            <?php }
+                          } else { 
+                            if($pengajuan['approve'] == 'PROCESS'){ ?>
+                              <p class="help-block">*Dokumen Masih Diproses ! </p>
+                            <?php } else { ?>
+                              <select class="form-control" name="dt[approve]">
+                                <option value="ACCEPT" <?php if($pengajuan['approve'] == 'ACCEPT'){ echo "selected"; } ?> > Terima File</option>
+                                <option value="REJECT" <?php if($pengajuan['approve'] == 'REJECT'){ echo "selected"; } ?> > Tidak Terima File</option>
+                              </select>
+                            <?php }
+                          }
+                          ?>
+                        </div>
+                      <?php } 
                       ?>
                     </div>
-                  <?php } 
-                  ?>
-                </div>
-              </div>
-              <div class="col-xs-5">
-                <div class="form-group">
-                  <label for="form-approve">Status</label> <br>
-                  <div class="row" align="center">
-                    <?php
-                    if($pengajuan['approve'] == "PROCESS"){
-                      echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS</h3>';
-                    } else if ($pengajuan['approve'] == "PROCESS2") {
-                      echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS LAPANGAN</h3>';
-                    } else if ($pengajuan['approve'] == "ACCEPT") {
-                      echo '<i class="fa fa-check-circle-o fa-5x text-blue"></i> <br> <h3 class="text-blue">DITERIMA</h3>';
-                    } else if ($pengajuan['approve'] == "REJECT") {
-                      echo '<i class="fa fa-ban fa-5x text-red"></i> <br> <h3 class="text-red">DITOLAK</h3>';
-                    }
-                    ?>
+                  </div>
+                  <div class="col-xs-5">
+                    <div class="form-group">
+                      <div class="row" align="center">
+                        <?php
+                        if($pengajuan['approve'] == "PROCESS"){
+                          echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS</h3>';
+                        } else if ($pengajuan['approve'] == "PROCESS2") {
+                          echo '<i class="fa fa-clock-o fa-5x text-yellow"></i> <br> <h3 class="text-yellow">SEDANG DI PROCESS LAPANGAN</h3>';
+                        } else if ($pengajuan['approve'] == "ACCEPT") {
+                          echo '<i class="fa fa-check-circle-o fa-5x text-blue"></i> <br> <h3 class="text-blue">DITERIMA</h3>';
+                        } else if ($pengajuan['approve'] == "REJECT") {
+                          echo '<i class="fa fa-ban fa-5x text-red"></i> <br> <h3 class="text-red">DITOLAK</h3>';
+                        }
+                        ?>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-5">
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">History</h3>
-            </div>
-            <div class="box-body">
-              <div class="direct-chat-messages">
+              <div class="tab-pane" id="history">
                 <ul class="timeline">  
                   <?php 
                   foreach($historys as $history){ 
@@ -146,10 +141,8 @@
                       ?>
                       <div class="timeline-item">
                         <i class="fa fa-calendar"></i> <?= $date?>
-
                         <div class= "callout callout-<?= strtolower($history['history_status']) ?>" >
                           <h4><?= $history['title'] ?></h4>
-
                           <p><?= $history['history'] ?></p>
                         </div>
                       </li>
@@ -164,6 +157,8 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="row">
           <div class="col-xs-12">
             <div class="box">
               <div class="box-header">
